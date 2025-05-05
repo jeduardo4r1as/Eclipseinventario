@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.control.TextField?>
+<VBox fx:id="root" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="313.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.PagarController">
+    <children>
+        <HBox alignment="CENTER" prefWidth="200.0" style="-fx-background-color: #536dfe;">
+            <children>
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Total a pagar">
+                    <font>
+                        <Font name="Consolas" size="24.0" />
+                    </font>
+                </Text>
+            </children>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+        </HBox>
+        <Text fx:id="txtTotalAPagar" strokeType="OUTSIDE" strokeWidth="0.0" text="\$">
+            <font>
+                <Font size="36.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </VBox.margin>
+        </Text>
+        <HBox alignment="CENTER" prefWidth="200.0" style="-fx-background-color: #536dfe;">
+            <children>
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingreso">
+                    <font>
+                        <Font name="Consolas" size="24.0" />
+                    </font>
+                </Text>
+            </children>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+        </HBox>
+        <TextField fx:id="cjValorIngreso" alignment="CENTER" onKeyPressed="#cjValorIngresoKeyPressed" onKeyReleased="#cjValorIngresokeyReleased">
+            <font>
+                <Font name="Consolas" size="36.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </VBox.margin>
+        </TextField>
+        <HBox alignment="CENTER" prefWidth="200.0" style="-fx-background-color: #536dfe;">
+            <children>
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Cambio">
+                    <font>
+                        <Font name="Consolas" size="24.0" />
+                    </font>
+                </Text>
+            </children>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+        </HBox>
+        <Text fx:id="txtCambio" strokeType="OUTSIDE" strokeWidth="0.0" text="\$">
+            <font>
+                <Font size="36.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </VBox.margin>
+        </Text>
+    </children>
+</VBox>

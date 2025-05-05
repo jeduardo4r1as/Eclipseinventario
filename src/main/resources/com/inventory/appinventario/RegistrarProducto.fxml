@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="871.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.RegistrarProductoController">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#536dfe" height="58.0" stroke="WHITE" strokeType="INSIDE" width="871.0" />
+        <FontIcon fill="WHITE" iconLiteral="fa-tags" iconSize="30" layoutX="14.0" layoutY="44.0" />
+        <Text fill="WHITE" layoutX="55.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrar Producto">
+            <font>
+                <Font name="System Bold" size="36.0" />
+            </font>
+        </Text>
+        <GridPane hgap="10.0" layoutX="11.2" layoutY="62.4" prefHeight="665.0" prefWidth="849.0" vgap="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="62.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="300.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="49.0" minHeight="10.0" prefHeight="22.5999755859375" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="59.4000244140625" minHeight="10.0" prefHeight="39.199981689453125" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="58.4000183105469" minHeight="10.0" prefHeight="21.800024414062477" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="77.7999877929688" minHeight="10.0" prefHeight="44.199975585937466" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="16.4000244140625" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="73.19997558593752" minHeight="10.0" prefHeight="43.60000000000002" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="65.0" minHeight="10.0" prefHeight="18.799963378906227" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="44.4000244140625" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="14.000048828125045" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="134.20000000000005" minHeight="10.0" prefHeight="41.999951171874955" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="140.39999999999998" minHeight="62.800036621093795" prefHeight="70.4000122070313" valignment="TOP" vgrow="ALWAYS" />
+            </rowConstraints>
+            <children>
+                <Label text="Nombre:" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM" />
+                <TextField fx:id="cjnombre" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                <Label text="Codigo:" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+                <TextField fx:id="cjcodigo" GridPane.rowIndex="3" />
+                <Label text="Referencia:" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
+                <TextField fx:id="cjreferencia" GridPane.rowIndex="5" />
+                <Label text="Stock:" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
+                <TextField fx:id="cjstock" maxWidth="-Infinity" prefWidth="100.0" text="0" GridPane.rowIndex="7" />
+                <Label text="Stock minimo:" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
+                <TextField fx:id="cjstockminimo" maxWidth="-Infinity" prefWidth="100.0" text="0" GridPane.rowIndex="9" />
+            <Label text="Descripcion (Ej: pantalon camisa bufanda):" GridPane.rowIndex="10" />
+            <TextField fx:id="cjdescripcion" GridPane.rowIndex="11" />
+            <Label text="Talla:" GridPane.rowIndex="12" />
+            <TextField fx:id="cjtalla" GridPane.rowIndex="13" />
+                <Label text="Precio unitario:" GridPane.halignment="LEFT" GridPane.rowIndex="16" GridPane.valignment="BOTTOM" />
+            <ComboBox fx:id="cjgenero" prefWidth="150.0" GridPane.rowIndex="15" />
+            <Label text="Genero:" GridPane.rowIndex="14" />
+                <TextField fx:id="cjpreciounitario" GridPane.rowIndex="17" />
+                <Label text="Precio mayorista:" GridPane.halignment="LEFT" GridPane.rowIndex="18" GridPane.valignment="BOTTOM" />
+            <TextField fx:id="cjpreciomayorista" GridPane.rowIndex="19" />
+            <Label text="Precio distribuidor:" GridPane.rowIndex="20" />
+            <TextField fx:id="cjpreciodistribuidor" GridPane.rowIndex="21" />
+                <Button fx:id="btnGuardar" onAction="#guardar" style="-fx-background-color: #536dfe;" text="Guardar" textFill="WHITE" GridPane.halignment="LEFT" GridPane.rowIndex="22">
+                    <graphic>
+                        <FontIcon fill="WHITE" iconColor="WHITE" iconLiteral="fa-save" iconSize="25" />
+                    </graphic>
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Button>
+                <ImageView fx:id="imageView" fitHeight="346.0" fitWidth="353.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.rowSpan="12" GridPane.valignment="CENTER">
+                    <image>
+                        <Image url="@../../../img/productos.png" />
+                    </image>
+                </ImageView>
+                <Button fx:id="btnTomarFoto" layoutX="192.0" layoutY="474.0" onAction="#abrirCamara" style="-fx-background-color: #536dfe;" text="Tomar foto" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="22">
+                    <graphic>
+                        <FontIcon fill="WHITE" iconColor="WHITE" iconLiteral="fa-camera" iconSize="25" />
+                    </graphic>
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnBuscarImagen" onAction="#buscarImagen" style="-fx-background-color: #536dfe;" text="Buscar imagen" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="22">
+                    <graphic>
+                        <FontIcon fill="WHITE" iconColor="WHITE" iconLiteral="fa-file-photo-o" iconSize="25" onDragDetected="#buscarImagen" />
+                    </graphic>
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Button>
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>

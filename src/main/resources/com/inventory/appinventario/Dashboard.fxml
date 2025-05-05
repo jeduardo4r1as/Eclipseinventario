@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.BorderPane?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<?import javafx.scene.control.TabPane?>
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.DashboardController">
+    <top>
+        <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu fx:id="menuArchivo" mnemonicParsing="false" text="Archivo">
+                    <items>
+                        <MenuItem fx:id="menuconfig" mnemonicParsing="false" onAction="#abrirConfiguracion" text="Configuracion">
+                            <graphic>
+                                <FontIcon iconLiteral="fa-cog" iconSize="20" />
+                            </graphic>
+                        </MenuItem>
+                        <MenuItem fx:id="menuSalir" mnemonicParsing="false" onAction="#salir" text="Salir">
+                            <graphic>
+                                <FontIcon iconLiteral="fa-sign-out" iconSize="20" />
+                            </graphic>
+                        </MenuItem>
+                    </items>
+                    <graphic>
+                        <FontIcon iconLiteral="fa-sitemap" iconSize="20" />
+                    </graphic></Menu>
+                <Menu fx:id="menuProductos" mnemonicParsing="false" text="Productos">
+                    <items>
+                        <MenuItem fx:id="menuVerProductos" mnemonicParsing="false" onAction="#mostrarTablaProductos" text="Ver productos">
+                            <graphic>
+                                <FontIcon iconColor="#2196f3" iconLiteral="fa-search" iconSize="20" />
+                            </graphic>
+                        </MenuItem>
+                    </items>
+                    <graphic>
+                        <FontIcon iconLiteral="fa-tags" iconSize="20" />
+                    </graphic></Menu>
+                <Menu fx:id="menuVentas" mnemonicParsing="false" text="Ventas">
+                    <items>
+                        <MenuItem fx:id="menuRealizarVenta" mnemonicParsing="false" onAction="#mostraRealizarVenta" text="Nueva venta">
+                            <graphic>
+                                <FontIcon iconLiteral="fa-asl-interpreting" iconSize="20" />
+                            </graphic>
+                            <accelerator>
+                                <KeyCodeCombination alt="ANY" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                            </accelerator>
+                        </MenuItem>
+                    </items>
+                    <graphic>
+                        <FontIcon iconLiteral="fa-shopping-basket" iconSize="20" />
+                    </graphic>
+                </Menu>
+                <Menu fx:id="menuClientes" mnemonicParsing="false" text="Clientes">
+                    <items>
+
+                        <MenuItem fx:id="menuverCliente" mnemonicParsing="false" onAction="#mostrarTablaCliente" text="Ver Clientes">
+                            <graphic>
+                                <FontIcon iconColor="#2196f3" iconLiteral="fa-search" iconSize="20" />
+                            </graphic>
+                        </MenuItem>
+                    </items>
+                    <graphic>
+                        <FontIcon iconLiteral="fa-user" iconSize="20" />
+                    </graphic>
+                </Menu>
+
+            </menus>
+            <Menu fx:id="menuUsuarios" mnemonicParsing="false" text="Usuarios">
+                <items>
+                    <MenuItem fx:id="menuVerUsuarios" mnemonicParsing="false" onAction="#mostrarTablaUsuarios" text="Ver Usuarios">
+                        <graphic>
+                            <FontIcon iconColor="#2196f3" iconLiteral="fa-search" iconSize="20" />
+                        </graphic>
+                    </MenuItem>
+                </items>
+                <graphic>
+                    <FontIcon iconLiteral="fa-users" iconSize="20" />
+                </graphic></Menu>
+            <Menu fx:id="menuFacturas" mnemonicParsing="false" text="Facturas">
+                <items>
+                    <MenuItem fx:id="menuVerFacturas" mnemonicParsing="false"  text="Ver Facturas">
+                        <graphic>
+                            <FontIcon iconColor="#2196f3" iconLiteral="fa-search" iconSize="20" />
+                        </graphic>
+                    </MenuItem>
+                </items>
+                <graphic>
+                    <FontIcon iconLiteral="fa-file-o" iconSize="20" />
+                </graphic></Menu>
+        </MenuBar>
+    </top>
+    <center>
+        <TabPane fx:id="tabPane" tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER" />
+    </center>
+</BorderPane>

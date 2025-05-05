@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<HBox fx:id="root" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="645.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.LoginController">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="86.0" HBox.hgrow="ALWAYS">
+         <children>
+            <FontIcon fill="#2c58d9" iconLiteral="fa-users" iconSize="150">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </FontIcon>
+            <FontIcon iconColor="#2c58d9" iconLiteral="fa-cart-arrow-down" iconSize="150" wrappingWidth="160.08570861816406" />
+         </children></VBox>
+      <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="300.0">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Separator>
+      <VBox prefHeight="400.0" prefWidth="331.0" HBox.hgrow="ALWAYS">
+         <children>
+            <GridPane prefHeight="384.0" prefWidth="399.0" VBox.vgrow="ALWAYS">
+              <columnConstraints>
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="143.20000457763672" minWidth="10.0" prefWidth="72.39998321533204" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.20001678466798" minWidth="10.0" prefWidth="202.39998779296872" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.19992065429688" minWidth="10.0" prefWidth="123.40001220703124" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="114.00000610351563" minHeight="10.0" prefHeight="108.4" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="59.600012207031256" minHeight="10.0" prefHeight="20.400000000000006" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text fill="#2c58d9" strokeType="OUTSIDE" strokeWidth="0.0" text="SISTEMA DE INVENTARIO" wrappingWidth="317.59021776914597" GridPane.columnIndex="1" GridPane.columnSpan="2">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="cjUsername" promptText="Usuario" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                     <opaqueInsets>
+                        <Insets bottom="30.0" />
+                     </opaqueInsets>
+                  </TextField>
+                  <PasswordField fx:id="cjPassword" promptText="Contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                  <CheckBox mnemonicParsing="false" prefHeight="18.0" prefWidth="146.0" text="Recordar contraseña" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                  <Button fx:id="btnIniciar" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="109.0" style="-fx-background-color: #2c58d9;" text="Iniciar" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <graphic>
+                     </graphic>
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fa-sign-in" iconSize="30" />
+                     </graphic>
+                  </Button>
+                  <FontIcon iconColor="#2c58d9" iconLiteral="fa-user" iconSize="50" wrappingWidth="41.31426239013672" GridPane.rowIndex="2" />
+                  <FontIcon iconColor="#2c58d9" iconLiteral="fa-unlock-alt" iconSize="50" wrappingWidth="38.54288101196289" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+</HBox>
