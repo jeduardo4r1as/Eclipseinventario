@@ -108,30 +108,57 @@ public class UsuarioDAO {
     }
 
     public int guardar(Usuario usu) throws SQLException {
-        String sql = "";
+        // Validar si ya existe un usuario con el mismo username
+        String validacionSql = "SELECT idusuario FROM usuario WHERE username = ?";
+        if (usu.getIdusuario() != 0) {
+            validacionSql += " AND idusuario != ?"; // Excluir al propio usuario si es un update
+        }
+
+        PreparedStatement validarStmt = conexionBD.getConexion().prepareStatement(validacionSql);
+        validarStmt.setString(1, usu.getUsername());
+        if (usu.getIdusuario() != 0) {
+            validarStmt.setInt(2, usu.getIdusuario());
+        }
+
+        ResultSet rsVal = validarStmt.executeQuery();
+        if (rsVal.next()) {
+            // Ya existe un usuario con ese nombre (distinto si es update)
+            rsVal.close();
+            validarStmt.close();
+            throw new SQLException("Ya existe un usuario con el nombre de usuario '" + usu.getUsername() + "'");
+        }
+        rsVal.close();
+        validarStmt.close();
+
+        // Insertar o actualizar
+        String sql;
         if (usu.getIdusuario() == 0) {
-            sql = "INSERT INTO usuario ( ";
-            sql += " username, password, nombre ,rol , estado";
-            sql += ") VALUES (";
-            sql += " '"+usu.getUsername()+"' , '"+usu.getPassword()+"' , '"+usu.getNombre()+"', '"+usu.getRol()+"' , 'ACTIVO'";
-            sql += ")";
+            sql = "INSERT INTO usuario (username, password, nombre, rol, estado) VALUES (?, ?, ?, ?, 'ACTIVO')";
         } else {
-            sql = "UPDATE usuario SET \n"
-                    + "	username='"+usu.getUsername()+"' , password='"+usu.getPassword()+"', nombre='"+usu.getNombre()+"' "+", rol='"+usu.getRol()+"' \n"
-                    + " WHERE idusuario="+usu.getIdusuario()+";";
+            sql = "UPDATE usuario SET username = ?, password = ?, nombre = ?, rol = ? WHERE idusuario = ?";
         }
 
         PreparedStatement pst = conexionBD.getConexion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        pst.setString(1, usu.getUsername());
+        pst.setString(2, usu.getPassword());
+        pst.setString(3, usu.getNombre());
+        pst.setString(4, usu.getRol());
 
-
+        if (usu.getIdusuario() != 0) {
+            pst.setInt(5, usu.getIdusuario());
+        }
 
         int insert = pst.executeUpdate();
+
         if (usu.getIdusuario() == 0) {
             ResultSet rs = pst.getGeneratedKeys();
-            rs.next();
-            insert = rs.getInt(1);
+            if (rs.next()) {
+                insert = rs.getInt(1);
+            }
             rs.close();
         }
+
+        pst.close();
         return insert;
 
     }

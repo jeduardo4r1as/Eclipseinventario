@@ -106,7 +106,17 @@ public class RegistrarClienteController implements Initializable {
         }
         if (cjCorreo.getText().isEmpty()) {
             new Tada(cjCorreo).play();
-            org.controlsfx.control.Notifications.create().title("Aviso").text("Ingrese el numero de documento de identificacion").position(Pos.CENTER).showWarning();
+            org.controlsfx.control.Notifications.create().title("Aviso").text("Ingrese el correo del cliente").position(Pos.CENTER).showWarning();
+            return;
+        }
+
+        if (!cjCorreo.getText().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            new Tada(cjCorreo).play();
+            org.controlsfx.control.Notifications.create()
+                    .title("Correo inválido")
+                    .text("Ingrese un correo electrónico válido")
+                    .position(Pos.CENTER)
+                    .showError();
             return;
         }
 
