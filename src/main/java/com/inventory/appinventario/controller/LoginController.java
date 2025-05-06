@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -76,6 +77,7 @@ public class LoginController implements Initializable {
         BorderPane borderPane = loader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(borderPane));
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/productos.png")));
         stage.setTitle(Sesion.getSesion(null).getNombre());
         stage.setMaximized(true);
         com.inventory.appinventario.util.Metodos.closeEffect(root);

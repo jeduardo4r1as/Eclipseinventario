@@ -1,9 +1,11 @@
 package com.inventory.appinventario.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
@@ -53,6 +56,9 @@ public class DashboardController implements Initializable {
     private MenuItem menuVerProductos;
 
     @FXML
+    private MenuItem menuVerFacturas;
+
+    @FXML
     private Menu menuVentas;
 
     @FXML
@@ -71,12 +77,23 @@ public class DashboardController implements Initializable {
 
     private Tab tabUsuarios;
 
+    private Tab tabFacturas;
+
+    private Tab tabEstadistica;
+
     private Tab tabClientes;
 
 
     @FXML
     void abrirConfiguracion(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/inventory/appinventario/Configuracion.fxml")); // Ajusta la ruta
+        Parent root = loader.load();
 
+        Stage stage = new Stage();
+        stage.setTitle("Configuración");
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.APPLICATION_MODAL); //
+        stage.showAndWait();
     }
 
     @FXML
@@ -139,10 +156,54 @@ public class DashboardController implements Initializable {
 
     }
 
+    @FXML
+    void mostrarFacturas(ActionEvent event) throws IOException {
+        if (tabFacturas == null) {
+            AnchorPane ap = FXMLLoader.load(getClass().getResource("/com/inventory/appinventario/Factura.fxml"));
+            tabFacturas = new Tab("FACTURAS", ap);
+            tabFacturas.setClosable(true);
+            tabFacturas.setOnClosed(event1 -> {
+                tabFacturas = null;
+            });
+            tabPane.getTabs().add(tabFacturas);
+        }
+        tabPane.getSelectionModel().select(tabFacturas);
+
+
+    }
+
+
+    @FXML
+    void mostrarEstadisticas(ActionEvent event) throws IOException {
+        if (tabEstadistica == null) {
+            AnchorPane ap = FXMLLoader.load(getClass().getResource("/com/inventory/appinventario/Estadisticas.fxml"));
+            tabEstadistica = new Tab("ESTADISTICAS", ap);
+            tabEstadistica.setClosable(true);
+            tabEstadistica.setOnClosed(event1 -> {
+                tabEstadistica = null;
+            });
+            tabPane.getTabs().add(tabEstadistica);
+        }
+        tabPane.getSelectionModel().select(tabEstadistica);
+
+
+    }
+
+
+
+
 
 
     @FXML
     void salir(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación de salida");
+        alert.setHeaderText("¿Estás seguro que deseas salir?");
+        alert.setContentText("Confirma si deseas cerrar la aplicación.");
 
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            Platform.exit();
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.inventory.appinventario.dao.ComercioDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -28,7 +29,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         HBox anchorPane = fxmlLoader.load(getClass().getResource("Login.fxml"));
-
+        primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/productos.png")));
         primaryStage.setScene(new Scene(anchorPane));
 
         primaryStage.show();

@@ -19,12 +19,12 @@
                     <children>
                         <ToolBar orientation="VERTICAL" prefHeight="40.0">
                             <items>
-                                <Button fx:id="btnListar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#listarProductos" text="Listar">
+                                <Button fx:id="btnListar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#listarFacturas" text="Listar">
                                     <graphic>
                                         <FontIcon iconColor="#2196f3" iconLiteral="fa-refresh" iconSize="22" />
                                     </graphic>
                                 </Button>
-                                <Button fx:id="btnEditar" contentDisplay="TOP" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#editarProducto" text="Editar">
+                                <Button fx:id="btnVerFacturas" contentDisplay="TOP" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#verFacturas" text="Visualizar">
                                     <graphic>
                                         <FontIcon iconColor="#2196f3" iconLiteral="fa-edit" iconSize="22" />
                                     </graphic>
@@ -40,14 +40,11 @@
                                 </TextField>
                                 <TableView fx:id="tablaProductos" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn fx:id="colNombre" prefWidth="75.0" text="NOMBRE" />
                                         <TableColumn fx:id="colCodigo" prefWidth="75.0" text="CODIGO" />
-                              <TableColumn fx:id="colReferencia" prefWidth="75.0" text="REFERENCIA" />
-                              <TableColumn fx:id="colDescripcion" prefWidth="75.0" text="DESCRIPCION" />
-                              <TableColumn fx:id="colTalla" prefWidth="75.0" text="TALLA" />
-                              <TableColumn fx:id="colGenero" prefWidth="75.0" text="GENERO" />
-                              <TableColumn fx:id="colEstado" prefWidth="75.0" text="ESTADO" />
-                              <TableColumn fx:id="colPrecioMayorista" prefWidth="75.0" text="PRECIO MAYORISTA" />
+                                        <TableColumn fx:id="colNombre" prefWidth="75.0" text="NOMBRE" />
+                              <TableColumn fx:id="colCliente" prefWidth="75.0" text="REFERENCIA" />
+                              <TableColumn fx:id="colVendedor" prefWidth="75.0" text="DESCRIPCION" />
+                              <TableColumn fx:id="colTotal" prefWidth="75.0" text="TALLA" />
                                         <TableColumn fx:id="coolFechaRegistro" prefWidth="75.0" text="FECHA REGISTRO" />
                                     </columns>
                                 </TableView>

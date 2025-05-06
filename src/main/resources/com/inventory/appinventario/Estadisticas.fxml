@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.PieChart?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.inventory.appinventario.controller.EstadisticasController"
+            prefHeight="400.0" prefWidth="600.0" >
+
+
+    <HBox spacing="10" layoutX="20" layoutY="20">
+        <Label text="Desde:"/>
+        <DatePicker fx:id="fechaInicio"/>
+        <Label text="Hasta:"/>
+        <DatePicker fx:id="fechaFin"/>
+        <Button text="Filtrar" onAction="#filtrarEstadisticas"/>
+    </HBox>
+
+    <!-- Indicadores clave -->
+    <HBox spacing="50" layoutX="20" layoutY="70">
+        <VBox>
+            <Label text="👕 Prendas vendidas:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="lblPrendasVendidas" text="0"/>
+        </VBox>
+        <VBox>
+            <Label text="💰 Ingresos ($):" style="-fx-font-weight: bold;"/>
+            <Label fx:id="lblIngresos" text="0"/>
+        </VBox>
+        <VBox>
+            <Label text="🔥 Más vendida:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="lblCategoriaPopular" text="N/A"/>
+        </VBox>
+    </HBox>
+
+    <!-- Gráfico de barras por categoría -->
+    <BarChart fx:id="barChart"
+              layoutX="20" layoutY="140"
+              prefWidth="500" prefHeight="280">
+        <xAxis>
+            <CategoryAxis fx:id="xAxis" label="Tipo de prenda"/>
+        </xAxis>
+        <yAxis>
+            <NumberAxis fx:id="yAxis" label="Cantidad vendida"/>
+        </yAxis>
+    </BarChart>
+
+    <!-- Gráfico circular: porcentaje -->
+    <PieChart fx:id="pieChart"
+              layoutX="540" layoutY="140"
+              prefWidth="240" prefHeight="280"/>
+
+</AnchorPane>

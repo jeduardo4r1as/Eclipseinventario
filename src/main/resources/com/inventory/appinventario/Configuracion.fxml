@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.inventory.appinventario.controller.ConfiguracionController">
+
+    <center>
+        <VBox spacing="15" alignment="TOP_LEFT">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- Sección 1: Preferencias del usuario -->
+            <TitledPane text="1. Preferencias del usuario" expanded="true">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <HBox spacing="10">
+                        <Label text="Nombre de usuario:" minWidth="150"/>
+                        <TextField fx:id="txtNombreUsuario" />
+                    </HBox>
+                    <HBox spacing="10">
+                        <Label text="Nueva contraseña:" minWidth="150"/>
+                        <PasswordField fx:id="txtPassword" />
+                    </HBox>
+                    <HBox spacing="10">
+                        <Label text="Idioma:" minWidth="150"/>
+                        <ComboBox fx:id="comboIdioma" />
+                    </HBox>
+                    <HBox spacing="10">
+                        <Label text="Tema:" minWidth="150"/>
+                        <ComboBox fx:id="comboTema" />
+                    </HBox>
+                </VBox>
+            </TitledPane>
+
+            <!-- Sección 2: Ajustes de la aplicación -->
+            <TitledPane text="2. Ajustes de la aplicación" expanded="true">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10" />
+                    </padding>
+                    <HBox spacing="10">
+                        <Label text="Ruta de archivos:" minWidth="150"/>
+                        <TextField fx:id="txtRutaArchivos" />
+                    </HBox>
+                    <HBox spacing="10">
+                        <Label text="Formato de fecha/hora:" minWidth="150"/>
+                        <ComboBox fx:id="comboFormatoFecha" />
+                    </HBox>
+                    <CheckBox fx:id="chkNotificaciones" text="Activar notificaciones" />
+                </VBox>
+            </TitledPane>
+
+            <!-- Sección 3: Conexión o red -->
+            <TitledPane text="3. Conexión o red" expanded="true">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <HBox spacing="10">
+                        <Label text="Servidor/IP:" minWidth="150"/>
+                        <TextField fx:id="txtServidor" />
+                    </HBox>
+                    <HBox spacing="10">
+                        <Label text="Puerto:" minWidth="150"/>
+                        <TextField fx:id="txtPuerto" />
+                    </HBox>
+                    <HBox spacing="10">
+                        <Label text="Tiempo de espera (seg):" minWidth="150"/>
+                        <TextField fx:id="txtTimeout" />
+                    </HBox>
+                </VBox>
+            </TitledPane>
+        </VBox>
+    </center>
+
+    <!-- Botones de acción -->
+    <bottom>
+        <HBox spacing="15" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            <Button text="Guardar cambios" onAction="#guardarCambios"/>
+            <Button text="Cancelar cambios" onAction="#cancelarCambios"/>
+            <Button text="Restaurar por defecto" onAction="#restaurarValores"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

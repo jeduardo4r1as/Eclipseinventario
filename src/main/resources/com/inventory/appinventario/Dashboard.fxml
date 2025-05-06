@@ -83,7 +83,18 @@
                 </graphic></Menu>
             <Menu fx:id="menuFacturas" mnemonicParsing="false" text="Facturas">
                 <items>
-                    <MenuItem fx:id="menuVerFacturas" mnemonicParsing="false"  text="Ver Facturas">
+                    <MenuItem fx:id="menuVerFacturas" mnemonicParsing="false"  onAction="#mostrarFacturas" text="Ver Facturas">
+                        <graphic>
+                            <FontIcon iconColor="#2196f3" iconLiteral="fa-search" iconSize="20" />
+                        </graphic>
+                    </MenuItem>
+                </items>
+                <graphic>
+                    <FontIcon iconLiteral="fa-file-o" iconSize="20" />
+                </graphic></Menu>
+            <Menu fx:id="menuEstadisticas" mnemonicParsing="false" text="Estadisticas">
+                <items>
+                    <MenuItem fx:id="menuVerEstadisticas" mnemonicParsing="false"  onAction="#mostrarEstadisticas" text="Ver Facturas">
                         <graphic>
                             <FontIcon iconColor="#2196f3" iconLiteral="fa-search" iconSize="20" />
                         </graphic>
