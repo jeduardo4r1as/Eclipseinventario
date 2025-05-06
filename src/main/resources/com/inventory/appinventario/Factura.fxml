@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane fx:id="root" prefHeight="473.0" prefWidth="876.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.FacturaController">
+    <children>
+        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <HBox VBox.vgrow="ALWAYS">
+                    <children>
+                        <ToolBar orientation="VERTICAL" prefHeight="40.0">
+                            <items>
+                                <Button fx:id="btnListar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#listarProductos" text="Listar">
+                                    <graphic>
+                                        <FontIcon iconColor="#2196f3" iconLiteral="fa-refresh" iconSize="22" />
+                                    </graphic>
+                                </Button>
+                                <Button fx:id="btnEditar" contentDisplay="TOP" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#editarProducto" text="Editar">
+                                    <graphic>
+                                        <FontIcon iconColor="#2196f3" iconLiteral="fa-edit" iconSize="22" />
+                                    </graphic>
+                                </Button>
+                            </items>
+                        </ToolBar>
+                        <VBox prefHeight="400.0" prefWidth="578.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <TextField fx:id="cjBuscar" onKeyReleased="#buscarProductoKeyReleased">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </VBox.margin>
+                                </TextField>
+                                <TableView fx:id="tablaProductos" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="colNombre" prefWidth="75.0" text="NOMBRE" />
+                                        <TableColumn fx:id="colCodigo" prefWidth="75.0" text="CODIGO" />
+                              <TableColumn fx:id="colReferencia" prefWidth="75.0" text="REFERENCIA" />
+                              <TableColumn fx:id="colDescripcion" prefWidth="75.0" text="DESCRIPCION" />
+                              <TableColumn fx:id="colTalla" prefWidth="75.0" text="TALLA" />
+                              <TableColumn fx:id="colGenero" prefWidth="75.0" text="GENERO" />
+                              <TableColumn fx:id="colEstado" prefWidth="75.0" text="ESTADO" />
+                              <TableColumn fx:id="colPrecioMayorista" prefWidth="75.0" text="PRECIO MAYORISTA" />
+                                        <TableColumn fx:id="coolFechaRegistro" prefWidth="75.0" text="FECHA REGISTRO" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
