@@ -8,6 +8,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,21 +22,31 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
+import javafx.stage.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import net.sf.jasperreports.engine.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+
+
+// Java I/O (para guardar archivo)
+import java.io.IOException;
 
 public class ProductoController implements Initializable {
 
@@ -46,6 +57,12 @@ public class ProductoController implements Initializable {
 
     @FXML
     private Button btnEditar;
+
+    @FXML
+    private Button btnExcel;
+
+    @FXML
+    private Button btnPdf;
 
     @FXML
     private Button btnListar;
@@ -100,6 +117,8 @@ public class ProductoController implements Initializable {
 
     private ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
 
+    private FilteredList<Producto> productosFiltrados;
+
     private ConexionBD conexionBD = new ConexionBD();
     private ProductoDAO productoDAO;
 
@@ -153,10 +172,178 @@ public class ProductoController implements Initializable {
         colEstado.setCellValueFactory(param -> param.getValue().estadoProperty());
         coolFechaRegistro.setCellValueFactory(new PropertyValueFactory<>("fechaderegistro"));
 
-        tablaProductos.setItems(listaProductos);
+        productosFiltrados = new FilteredList<>(listaProductos, p -> true);
+        tablaProductos.setItems(productosFiltrados);
         objProducto.bind(tablaProductos.getSelectionModel().selectedItemProperty());
 
+        listarProductos(null);
+
         }
+
+
+    @FXML
+    void GenerarExcel(ActionEvent event) {
+        if (listaProductos.isEmpty()) {
+            org.controlsfx.control.Notifications.create()
+                    .title("Aviso")
+                    .text("No hay productos para exportar.")
+                    .position(Pos.CENTER)
+                    .showWarning();
+            return;
+        }
+
+        // Crear el libro y la hoja
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Productos");
+
+        // Crear encabezados
+        String[] headers = {
+                "Nombre", "Código", "Referencia", "Descripción",
+                "Talla", "Género", "Precio Unitario", "Precio Mayorista",
+                "Precio Distribuidor", "Stock", "Stock Mínimo", "Estado", "Fecha Registro"
+        };
+
+        // Encabezados en la primera fila
+        Row headerRow = sheet.createRow(0);
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+
+        // Rellenar con datos
+        int rowNum = 1;
+        for (Producto producto : listaProductos) {
+            Row row = sheet.createRow(rowNum++);
+
+            row.createCell(0).setCellValue(producto.getNombreproducto());
+            row.createCell(1).setCellValue(producto.getCodigodebarras());
+            row.createCell(2).setCellValue(producto.getReferencia());
+            row.createCell(3).setCellValue(producto.getDescripcion());
+            row.createCell(4).setCellValue(producto.getTalla());
+            row.createCell(5).setCellValue(producto.getGenero());
+            row.createCell(6).setCellValue(producto.getPreciounitario());
+            row.createCell(7).setCellValue(producto.getPreciomayorista());
+            row.createCell(8).setCellValue(producto.getPreciodistribuidor());
+            row.createCell(9).setCellValue(producto.getStock());
+            row.createCell(10).setCellValue(producto.getStockminimo());
+            row.createCell(11).setCellValue(producto.getEstado());
+            row.createCell(12).setCellValue(
+                    producto.getFechaderegistro() != null ? producto.getFechaderegistro().toString() : ""
+            );
+        }
+
+        // Autosize columnas
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        // Guardar el archivo
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar archivo Excel");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+            File file = fileChooser.showSaveDialog(root.getScene().getWindow());
+
+            if (file != null) {
+                FileOutputStream fileOut = new FileOutputStream(file);
+                workbook.write(fileOut);
+                fileOut.close();
+                workbook.close();
+
+                org.controlsfx.control.Notifications.create()
+                        .title("Éxito")
+                        .text("Archivo Excel generado correctamente.")
+                        .position(Pos.CENTER)
+                        .showInformation();
+            }
+
+        } catch (IOException e) {
+            org.controlsfx.control.Notifications.create()
+                    .title("Error")
+                    .text("Error al generar el archivo Excel: " + e.getMessage())
+                    .position(Pos.CENTER)
+                    .showError();
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void GenerarPdf(ActionEvent event) {
+        if (objProducto.get() == null) {
+            com.inventory.appinventario.util.Metodos.rotarError(tablaProductos);
+            org.controlsfx.control.Notifications.create()
+                    .title("Aviso")
+                    .text("Debes seleccionar un producto para generar el PDF")
+                    .position(Pos.CENTER)
+                    .showWarning();
+            return;
+        }
+
+        try {
+
+            InputStream reportStream = getClass().getResourceAsStream("/reports/productoindivi.jrxml");
+            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+            Map<String, Object> parametros = new HashMap<>();
+            Producto producto = objProducto.get();
+
+            parametros.put("nombreproducto", producto.getNombreproducto());
+            parametros.put("codigodebarras", producto.getCodigodebarras());
+            parametros.put("descripcion", producto.getDescripcion());
+            parametros.put("talla", producto.getTalla());
+            parametros.put("genero", producto.getGenero());
+            parametros.put("preciounitario", producto.getPreciounitario());
+            parametros.put("preciomayorista", producto.getPreciomayorista());
+            parametros.put("preciodistribuidor", producto.getPreciodistribuidor());
+            parametros.put("stock", producto.getStock());
+
+            if (producto.getImagen() != null) {
+                InputStream fotoStream = new ByteArrayInputStream(producto.getImagen());
+                parametros.put("imagenProducto", fotoStream);
+            } else {
+
+                InputStream fotoStream = getClass().getResourceAsStream("/img/productos.png");
+                parametros.put("imagenProducto", fotoStream);
+            }
+
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JREmptyDataSource());
+
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar reporte PDF");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivo PDF", "*.pdf"));
+            fileChooser.setInitialFileName("Producto_" + producto.getIdproducto() + ".pdf");
+
+            File archivoDestino = fileChooser.showSaveDialog(root.getScene().getWindow());
+
+            if (archivoDestino != null) {
+                JasperExportManager.exportReportToPdfFile(jasperPrint, archivoDestino.getAbsolutePath());
+
+
+                org.controlsfx.control.Notifications.create()
+                        .title("Exportación exitosa")
+                        .text("El PDF fue guardado en:\n" + archivoDestino.getAbsolutePath())
+                        .position(Pos.CENTER)
+                        .showInformation();
+            } else {
+
+                org.controlsfx.control.Notifications.create()
+                        .title("Guardado cancelado")
+                        .text("No se ha guardado ningún archivo.")
+                        .position(Pos.CENTER)
+                        .showWarning();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            org.controlsfx.control.Notifications.create()
+                    .title("Error")
+                    .text("Ocurrió un error al generar el PDF:\n" + e.getMessage())
+                    .position(Pos.CENTER)
+                    .showError();
+        }
+    }
     @FXML
     void borrarProducto(ActionEvent event) throws IOException, SQLException {
         if(objProducto.get()==null){
@@ -194,7 +381,19 @@ public class ProductoController implements Initializable {
 
     @FXML
     void buscarProductoKeyReleased(KeyEvent event) {
+        String texto = cjBuscar.getText().trim().toLowerCase();
 
+        productosFiltrados.setPredicate(producto -> {
+            if (texto.isEmpty()) {
+                return true;
+            }
+
+
+            return producto.getNombreproducto().toLowerCase().contains(texto)
+                    || producto.getCodigodebarras().toLowerCase().contains(texto)
+                    || producto.getReferencia().toLowerCase().contains(texto)
+                    || producto.getDescripcion().toLowerCase().contains(texto);
+        });
     }
 
     @FXML

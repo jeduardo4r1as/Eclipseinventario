@@ -41,7 +41,7 @@ public class ProductoDAO {
           p.setPreciounitario(rs.getDouble("precio_unitario"));
           p.setPreciomayorista(rs.getDouble("precio_mayorista"));
           p.setPreciodistribuidor(rs.getDouble("precio_distribuidor"));
-
+          p.setImagen(rs.getBytes("imagen"));
 
           productos.add(p);
 

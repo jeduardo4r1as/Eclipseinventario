@@ -3,12 +3,14 @@ package com.inventory.appinventario.controller;
 import com.inventory.appinventario.dao.ClienteDAO;
 import com.inventory.appinventario.dao.UsuarioDAO;
 import com.inventory.appinventario.model.Cliente;
+import com.inventory.appinventario.model.Producto;
 import com.inventory.appinventario.model.Usuario;
 import com.inventory.appinventario.util.ConexionBD;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,11 +24,14 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
+import javafx.stage.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -42,6 +47,8 @@ public class ClienteController implements Initializable {
 
     @FXML
     private Button btnEditar;
+    @FXML
+    private Button btnExcel;
 
     @FXML
     private Button btnListar;
@@ -81,6 +88,7 @@ public class ClienteController implements Initializable {
 
     private ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
 
+    private FilteredList<Cliente> clienteFiltrados;
 
     private ConexionBD conexionBD = new ConexionBD();
     private ClienteDAO clienteDAO;
@@ -103,16 +111,111 @@ public class ClienteController implements Initializable {
         colNdocumento.setCellValueFactory(new PropertyValueFactory<>("numerodocumento"));
         colCorreo.setCellValueFactory(new PropertyValueFactory<>("correo"));
 
-        tablaClientes.setItems(listaClientes);
+
+        clienteFiltrados = new FilteredList<>(listaClientes, p -> true);
+        tablaClientes.setItems(clienteFiltrados);
         objCliente.bind(tablaClientes.getSelectionModel().selectedItemProperty());
+
+
+        listarCliente(null);
 
     }
 
 
+    @FXML
+    void GenerarExcel(ActionEvent event) {
+        if (listaClientes.isEmpty()) {
+            org.controlsfx.control.Notifications.create()
+                    .title("Aviso")
+                    .text("No hay clientes para exportar.")
+                    .position(Pos.CENTER)
+                    .showWarning();
+            return;
+        }
+
+        // Crear el libro y la hoja
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Clientes");
+
+        // Crear encabezados
+        String[] headers = {
+                "Nombre", "Apellido", "N documento", "Direccion","Telefono","Correo"
+
+        };
+
+        // Encabezados en la primera fila
+        Row headerRow = sheet.createRow(0);
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+
+        // Rellenar con datos
+        int rowNum = 1;
+        for (Cliente cliente : listaClientes) {
+            Row row = sheet.createRow(rowNum++);
+
+            row.createCell(0).setCellValue(cliente.getNombrecliente());
+            row.createCell(1).setCellValue(cliente.getApellidocliente());
+            row.createCell(2).setCellValue(cliente.getNumerodocumento());
+            row.createCell(3).setCellValue(cliente.getDireccioncliente());
+            row.createCell(4).setCellValue(cliente.getTelefonocliente());
+            row.createCell(5).setCellValue(cliente.getCorreo());
+
+
+        }
+
+        // Autosize columnas
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        // Guardar el archivo
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar archivo Excel");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+            File file = fileChooser.showSaveDialog(root.getScene().getWindow());
+
+            if (file != null) {
+                FileOutputStream fileOut = new FileOutputStream(file);
+                workbook.write(fileOut);
+                fileOut.close();
+                workbook.close();
+
+                org.controlsfx.control.Notifications.create()
+                        .title("Éxito")
+                        .text("Archivo Excel generado correctamente.")
+                        .position(Pos.CENTER)
+                        .showInformation();
+            }
+
+        } catch (IOException e) {
+            org.controlsfx.control.Notifications.create()
+                    .title("Error")
+                    .text("Error al generar el archivo Excel: " + e.getMessage())
+                    .position(Pos.CENTER)
+                    .showError();
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void buscarProductoKeyReleased(KeyEvent event) {
+        String texto = cjBuscar.getText().trim().toLowerCase();
 
+        clienteFiltrados.setPredicate(cliente -> {
+            if (texto.isEmpty()) {
+                return true;
+            }
+
+
+            return cliente.getNombrecliente().toLowerCase().contains(texto)
+                    || cliente.getApellidocliente().toLowerCase().contains(texto)
+                    || cliente.getCorreo().toLowerCase().contains(texto)
+                    || cliente.getDireccioncliente().toLowerCase().contains(texto)
+                    || cliente.getNumerodocumento().toLowerCase().contains(texto);
+        });
     }
 
     @FXML

@@ -22,6 +22,12 @@ public class FacturaController  implements Initializable {
     private Button btnVerFacturas;
 
     @FXML
+    private Button btnExcel;
+
+    @FXML
+    private Button btnPdf;
+
+    @FXML
     private TextField cjBuscar;
 
     @FXML
@@ -65,6 +71,16 @@ public class FacturaController  implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    @FXML
+    void GenerarExcel(ActionEvent event) {
+
+    }
+
+    @FXML
+    void GenerarPdf(ActionEvent event) {
 
     }
 }

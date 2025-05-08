@@ -38,6 +38,10 @@
                                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                     </VBox.margin>
                                 </TextField>
+                                <HBox alignment="TOP_RIGHT" spacing="5">
+                                    <Button fx:id="btnExcel" onAction="#GenerarExcel" prefWidth="80" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="Excel" />
+                                    <Button fx:id="btnPdf" onAction="#GenerarPdf" prefWidth="80" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="PDF" />
+                                </HBox>
                                 <TableView fx:id="tablaProductos" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="colCodigo" prefWidth="75.0" text="CODIGO" />

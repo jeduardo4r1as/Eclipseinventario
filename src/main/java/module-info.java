@@ -10,6 +10,8 @@ module com.inventory.appinventario {
     requires javafx.swing;
     requires static org.slf4j.simple;
     requires webcam.capture;
+    requires org.apache.poi.ooxml;
+    requires jasperreports;
 
 
     opens com.inventory.appinventario to javafx.fxml;

@@ -102,7 +102,7 @@ public class RegistrarProductoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        cjgenero.getItems().addAll("HOMBRE", "MUJER", "NIÑO", "NIÑA");
+        cjgenero.getItems().addAll("HOMBRE", "MUJER","UNISEX", "NIÑO", "NIÑA");
 
         cjpreciounitario.setTextFormatter(new TextFormatter<>(new StringConverter<Double>(){
             @Override

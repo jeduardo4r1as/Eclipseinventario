@@ -9,6 +9,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,11 +23,14 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
+import javafx.stage.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -51,6 +55,9 @@ public class UsuarioController implements Initializable {
 
     @FXML
     private Button btnActivar;
+
+    @FXML
+    private Button btnExcel;
 
     @FXML
     private TextField cjBuscar;
@@ -92,7 +99,7 @@ public class UsuarioController implements Initializable {
     private RegistrarUsuarioController registrarusuarioController;
 
 
-
+    private FilteredList<Usuario> usuariosFiltrados;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -105,10 +112,89 @@ public class UsuarioController implements Initializable {
         colRol.setCellValueFactory(new PropertyValueFactory<>("rol"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
 
-        tablaUsuarios.setItems(listaUsuarios);
+
+        usuariosFiltrados = new FilteredList<>(listaUsuarios, p -> true);
+        tablaUsuarios.setItems(usuariosFiltrados);
         objUsuario.bind(tablaUsuarios.getSelectionModel().selectedItemProperty());
+
+        listarUsuarios(null);
     }
 
+    @FXML
+    void GenerarExcel(ActionEvent event) {
+        if (listaUsuarios.isEmpty()) {
+            org.controlsfx.control.Notifications.create()
+                    .title("Aviso")
+                    .text("No hay usuarios para exportar.")
+                    .position(Pos.CENTER)
+                    .showWarning();
+            return;
+        }
+
+        // Crear el libro y la hoja
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Usuarios");
+
+        // Crear encabezados
+        String[] headers = {
+                "Nombre", "Nombre de usuario", "Rol", "Estado"
+
+        };
+
+        // Encabezados en la primera fila
+        Row headerRow = sheet.createRow(0);
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+
+        // Rellenar con datos
+        int rowNum = 1;
+        for (Usuario usuario : listaUsuarios) {
+            Row row = sheet.createRow(rowNum++);
+
+            row.createCell(0).setCellValue(usuario.getNombre());
+            row.createCell(1).setCellValue(usuario.getUsername());
+            row.createCell(2).setCellValue(usuario.getRol());
+            row.createCell(3).setCellValue(usuario.getEstado());
+
+
+        }
+
+        // Autosize columnas
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        // Guardar el archivo
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar archivo Excel");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+            File file = fileChooser.showSaveDialog(root.getScene().getWindow());
+
+            if (file != null) {
+                FileOutputStream fileOut = new FileOutputStream(file);
+                workbook.write(fileOut);
+                fileOut.close();
+                workbook.close();
+
+                org.controlsfx.control.Notifications.create()
+                        .title("Éxito")
+                        .text("Archivo Excel generado correctamente.")
+                        .position(Pos.CENTER)
+                        .showInformation();
+            }
+
+        } catch (IOException e) {
+            org.controlsfx.control.Notifications.create()
+                    .title("Error")
+                    .text("Error al generar el archivo Excel: " + e.getMessage())
+                    .position(Pos.CENTER)
+                    .showError();
+            e.printStackTrace();
+        }
+    }
     @FXML
     void borrarUsuario(ActionEvent event) throws SQLException {
 
@@ -130,6 +216,20 @@ public class UsuarioController implements Initializable {
 
     @FXML
     void buscarProductoKeyReleased(KeyEvent event) {
+
+        String texto = cjBuscar.getText().trim().toLowerCase();
+
+        usuariosFiltrados.setPredicate(usuario -> {
+            if (texto.isEmpty()) {
+                return true;
+            }
+
+
+            return usuario.getNombre().toLowerCase().contains(texto)
+                    || usuario.getUsername().toLowerCase().contains(texto)
+                    || usuario.getEstado().toLowerCase().contains(texto)
+                    || usuario.getRol().toLowerCase().contains(texto);
+        });
 
     }
 

@@ -21,28 +21,23 @@ public class ClienteDAO {
 
     public int guardar(Cliente c) throws SQLException {
 
-        String validacionSql = "SELECT idcliente FROM cliente WHERE (LOWER(correo) = LOWER(?) OR numerodocumento = ?)";
+        String validacionSql = "SELECT idcliente FROM cliente WHERE numerodocumento = ?";
         if (c.getIdcliente() != 0) {
             validacionSql += " AND idcliente != ?";
         }
 
-        PreparedStatement validarStmt = conexionBD.getConexion().prepareStatement(validacionSql);
-        validarStmt.setString(1, c.getCorreo());
-        validarStmt.setString(2, c.getNumerodocumento());
-        if (c.getIdcliente() != 0) {
-            validarStmt.setInt(3, c.getIdcliente());
+        try (PreparedStatement validarStmt = conexionBD.getConexion().prepareStatement(validacionSql)) {
+            validarStmt.setString(1, c.getNumerodocumento());
+            if (c.getIdcliente() != 0) {
+                validarStmt.setInt(2, c.getIdcliente());
+            }
+            try (ResultSet rsVal = validarStmt.executeQuery()) {
+                if (rsVal.next()) {
+                    throw new SQLException("Ya existe un cliente con el mismo número de documento.");
+                }
+            }
         }
 
-        ResultSet rsVal = validarStmt.executeQuery();
-        if (rsVal.next()) {
-            rsVal.close();
-            validarStmt.close();
-            throw new SQLException("Ya existe un cliente con el mismo correo o número de documento.");
-        }
-        rsVal.close();
-        validarStmt.close();
-
-        // 2. Crear o actualizar cliente
         String sql;
         if (c.getIdcliente() == 0) {
             sql = "INSERT INTO cliente(nombrecliente, apellidocliente, direccioncliente, telefonocliente, numerodocumento, correo) "
@@ -52,30 +47,30 @@ public class ClienteDAO {
                     + "telefonocliente = ?, numerodocumento = ?, correo = ? WHERE idcliente = ?";
         }
 
-        PreparedStatement pst = conexionBD.getConexion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        pst.setString(1, c.getNombrecliente());
-        pst.setString(2, c.getApellidocliente());
-        pst.setString(3, c.getDireccioncliente());
-        pst.setString(4, c.getTelefonocliente());
-        pst.setString(5, c.getNumerodocumento());
-        pst.setString(6, c.getCorreo());
+        try (PreparedStatement pst = conexionBD.getConexion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pst.setString(1, c.getNombrecliente());
+            pst.setString(2, c.getApellidocliente());
+            pst.setString(3, c.getDireccioncliente());
+            pst.setString(4, c.getTelefonocliente());
+            pst.setString(5, c.getNumerodocumento());
+            pst.setString(6, c.getCorreo());
 
-        if (c.getIdcliente() != 0) {
-            pst.setInt(7, c.getIdcliente());
-        }
-
-        int resultado = pst.executeUpdate();
-
-        if (c.getIdcliente() == 0) {
-            ResultSet rs = pst.getGeneratedKeys();
-            if (rs.next()) {
-                resultado = rs.getInt(1);
+            if (c.getIdcliente() != 0) {
+                pst.setInt(7, c.getIdcliente());
             }
-            rs.close();
-        }
 
-        pst.close();
-        return resultado;
+            int resultado = pst.executeUpdate();
+
+            if (c.getIdcliente() == 0) {
+                try (ResultSet rs = pst.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        resultado = rs.getInt(1);
+                    }
+                }
+            }
+
+            return resultado;
+        }
     }
 
     public List<Cliente> getAll() throws SQLException{
