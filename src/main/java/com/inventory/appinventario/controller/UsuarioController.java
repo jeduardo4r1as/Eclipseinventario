@@ -109,6 +109,18 @@ public class UsuarioController implements Initializable {
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colNombreU.setCellValueFactory(new PropertyValueFactory<>("username"));
         colPassWord.setCellValueFactory(new PropertyValueFactory<>("password"));
+        colPassWord.setCellFactory(column -> new TableCell<Usuario, String>() {
+            @Override
+            protected void updateItem(String password, boolean empty) {
+                super.updateItem(password, empty);
+                if (empty || password == null) {
+                    setText(null);
+                } else {
+
+                    setText("*".repeat(password.length()));
+                }
+            }
+        });
         colRol.setCellValueFactory(new PropertyValueFactory<>("rol"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
 
