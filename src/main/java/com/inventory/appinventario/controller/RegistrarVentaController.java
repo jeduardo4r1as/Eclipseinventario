@@ -22,15 +22,19 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -51,6 +55,9 @@ public class RegistrarVentaController implements Initializable {
 
     @FXML
     private Button btnCancelar;
+
+    @FXML
+    private Button btnAgregarCliente;
 
     @FXML
     private Button btnPagar;
@@ -112,6 +119,10 @@ public class RegistrarVentaController implements Initializable {
 
     @FXML
     private Text txtTotal;
+
+    private Stage stageCliente;
+
+    private RegistrarClienteController registrarclienteController;
 
     SearchComboBox<Cliente> comboCliente = new SearchComboBox<>();
 
@@ -208,6 +219,7 @@ public class RegistrarVentaController implements Initializable {
             tablaProductos.setItems(listaProductos);
             filtro = new FilteredList(listaProductos, p -> true);
             colProductos.setCellValueFactory(param -> param.getValue().nombreproductoProperty());
+
         } catch (SQLException ex) {
             org.controlsfx.control.Notifications.create().title("Aviso").text("No se cargaron los productos").position(Pos.CENTER).showWarning();
             Logger.getLogger(RegistrarVentaController.class.getName()).log(Level.SEVERE, null, ex);
@@ -219,6 +231,33 @@ public class RegistrarVentaController implements Initializable {
         }
 
 
+
+    @FXML
+    void agregarcliente(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/inventory/appinventario/RegistrarCliente.fxml"));
+        AnchorPane ap = loader.load();
+        registrarclienteController = loader.getController();
+        Scene scene = new Scene(ap);
+        stageCliente = new Stage();
+        stageCliente.setScene(scene);
+        stageCliente.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/add_user.png")));
+        stageCliente.initOwner(root.getScene().getWindow());
+        stageCliente.initModality(Modality.WINDOW_MODAL);
+        stageCliente.initStyle(StageStyle.DECORATED);
+        stageCliente.setResizable(false);
+        stageCliente.setOnCloseRequest((WindowEvent e) -> {
+            root.setEffect(null);
+        });
+        stageCliente.setOnHidden((WindowEvent e) -> {
+            root.setEffect(null);
+        });
+        root.setEffect(new GaussianBlur(7.0));
+        stageCliente.showAndWait();
+
+        carcagarclientes();
+
+    }
 
     @FXML
     private void buscarCodigo(KeyEvent event) {
@@ -284,6 +323,13 @@ public class RegistrarVentaController implements Initializable {
 
     @FXML
     void cancelarPedido(ActionEvent event) {
+
+            comboCliente.clear();
+            listaPedido.clear();
+            cjCodigoBarras.requestFocus();
+            txtSubtotal.setText("$0");
+            txtIva.setText("$0");
+            txtTotal.setText("$0");
 
     }
 
@@ -403,6 +449,29 @@ public class RegistrarVentaController implements Initializable {
         txtIva.setText(NumberFormat.getCurrencyInstance().format(iva));
         txtSubtotal.setText(NumberFormat.getCurrencyInstance().format((suma)));
         txtTotal.setText(NumberFormat.getCurrencyInstance().format((suma+iva)));
+    }
+
+
+    private void carcagarclientes(){
+        try {
+            conexionBD.conectar();
+            clienteDAO = new ClienteDAO(conexionBD);
+
+            ObservableList<Cliente> clientes = FXCollections.observableArrayList(clienteDAO.getAll());
+
+            comboCliente.setItems(clientes); // USANDO el campo global correctamente
+
+            comboCliente.selectedItemProperty().addListener((obs, oldVal, nuevo) -> {
+                System.out.println("Cliente seleccionado: " + nuevo);
+            });
+
+            gridPane.add(comboCliente, 0, 1);
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            this.conexionBD.CERRAR();
+        }
     }
 
 

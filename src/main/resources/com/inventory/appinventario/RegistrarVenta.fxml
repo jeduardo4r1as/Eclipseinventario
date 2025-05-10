@@ -1,10 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -16,11 +21,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.ComboBox?>
-<VBox fx:id="root" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.251" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.RegistrarVentaController">
+<VBox fx:id="root" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.RegistrarVentaController">
     <children>
         <BorderPane style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
             <center>
@@ -28,7 +29,7 @@
                     <children>
                         <HBox alignment="CENTER">
                             <children>
-                                <TextField fx:id="cjCodigoBarras" alignment="CENTER"  onKeyReleased="#buscarCodigo" promptText="Codigo de barras"  HBox.hgrow="ALWAYS">
+                                <TextField fx:id="cjCodigoBarras" alignment="CENTER" onKeyReleased="#buscarCodigo" promptText="Codigo de barras" HBox.hgrow="ALWAYS">
                                     <font>
                                         <Font size="24.0" />
                                     </font></TextField>
@@ -108,10 +109,6 @@
                                 <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Label text="Cliente:" GridPane.valignment="BOTTOM">
-                                    <font>
-                                        <Font name="System Bold" size="15.0" />
-                                    </font></Label>
                                 <Label text="Fecha:" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                                     <font>
                                         <Font name="System Bold" size="15.0" />
@@ -122,6 +119,26 @@
                                         <Font name="System Bold" size="15.0" />
                                     </font></Label>
                                 <ComboBox fx:id="comboFormaDePago" maxWidth="1.7976931348623157E308" promptText="Seleccione" GridPane.rowIndex="5" />
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                                      <Label alignment="TOP_CENTER" text="Cliente:">
+                                          <font>
+                                              <Font name="System Bold" size="15.0" />
+                                          </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_RIGHT" prefHeight="28.0" prefWidth="279.0">
+                           <children>
+                              <Button fx:id="btnAgregarCliente" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#agregarcliente" prefHeight="24.0" prefWidth="34.0" style="-fx-background-color: #25d366;">
+                                 <font>
+                                    <Font name="System Bold" size="3.0" />
+                                 </font>
+                                 <graphic>
+                                    <FontIcon iconColor="WHITE" iconLiteral="fa-user-plus" iconSize="15" wrappingWidth="15.54281997680664" />
+                                 </graphic></Button>
+                           </children>
+                        </HBox>
                             </children>
                         </GridPane>
                         <GridPane hgap="10.0" VBox.vgrow="ALWAYS">
@@ -195,7 +212,7 @@
             <right>
                 <VBox maxHeight="1.7976931348623157E308" prefHeight="575.0" prefWidth="400.0" spacing="15.0" BorderPane.alignment="CENTER">
                     <children>
-                        <TextField fx:id="cjBuscarProducto"  onKeyPressed="#buscarProducto" promptText="Buscar producto..."  />
+                        <TextField fx:id="cjBuscarProducto" onKeyPressed="#buscarProducto" promptText="Buscar producto..." />
                         <TableView fx:id="tablaProductos" onKeyPressed="#tablaProductosKeyPressed" onMouseClicked="#tablaProductosMouseClicked" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="colProductos" prefWidth="75.0" text="PRODUCTOS" />
