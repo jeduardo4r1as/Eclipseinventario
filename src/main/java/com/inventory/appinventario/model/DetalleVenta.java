@@ -2,10 +2,7 @@ package com.inventory.appinventario.model;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 
 public class DetalleVenta {
 
@@ -15,12 +12,25 @@ public class DetalleVenta {
     private final DoubleProperty cantidad = new SimpleDoubleProperty();
     private final DoubleProperty precioventa = new SimpleDoubleProperty();
     private final DoubleProperty total = new SimpleDoubleProperty();
+    private final StringProperty tipoPrecio = new SimpleStringProperty();
 
     public DetalleVenta() {
         NumberBinding multiply = Bindings.multiply(this.precioventaProperty(), cantidadProperty());
         this.totalProperty().bind(multiply);
     }
 
+    //crm
+    public String getTipoPrecio() {
+        return tipoPrecio.get();
+    }
+
+    public StringProperty tipoPrecioProperty() {
+        return tipoPrecio;
+    }
+
+    public void setTipoPrecio(String tipoPrecio) {
+        this.tipoPrecio.set(tipoPrecio);
+    }
     public int getIddetalleventa() {
         return iddetalleventa.get();
     }

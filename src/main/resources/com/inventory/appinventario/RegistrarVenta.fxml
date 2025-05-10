@@ -40,6 +40,7 @@
                             <columns>
                                 <TableColumn fx:id="colProducto" prefWidth="75.0" text="Nombre" />
                                 <TableColumn fx:id="colcantidad" prefWidth="75.0" text="Cantidad" />
+                                <TableColumn fx:id="colTipoPrecioVenta" prefWidth="75.0" text="Tipo de precio" />
                                 <TableColumn fx:id="colvalor" prefWidth="75.0" text="\$ Valor" />
                                 <TableColumn fx:id="coltotal" prefWidth="75.0" text="Total $" />
                             </columns>
@@ -213,9 +214,22 @@
                 <VBox maxHeight="1.7976931348623157E308" prefHeight="575.0" prefWidth="400.0" spacing="15.0" BorderPane.alignment="CENTER">
                     <children>
                         <TextField fx:id="cjBuscarProducto" onKeyPressed="#buscarProducto" promptText="Buscar producto..." />
+                        <HBox prefHeight="25.0" prefWidth="380.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de precio" wrappingWidth="106.177734375">
+                                    <font>
+                                        <Font name="System Bold" size="15.0" />
+                                    </font>
+                                </Text>
+                                <ComboBox fx:id="comboTiposDePrecio" onAction="#funcionTipoPrecio" prefWidth="150.0" promptText="Seleccione" />
+                            </children>
+                        </HBox>
                         <TableView fx:id="tablaProductos" onKeyPressed="#tablaProductosKeyPressed" onMouseClicked="#tablaProductosMouseClicked" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="colProductos" prefWidth="75.0" text="PRODUCTOS" />
+                                <TableColumn fx:id="colGenero" prefWidth="75.0" text="GENERO" />
+                                <TableColumn fx:id="colTalla" prefWidth="75.0" text="TALLA" />
+                                <TableColumn fx:id="colProductoPrecio" prefWidth="75.0" text="PRECIO" />
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

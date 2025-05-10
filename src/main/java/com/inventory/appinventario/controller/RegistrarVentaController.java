@@ -109,6 +109,15 @@ public class RegistrarVentaController implements Initializable {
     private TableColumn<Producto, String> colProductos;
 
     @FXML
+    private TableColumn<Producto, String> colTalla;
+
+    @FXML
+    private TableColumn<Producto, String> colGenero;
+
+    @FXML
+    private TableColumn<Producto, Double> colProductoPrecio;
+
+    @FXML
     private Text txtIva;
 
     @FXML
@@ -119,6 +128,12 @@ public class RegistrarVentaController implements Initializable {
 
     @FXML
     private Text txtTotal;
+
+    @FXML
+    private ComboBox<String> comboTiposDePrecio;
+
+    @FXML
+    private TableColumn colTipoPrecioVenta;
 
     private Stage stageCliente;
 
@@ -148,8 +163,11 @@ public class RegistrarVentaController implements Initializable {
 
 
         cjCodigoBarras.requestFocus();
-      comboFormaDePago.getItems().addAll("EFECTIVO", "TARJETA CREDITO", "TARJETA DEBITO");
+        comboFormaDePago.getItems().addAll("EFECTIVO", "TARJETA CREDITO", "TARJETA DEBITO");
         comboFormaDePago.getSelectionModel().selectFirst();
+
+        comboTiposDePrecio.getItems().addAll("UNITARIO", "MAYORISTA", "DISTRIBUIDOR");
+        comboTiposDePrecio.getSelectionModel().selectFirst();
 
         tablaPedidos.setEditable(true);
         tablaPedidos.getSelectionModel().setCellSelectionEnabled(true);
@@ -173,6 +191,8 @@ public class RegistrarVentaController implements Initializable {
                 }
             }
         });
+
+        colTipoPrecioVenta.setCellValueFactory(new PropertyValueFactory<>("tipoPrecio"));
 
         colvalor.setCellValueFactory(new PropertyValueFactory<>("precioventa"));
         colvalor.setCellFactory(tc -> new CurrencyCell<>());
@@ -219,6 +239,9 @@ public class RegistrarVentaController implements Initializable {
             tablaProductos.setItems(listaProductos);
             filtro = new FilteredList(listaProductos, p -> true);
             colProductos.setCellValueFactory(param -> param.getValue().nombreproductoProperty());
+            colProductoPrecio.setCellValueFactory(new PropertyValueFactory<>("preciounitario"));
+            colGenero.setCellValueFactory(param -> param.getValue().generoProperty());
+            colTalla.setCellValueFactory(param -> param.getValue().tallaProperty());
 
         } catch (SQLException ex) {
             org.controlsfx.control.Notifications.create().title("Aviso").text("No se cargaron los productos").position(Pos.CENTER).showWarning();
@@ -227,6 +250,12 @@ public class RegistrarVentaController implements Initializable {
 
         txtTituloEmpresa.setText(Comercio.getInstance(null).getNombre());
         lblIva.setText("IVA: ("+this.iva+"%)");
+
+        // Enlazar el filtro una sola vez aquí
+        filtro = new FilteredList<>(listaProductos, p -> true);
+        SortedList<Producto> sorterData = new SortedList<>(filtro);
+        sorterData.comparatorProperty().bind(tablaProductos.comparatorProperty());
+        tablaProductos.setItems(sorterData);
 
         }
 
@@ -298,6 +327,19 @@ public class RegistrarVentaController implements Initializable {
 
     @FXML
     private void buscarProducto(KeyEvent evt) {
+        if (evt.getCode() == KeyCode.ENTER || evt.getCode() == KeyCode.UP || evt.getCode() == KeyCode.DOWN) {
+            return;
+        }
+
+        String newValue = cjBuscarProducto.getText().toUpperCase();
+
+        filtro.setPredicate(producto -> {
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+            return producto.getNombreproducto().toUpperCase().contains(newValue);
+        });
+
         switch (evt.getCode()) {
             case DOWN:
                 tablaProductos.requestFocus();
@@ -306,18 +348,6 @@ public class RegistrarVentaController implements Initializable {
             case ESCAPE:
                 cjCodigoBarras.requestFocus();
                 break;
-            default:
-                cjBuscarProducto.textProperty().addListener((observableValue, oldValue, newValue) -> {
-                    filtro.setPredicate((Predicate<? super Producto>) param -> {
-                        if (newValue == null || newValue.isEmpty()) {
-                            return true;
-                        }
-                        return (param.getNombreproducto().contains(newValue.toUpperCase()));
-                    });
-                });
-                SortedList<Producto> sorterData = new SortedList<>(filtro);
-                sorterData.comparatorProperty().bind(tablaProductos.comparatorProperty());
-                tablaProductos.setItems(sorterData);
         }
     }
 
@@ -422,23 +452,39 @@ public class RegistrarVentaController implements Initializable {
     }
 
     void agregarPedido(Producto pr) {
-        listaPedido.stream().
-                filter(p -> p.getProducto().getIdproducto() == (pr.getIdproducto()))
+        double precioSeleccionado;
+
+        // Escoger el precio de acuerdo a la opción seleccionada en el ComboBox
+        String tipoPrecio = comboTiposDePrecio.getValue();
+        if ("MAYORISTA".equals(tipoPrecio)) {
+            precioSeleccionado = pr.getPreciomayorista();
+        } else if ("DISTRIBUIDOR".equals(tipoPrecio)) {
+            precioSeleccionado = pr.getPreciodistribuidor();
+        } else {
+            precioSeleccionado = pr.getPreciounitario(); // Por defecto, Unitario
+        }
+
+        listaPedido.stream()
+
+                .filter(p -> p.getProducto().getIdproducto() == pr.getIdproducto()
+                        && p.getTipoPrecio().equals(tipoPrecio))
                 .findFirst().map((t) -> {
-                    t.setCantidad((t.getCantidad() + 1));
+                    t.setCantidad(t.getCantidad() + 1);
                     com.inventory.appinventario.util.Metodos.changeSizeOnColumn(coltotal, tablaPedidos, -1);
                     cjCodigoBarras.setText(null);
                     return t;
                 }).orElseGet(() -> {
                     DetalleVenta dv = new DetalleVenta();
                     dv.setProducto(pr);
+                    dv.setTipoPrecio(comboTiposDePrecio.getValue());
                     dv.setCantidad(1);
-                    dv.setPrecioventa(pr.getPreciounitario());
+                    dv.setPrecioventa(precioSeleccionado); // Aquí se usa el precio correcto
                     listaPedido.add(dv);
                     com.inventory.appinventario.util.Metodos.changeSizeOnColumn(colProductos, tablaPedidos, -1);
                     cjCodigoBarras.setText(null);
                     return dv;
                 });
+
         calcular();
     }
 
@@ -451,6 +497,37 @@ public class RegistrarVentaController implements Initializable {
         txtTotal.setText(NumberFormat.getCurrencyInstance().format((suma+iva)));
     }
 
+
+    //funcion que actualiza los precios de la tabla de acuerdo a la opcion que selecciones crm
+    @FXML
+    private void funcionTipoPrecio(ActionEvent event) {
+        String tipoPrecio = comboTiposDePrecio.getSelectionModel().getSelectedItem();
+
+        try {
+            this.conexionBD.conectar();
+            productoDAO = new ProductoDAO(this.conexionBD);
+
+            // Actualiza el contenido de la lista sin destruir filtro
+            List<Producto> productos = productoDAO.getAll();
+            listaProductos.setAll(productos); // OK: mantiene el mismo objeto observable
+
+            // Cambia la columna visible según el tipo de precio
+            switch (tipoPrecio) {
+                case "UNITARIO":
+                    colProductoPrecio.setCellValueFactory(new PropertyValueFactory<>("preciounitario"));
+                    break;
+                case "MAYORISTA":
+                    colProductoPrecio.setCellValueFactory(new PropertyValueFactory<>("preciomayorista"));
+                    break;
+                case "DISTRIBUIDOR":
+                    colProductoPrecio.setCellValueFactory(new PropertyValueFactory<>("preciodistribuidor"));
+                    break;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void carcagarclientes(){
         try {
