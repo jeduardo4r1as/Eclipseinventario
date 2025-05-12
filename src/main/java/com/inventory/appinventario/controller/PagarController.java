@@ -1,6 +1,7 @@
 package com.inventory.appinventario.controller;
 
 import com.inventory.appinventario.dao.VentaDAO;
+import com.inventory.appinventario.model.Comercio;
 import com.inventory.appinventario.model.Venta;
 import com.inventory.appinventario.util.ConexionBD;
 import javafx.fxml.FXML;
@@ -32,10 +33,14 @@ public class PagarController implements Initializable {
 
     private double totalaPagar = 0;
 
+    private double totalaPagariva = 0;
+
     private NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
 
     private ConexionBD conexionBD = new ConexionBD();
     private VentaDAO ventaDAO;
+
+    private Integer iva= Comercio.getInstance(null).getIva();
 
     @FXML
     private TextField cjValorIngreso;
@@ -72,7 +77,8 @@ public class PagarController implements Initializable {
                 try {
                     if ( (idventa=ventaDAO.guardar(this.venta)) > 0 ) {
                         com.inventory.appinventario.util.Metodos.closeEffect(root);
-                        //                      JasperReport jr = (JasperReport) JRLoader.loadObject(new URL(getClass().getResource("/reports/factura.jasper").toString()));
+                        //
+                        //                  JasperReport jr = (JasperReport) JRLoader.loadObject(new URL(getClass().getResource("/reports/factura.jasper").toString()));
                         //                    Map<String, Object> parametros = new HashMap<>();
                         //                  parametros.put("idventa", idventa);
                         //                JasperPrint jasperprint = JasperFillManager.fillReport(jr, parametros, this.conexionBD.getConexion());
@@ -122,7 +128,10 @@ public class PagarController implements Initializable {
     public void setVenta(Venta venta) {
         this.venta = venta;
         totalaPagar = this.venta.getDetalleventa().stream().mapToDouble(ped -> ped.getCantidad() * ped.getPrecioventa()).sum();
-        txtTotalAPagar.setText(NumberFormat.getCurrencyInstance().format(totalaPagar));
+
+        totalaPagariva=totalaPagar+((totalaPagar*this.iva)/100);
+
+        txtTotalAPagar.setText(NumberFormat.getCurrencyInstance().format(totalaPagariva));
     }
 
     public int getIdventa() {

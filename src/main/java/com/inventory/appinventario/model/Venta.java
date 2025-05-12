@@ -14,6 +14,46 @@ public class Venta {
     private final ObjectProperty<LocalDateTime> fecha = new SimpleObjectProperty<>();
     private final IntegerProperty numerofactura = new SimpleIntegerProperty();
     private final StringProperty formadepago = new SimpleStringProperty();
+    private final DoubleProperty subtotal = new SimpleDoubleProperty();
+    private final DoubleProperty total = new SimpleDoubleProperty();
+    private final DoubleProperty iva = new SimpleDoubleProperty();
+
+
+    public double getSubtotal() {
+        return subtotal.get();
+    }
+
+    public DoubleProperty subtotalProperty() {
+        return subtotal;
+    }
+
+    public void setSubtotal(double subtotal) {
+        this.subtotal.set(subtotal);
+    }
+
+    public double getTotal() {
+        return total.get();
+    }
+
+    public DoubleProperty totalProperty() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total.set(total);
+    }
+
+    public double getIva() {
+        return iva.get();
+    }
+
+    public DoubleProperty ivaProperty() {
+        return iva;
+    }
+
+    public void setIva(double iva) {
+        this.iva.set(iva);
+    }
 
     public int getIdventa() {
         return idventa.get();

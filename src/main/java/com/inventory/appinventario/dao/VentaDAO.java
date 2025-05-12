@@ -20,22 +20,25 @@ public class VentaDAO {
 
 
     public int guardar(Venta v) throws SQLException {
+
         String sql = "INSERT INTO public.venta(\n"
-                + "	idcliente, idusuario, formadepago)\n"
-                + "	VALUES ("+v.getCliente().getIdcliente()+" , "+ Sesion.getSesion(null).getIdusuario()+" , '"+v.getFormadepago()+"');";
+                + "	idcliente, idusuario, formadepago, totaliva, subtotal, total)\n"
+                + "	VALUES ("+v.getCliente().getIdcliente()+" , "+ Sesion.getSesion(null).getIdusuario()+" , '"+v.getFormadepago()+"',"+v.getIva()+","+v.getSubtotal()+","+v.getTotal()+");";
 
         this.conexionBD.getConexion().setAutoCommit(false);
 
         PreparedStatement pst = this.conexionBD.getConexion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
         if (pst.executeUpdate() > 0) {
             ResultSet rs = pst.getGeneratedKeys();
             rs.next();
             int idventa = rs.getInt(1);
-            sql = "INSERT INTO public.detalleventa( idventa, idproducto, preciodeventa, cantidad) VALUES\n";
+            sql = "INSERT INTO public.detalleventa( idventa, idproducto, preciodeventa, cantidad,tipoprecio) VALUES\n";
             for (DetalleVenta dv : v.getDetalleventa()) {
                 sql += "(";
-                sql += " "+idventa+", "+dv.getProducto().getIdproducto()+", "+dv.getPrecioventa()+", "+dv.getCantidad()+" ";
+                sql += " "+idventa+", "+dv.getProducto().getIdproducto()+", "+dv.getPrecioventa()+", "+dv.getCantidad()+", '"+dv.getTipoPrecio()+"'";
                 sql += "),";
+
             }
             sql = sql.substring(0, sql.length()-1);
             pst = this.conexionBD.getConexion().prepareStatement(sql);

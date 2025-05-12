@@ -290,24 +290,41 @@ public class RegistrarVentaController implements Initializable {
 
     @FXML
     private void buscarCodigo(KeyEvent event) {
-
         if (event.getCode() == KeyCode.ENTER && cjCodigoBarras.getText() != null && !cjCodigoBarras.getText().isEmpty()) {
 
-            listaPedido.stream().
-                    filter(p -> p.getProducto().getCodigodebarras().equals(cjCodigoBarras.getText()))
+            String codigo = cjCodigoBarras.getText();
+            String tipoPrecio = comboTiposDePrecio.getValue();
+
+            listaPedido.stream()
+                    .filter(p -> p.getProducto().getCodigodebarras().equals(codigo)
+                            && p.getTipoPrecio().equals(tipoPrecio))
                     .findFirst().map((t) -> {
-                        t.setCantidad((t.getCantidad() + 1));
+                        t.setCantidad(t.getCantidad() + 1);
                         cjCodigoBarras.setText(null);
                         return t;
                     }).orElseGet(() -> {
                         listaProductos.stream()
-                                .filter((p) -> p.getCodigodebarras().contains(cjCodigoBarras.getText()))
+                                .filter((p) -> p.getCodigodebarras().equals(codigo))
                                 .findFirst()
                                 .ifPresent(p -> {
                                     DetalleVenta dv = new DetalleVenta();
                                     dv.setProducto(p);
                                     dv.setCantidad(1);
-                                    dv.setPrecioventa(p.getPreciounitario());
+                                    dv.setTipoPrecio(tipoPrecio);
+
+                                    double precioSeleccionado;
+                                    switch (tipoPrecio) {
+                                        case "MAYORISTA":
+                                            precioSeleccionado = p.getPreciomayorista();
+                                            break;
+                                        case "DISTRIBUIDOR":
+                                            precioSeleccionado = p.getPreciodistribuidor();
+                                            break;
+                                        default:
+                                            precioSeleccionado = p.getPreciounitario();
+                                    }
+
+                                    dv.setPrecioventa(precioSeleccionado);
                                     listaPedido.add(dv);
                                     com.inventory.appinventario.util.Metodos.changeSizeOnColumn(colProducto, tablaPedidos, -1);
                                     cjCodigoBarras.setText(null);
@@ -316,6 +333,7 @@ public class RegistrarVentaController implements Initializable {
                     });
 
             calcular();
+
         } else if (event.getCode() == KeyCode.DOWN) {
             tablaPedidos.requestFocus();
             tablaPedidos.getFocusModel().focus(0, colcantidad);
@@ -377,6 +395,12 @@ public class RegistrarVentaController implements Initializable {
         v.setCliente(comboCliente.getSelectedItem());
         v.setFormadepago(comboFormaDePago.getSelectionModel().getSelectedItem());
         v.setDetalleventa(listaPedido);
+        double suma = listaPedido.stream().mapToDouble(ped -> ped.getCantidad() * ped.getPrecioventa()).sum();
+        double iva = (suma*this.iva)/100.0;
+        double total=Math.round((suma+iva) * 100.0) / 100.0;
+        v.setSubtotal(suma);
+        v.setTotal(total);
+        v.setIva(iva);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/inventory/appinventario/Pagar.fxml"));
         VBox vbox = loader.load();

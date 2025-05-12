@@ -35,7 +35,7 @@
 			<staticText>
 				<reportElement x="0" y="30" width="320" height="20" uuid="ed37c8c8-51e9-4da1-a3ba-bccd1a98a2fa"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Eclipse]]></text>
+				<text><![CDATA[Eclipse Pitalito ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="110" y="50" width="211" height="21" uuid="a21bf857-3a8c-437f-871f-e752bd579da6"/>
@@ -44,15 +44,15 @@
 			</staticText>
 			<staticText>
 				<reportElement x="110" y="71" width="210" height="19" uuid="58333872-20f7-47de-ba8c-e51dd16a0580"/>
-				<text><![CDATA[Telefono:]]></text>
+				<text><![CDATA[Telefono:3222844551]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="110" y="90" width="210" height="20" uuid="e8553518-2a22-42e3-a312-a7153c6c389b"/>
-				<text><![CDATA[Direccion:]]></text>
+				<text><![CDATA[Direccion:Pitalito Huila ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="110" y="110" width="200" height="20" uuid="572883e3-8cc9-4e46-8815-79a1289fb57a"/>
-				<text><![CDATA[Correo:]]></text>
+				<text><![CDATA[Correo:Almacen Eclipse Pitalito]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="330" y="5" width="229" height="25" uuid="67249620-07c7-499d-b7bf-9c7fb5d89ffe"/>
