@@ -76,12 +76,15 @@ public class ClienteDAO {
     public List<Cliente> getAll() throws SQLException{
         List<Cliente> lista = new ArrayList<>();
         Cliente c = null;
-        ResultSet rs = this.conexionBD.CONSULTAR("SELECT idcliente, nombrecliente, apellidocliente FROM cliente;");
+        ResultSet rs = this.conexionBD.CONSULTAR("SELECT idcliente, nombrecliente, apellidocliente, telefonocliente,direccioncliente,correo FROM cliente;");
         while(rs.next()){
             c = new Cliente();
             c.setIdcliente(rs.getInt("idcliente"));
             c.setNombrecliente(rs.getString("nombrecliente").trim());
             c.setApellidocliente(rs.getString("apellidocliente").trim());
+            c.setTelefonocliente(rs.getString("telefonocliente").trim());
+            c.setDireccioncliente(rs.getString("direccioncliente").trim());
+            c.setCorreo(rs.getString("correo").trim());
 
             lista.add(c);
         }

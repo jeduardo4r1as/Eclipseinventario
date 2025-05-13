@@ -14,13 +14,21 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import org.postgresql.util.PSQLException;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,6 +93,35 @@ public class PagarController implements Initializable {
                         //              JasperViewer viewer = new JasperViewer(jasperprint, false);
                         //            viewer.setVisible(true);
                         //          viewer.toFront();
+
+                        // Cargar el archivo .jrxml o .jasper
+                        JasperReport jr = JasperCompileManager.compileReport(getClass().getResourceAsStream("/reports/FacturaEclipse.jrxml"));
+
+                        // DataSource: productos vendidos
+                        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(venta.getDetalleventa());
+
+                        // Parámetros
+                        Map<String, Object> parametros = new HashMap<>();
+                        parametros.put("cliente_nombre", venta.getCliente().getNombrecliente());
+                        parametros.put("cliente_direccion", venta.getCliente().getDireccioncliente());
+                        parametros.put("cliente_telefono", venta.getCliente().getTelefonocliente());
+                        parametros.put("fecha_emision", new java.sql.Date(System.currentTimeMillis()));
+                        parametros.put("fecha_creacion", new java.sql.Date(System.currentTimeMillis()));
+                        parametros.put("forma_pago", venta.getFormadepago());
+                        parametros.put("numero_factura", "FV-" + idventa);
+                        parametros.put("subtotal", venta.getSubtotal());
+                        parametros.put("iva", venta.getIva());
+                        parametros.put("total", venta.getTotal());
+                        parametros.put("monto_en_letras", "dskgskkgs"); // si tienes método
+
+                        // Llenar el reporte
+                        JasperPrint jp = JasperFillManager.fillReport(jr, parametros, ds);
+
+                        // Mostrarlo
+                        JasperViewer viewer = new JasperViewer(jp, false);
+                        viewer.setTitle("Factura Eclipse");
+                        viewer.setVisible(true);
+
                     }
                 } catch (PSQLException ex) {
                     //Logger.getLogger(RegistrarVentaController.class.getName()).log(Level.SEVERE, null, ex);
