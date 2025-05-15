@@ -132,4 +132,64 @@ public class Metodos {
         });
         rt.play();
     }
+
+    public class NumeroEnLetras {
+
+        private static final String[] UNIDADES = {
+                "", "uno", "dos", "tres", "cuatro", "cinco",
+                "seis", "siete", "ocho", "nueve", "diez",
+                "once", "doce", "trece", "catorce", "quince",
+                "dieciséis", "diecisiete", "dieciocho", "diecinueve"
+        };
+
+        private static final String[] DECENAS = {
+                "", "", "veinte", "treinta", "cuarenta",
+                "cincuenta", "sesenta", "setenta", "ochenta", "noventa"
+        };
+
+        private static final String[] CENTENAS = {
+                "", "ciento", "doscientos", "trescientos", "cuatrocientos",
+                "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"
+        };
+
+        public static String convertir(double valor) {
+            long parteEntera = (long) valor;
+            int parteDecimal = (int) Math.round((valor - parteEntera) * 100);
+
+            String letras = convertirNumero((int) parteEntera);
+            letras = letras.toUpperCase();
+
+            return letras + " PESOS" + (parteDecimal > 0 ? " CON " + parteDecimal + "/100 M.C." : " M.C.");
+        }
+
+        private static String convertirNumero(int numero) {
+            if (numero == 0) {
+                return "cero";
+            }
+            if (numero < 20) {
+                return UNIDADES[numero];
+            }
+            if (numero < 100) {
+                return DECENAS[numero / 10] + (numero % 10 != 0 ? " y " + UNIDADES[numero % 10] : "");
+            }
+            if (numero < 1000) {
+                return (numero == 100 ? "cien" : CENTENAS[numero / 100]) +
+                        (numero % 100 != 0 ? " " + convertirNumero(numero % 100) : "");
+            }
+            if (numero < 1000000) {
+                int miles = numero / 1000;
+                int resto = numero % 1000;
+                return (miles == 1 ? "mil" : convertirNumero(miles) + " mil") +
+                        (resto > 0 ? " " + convertirNumero(resto) : "");
+            }
+            if (numero < 1000000000) {
+                int millones = numero / 1000000;
+                int resto = numero % 1000000;
+                return (millones == 1 ? "un millón" : convertirNumero(millones) + " millones") +
+                        (resto > 0 ? " " + convertirNumero(resto) : "");
+            }
+
+            return "número demasiado grande";
+        }
+    }
 }

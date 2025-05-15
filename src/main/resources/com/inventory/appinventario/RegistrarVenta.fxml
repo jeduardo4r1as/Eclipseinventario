@@ -39,6 +39,7 @@
                         <TableView fx:id="tablaPedidos" editable="true" onKeyPressed="#tablaPedidosKeyPressed" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="colProducto" prefWidth="75.0" text="Nombre" />
+                        <TableColumn fx:id="colTallaProducto" prefWidth="75.0" text="Talla" />
                                 <TableColumn fx:id="colcantidad" prefWidth="75.0" text="Cantidad" />
                                 <TableColumn fx:id="colTipoPrecioVenta" prefWidth="75.0" text="Tipo de precio" />
                                 <TableColumn fx:id="colvalor" prefWidth="75.0" text="\$ Valor" />

@@ -115,6 +115,9 @@ public class RegistrarVentaController implements Initializable {
     private TableColumn<Producto, String> colGenero;
 
     @FXML
+    private TableColumn<DetalleVenta, String> colTallaProducto;
+
+    @FXML
     private TableColumn<Producto, Double> colProductoPrecio;
 
     @FXML
@@ -177,7 +180,7 @@ public class RegistrarVentaController implements Initializable {
 
 
         colProducto.setCellValueFactory(tc -> tc.getValue().getProducto().nombreproductoProperty());
-
+        colTallaProducto.setCellValueFactory(tc -> tc.getValue().getProducto().tallaProperty());
         colcantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         colcantidad.setStyle("-fx-alignment: CENTER;");
         colcantidad.setCellFactory(tc -> new DoubleCell<>());
