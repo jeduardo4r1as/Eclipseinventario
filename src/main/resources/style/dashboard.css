@@ -1,0 +1,8 @@
+.menu:hover, .menu:focused, .menu:showing {
+    -fx-background-color: #d4af37; /* dorado eclipse */
+    -fx-text-fill: black;
+}
+
+.menu .label {
+    -fx-text-fill: black;
+}

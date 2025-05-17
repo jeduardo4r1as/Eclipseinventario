@@ -17,31 +17,31 @@
             <children>
                 <HBox VBox.vgrow="ALWAYS">
                     <children>
-                        <ToolBar orientation="VERTICAL" prefHeight="40.0">
+                        <ToolBar orientation="VERTICAL" prefHeight="40.0" style="-fx-background-color: linear-gradient(to bottom, #0f0f0f, #1c1c1c);">
                             <items>
                                 <Button fx:id="btnListar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#listarProductos" text="Listar">
                                     <graphic>
-                                        <FontIcon iconColor="#2196f3" iconLiteral="fa-refresh" iconSize="22" />
+                                        <FontIcon iconColor="#d4af37" iconLiteral="fa-refresh" iconSize="22" />
                                     </graphic>
                                 </Button>
                                 <Button fx:id="btnNuevo" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" onAction="#nuevoProducto" text="Nuevo">
                                     <graphic>
-                                        <FontIcon iconColor="#2196f3" iconLiteral="fa-tag" iconSize="22" />
+                                        <FontIcon iconColor="#d4af37" iconLiteral="fa-tag" iconSize="22" />
                                     </graphic>
                                 </Button>
                                 <Button fx:id="btnEditar" contentDisplay="TOP" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#editarProducto" text="Editar">
                                     <graphic>
-                                        <FontIcon iconColor="#2196f3" iconLiteral="fa-edit" iconSize="22" />
+                                        <FontIcon iconColor="#d4af37" iconLiteral="fa-edit" iconSize="22" />
                                     </graphic>
                                 </Button>
                                 <Button fx:id="btnBorrar" contentDisplay="TOP" layoutX="10.0" layoutY="120.0" maxWidth="1.7976931348623157E308" onAction="#borrarProducto" text="Desactivar">
                                     <graphic>
-                                        <FontIcon iconColor="#2196f3" iconLiteral="fa-trash-o" iconSize="22" />
+                                        <FontIcon iconColor="#d4af37" iconLiteral="fa-trash-o" iconSize="22" />
                                     </graphic>
                                 </Button>
                         <Button fx:id="btnActivar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#ActivarProducto" text="Activar">
                            <graphic>
-                              <FontIcon iconColor="#2196f3" iconLiteral="fa-edit" iconSize="22" />
+                              <FontIcon iconColor="#d4af37" iconLiteral="fa-edit" iconSize="22" />
                            </graphic>
                         </Button>
                             </items>

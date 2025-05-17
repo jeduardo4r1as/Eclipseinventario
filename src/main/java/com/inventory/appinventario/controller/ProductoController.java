@@ -4,6 +4,7 @@ import com.inventory.appinventario.dao.ProductoDAO;
 import com.inventory.appinventario.dao.UsuarioDAO;
 import com.inventory.appinventario.model.Producto;
 import com.inventory.appinventario.util.ConexionBD;
+import com.inventory.appinventario.util.Sesion;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -71,6 +72,9 @@ public class ProductoController implements Initializable {
     private Button btnNuevo;
 
     @FXML
+    private Button btnActivar;
+
+    @FXML
     private TextField cjBuscar;
 
     @FXML
@@ -129,6 +133,19 @@ public class ProductoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        String rol = Sesion.getRol();
+
+        if ("VENDEDOR".equalsIgnoreCase(rol)) {
+            // opciones que se le ocultan al vendedor
+            btnBorrar.setVisible(false);
+            btnEditar.setVisible(false);
+            btnNuevo.setVisible(false);
+            btnActivar.setVisible(false);
+
+
+
+        }
 
         colNombre.setCellValueFactory(param -> param.getValue().nombreproductoProperty());
 

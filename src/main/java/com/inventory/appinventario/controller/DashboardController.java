@@ -19,6 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import com.inventory.appinventario.util.Sesion;
 
 
 import java.io.IOException;
@@ -31,8 +32,37 @@ import java.util.ResourceBundle;
 public class DashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        
+        String rol = Sesion.getRol(); // Se llama el rol del usaurio ingresado
+
+        if ("VENDEDOR".equalsIgnoreCase(rol)) {
+            // opciones que se le ocultan al vendedor
+            menuClientes.setVisible(false);       // No puede ver clientes
+            menuArchivo.setVisible(false);        // Oculta config/salir si no quieres que lo vean
+            menuconfig.setVisible(false);         // Específicamente Configuración
+            menuVerUsuarios.setVisible(false);
+            menuUsuarios.setVisible(false);
+
+        }
 
     }
+
+
+    @FXML
+    private Menu menuEstadisticas;
+
+    @FXML
+    private Menu menuFacturas;
+
+    @FXML
+    private Menu menuUsuarios;
+
+    @FXML
+    private MenuItem menuVerEstadisticas;
+
+    @FXML
+    private MenuItem menuVerUsuarios;
+
 
     @FXML
     private BorderPane root;
