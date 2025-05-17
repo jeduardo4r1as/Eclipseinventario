@@ -18,9 +18,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import org.postgresql.util.PSQLException;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.NumberFormat;
@@ -105,7 +110,10 @@ public class PagarController implements Initializable {
                             System.out.println(item.getCantidad() + ", " + item.getDescripcion() + ", " + item.getTalla() + ", " + item.getPrecioUnitario() + ", " + item.getTotal()); // <-- Agrega esto
                         }
 
-                        JRBeanCollectionDataSource tableDataSource = new JRBeanCollectionDataSource(datosTabla);
+                        InputStream logoStream = getClass().getResourceAsStream("/img/logo.jpeg"); // si está dentro de src/main/resources/images
+                        BufferedImage logo = ImageIO.read(logoStream);
+
+                        JRBeanArrayDataSource ds = new JRBeanArrayDataSource(datosTabla.toArray());
 
                         System.out.println("cargando......");
                         // Parámetros
@@ -120,19 +128,15 @@ public class PagarController implements Initializable {
                         parametros.put("subtotal", venta.getSubtotal());
                         parametros.put("iva", venta.getIva());
                         parametros.put("total", venta.getTotal());
-                        parametros.put("monto_en_letras", Metodos.NumeroEnLetras.convertir(venta.getTotal())); // si tienes método
+                        parametros.put("monto_en_letras", Metodos.NumeroEnLetras.convertir(venta.getTotal()));
+                        parametros.put("logo", logo);
                         System.out.println("carga datos");
-                        parametros.put("lista_detalle", tableDataSource);
-                        if (tableDataSource.getData().isEmpty()) {
-                            System.out.println("⚠️ El datasource está vacío.");
-                        } else {
-                            System.out.println("✅ El datasource tiene datos.");
-                        }
-                        System.out.println(" carga datos");
+                        parametros.put("ds", ds);
+
 
 
                         // Llenar el reporte
-                        JasperPrint jp = JasperFillManager.fillReport(jr, parametros, new JREmptyDataSource(1));
+                        JasperPrint jp = JasperFillManager.fillReport(jr, parametros,ds);
                         System.out.println("Reporte llenado."); // <-- Agrega esto
                         // Mostrarlo
                         JasperViewer viewer = new JasperViewer(jp, false);

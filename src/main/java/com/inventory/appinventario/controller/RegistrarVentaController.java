@@ -569,7 +569,9 @@ public class RegistrarVentaController implements Initializable {
                 System.out.println("Cliente seleccionado: " + nuevo);
             });
 
-            gridPane.add(comboCliente, 0, 1);
+            if (!gridPane.getChildren().contains(comboCliente)) {
+                gridPane.add(comboCliente, 0, 1);
+            }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
