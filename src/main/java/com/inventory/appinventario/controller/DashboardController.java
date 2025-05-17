@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
 public class DashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        
+
         String rol = Sesion.getRol(); // Se llama el rol del usaurio ingresado
 
         if ("VENDEDOR".equalsIgnoreCase(rol)) {

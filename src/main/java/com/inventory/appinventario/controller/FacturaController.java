@@ -17,14 +17,24 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
+
+//para que los valores se vean en peso colombiano
+import java.text.NumberFormat;
+import java.util.Locale;
+import javafx.scene.control.TableCell;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class FacturaController  implements Initializable {
 
@@ -54,6 +64,12 @@ public class FacturaController  implements Initializable {
     private TableColumn<Factura, Number> colTotal;
     @FXML
     private TableColumn<Factura, String> colFechaVenta;
+    @FXML
+    private TableColumn<Factura, Number> colIva;
+    @FXML
+    private TableColumn<Factura, Number> colSubTotal;
+    @FXML
+    private TableColumn<Factura, String> colVendedor;
 
     @FXML
     private AnchorPane root;
@@ -72,6 +88,10 @@ public class FacturaController  implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // Formato moneda colombiano sin decimales
+        NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
+        formatoMoneda.setMaximumFractionDigits(0);
+
         // 1. Configurar las columnas ────────────────
         colNombre.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getNombreCliente())
@@ -84,6 +104,16 @@ public class FacturaController  implements Initializable {
         );
         colTotal.setCellValueFactory(data ->
                 new SimpleDoubleProperty(data.getValue().getTotal())
+        );
+
+        colVendedor.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getVendedor())
+        );
+        colIva.setCellValueFactory(data ->
+                new SimpleDoubleProperty(data.getValue().getIva())
+        );
+        colSubTotal.setCellValueFactory(data ->
+                new SimpleDoubleProperty(data.getValue().getSubTotal())
         );
 
         // 2. Obtener los datos desde el DAO ─────────
@@ -104,6 +134,7 @@ public class FacturaController  implements Initializable {
 
     @FXML
     void verFacturas(ActionEvent event) {
+
         Factura facturaSeleccionada = tablaProductos.getSelectionModel().getSelectedItem();
 
         if (facturaSeleccionada == null) {
@@ -113,17 +144,17 @@ public class FacturaController  implements Initializable {
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/inventory/appinventario/FacturaDetalle.fxml"));
-
             Parent root = loader.load();
-
             // Pasar el número de factura al controlador del detalle
             FacturaDetalleController controller = loader.getController();
             controller.cargarFacturaDetalle(Integer.parseInt(String.valueOf(Integer.parseInt(facturaSeleccionada.getNumeroFactura()))));
 
             Stage stage = new Stage();
-            stage.setTitle("Detalle de Factura");
+            stage.setTitle("#" + facturaSeleccionada.getNumeroFactura());
             stage.setScene(new Scene(root));
+            stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/add_user.png")));
             stage.show();
+
 
         } catch (IOException e) {
             e.printStackTrace();

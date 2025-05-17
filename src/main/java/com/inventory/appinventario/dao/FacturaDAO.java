@@ -27,11 +27,16 @@ public class FacturaDAO {
         if (conn == null) {
             throw new SQLException("❌ No se pudo establecer conexión a la base de datos.");
         }
-
+//        SELECT c.nombrecliente, v.numerofactura, v.fechadeventa, v.total
+//        FROM cliente c
+//        INNER JOIN venta v ON c.idcliente = v.idcliente
         String sql = """
-            SELECT c.nombrecliente, v.numerofactura, v.fechadeventa, v.total
-            FROM cliente c
-            INNER JOIN venta v ON c.idcliente = v.idcliente
+                SELECT  v.numerofactura, c.nombrecliente, v.fechadeventa, u.nombre, v.totaliva as iva, v.subtotal, v.total\s
+                                    FROM cliente c
+                                    INNER JOIN venta v ON c.idcliente = v.idcliente
+                                    INNER JOIN usuario u on u.idusuario = v.idusuario\s
+                                    ORDER BY v.fechadeventa DESC
+            
         """;
 
         try (PreparedStatement pst = conn.prepareStatement(sql);
@@ -42,7 +47,10 @@ public class FacturaDAO {
                         rs.getString("nombrecliente"),
                         rs.getString("numerofactura"),
                         rs.getString("fechadeventa"),
-                        rs.getDouble("total")
+                        rs.getDouble("total"),
+                        rs.getString("nombre"),
+                        rs.getDouble("iva"),
+                        rs.getDouble("subtotal")
                 );
                 facturas.add(factura);
             }

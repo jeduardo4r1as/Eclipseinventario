@@ -17,7 +17,7 @@
             <children>
                 <HBox VBox.vgrow="ALWAYS">
                     <children>
-                        <ToolBar orientation="VERTICAL" prefHeight="40.0" style="-fx-background-color: linear-gradient(to bottom, #0f0f0f, #1c1c1c);">
+                        <ToolBar orientation="VERTICAL" prefHeight="40.0">
                             <items>
                                 <Button fx:id="btnListar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#listarFacturas" text="Listar">
                                     <graphic>
@@ -44,10 +44,13 @@
                                 </HBox>
                                 <TableView fx:id="tablaProductos" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn fx:id="colCodigo" prefWidth="144.0000228881836" text="NUMERO DE FACTURA" />
-                                        <TableColumn fx:id="colNombre" prefWidth="176.79998779296875" text="NOMBRE" />
-                                        <TableColumn fx:id="colFechaVenta" prefWidth="124.80007934570312" text="FECHA VENTA" />
-                              <TableColumn fx:id="colTotal" minWidth="7.20001220703125" prefWidth="102.4000244140625" text="TOTAL" />
+                                        <TableColumn fx:id="colCodigo" prefWidth="66.0" text="FACTURA" />
+                                        <TableColumn fx:id="colNombre" prefWidth="173.0" text="CLIENTE" />
+                                        <TableColumn fx:id="colFechaVenta" prefWidth="87.0" text="FECHA" />
+                              <TableColumn fx:id="colVendedor" prefWidth="164.0" text="VENDEDOR" />
+                              <TableColumn fx:id="colIva" minWidth="0.0" prefWidth="77.0" text="IVA" />
+                              <TableColumn fx:id="colSubTotal" minWidth="7.20001220703125" prefWidth="89.0" text="SUBTOTAL" />
+                              <TableColumn fx:id="colTotal" minWidth="7.20001220703125" prefWidth="143.0" text="TOTAL" />
                                     </columns>
                                 </TableView>
                             </children>

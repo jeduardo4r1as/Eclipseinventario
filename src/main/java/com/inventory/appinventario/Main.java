@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.apache.poi.poifs.property.Parent;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -33,6 +34,8 @@ public class Main extends Application {
         primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/productos.png")));
         primaryStage.setScene(new Scene(anchorPane));
 
+        primaryStage.setTitle("Login - Sistema Inventario ECLIPSE");
+        primaryStage.setResizable(false); // ← Esto impide redimensionar
         primaryStage.show();
     }
 
