@@ -1,78 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<HBox fx:id="root" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="635.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.LoginController">
-   <children>
-      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="86.0" HBox.hgrow="ALWAYS">
+<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to bottom, #0f0f0f, #1c1c1c);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.LoginController">
+
+    <children>
+
+        <!-- Panel de inicio de sesión -->
+        <VBox layoutX="400.0" layoutY="100.0" prefHeight="280.0" prefWidth="286.0" spacing="15" style="-fx-background-color: #1e1e1e; -fx-padding: 40; -fx-background-radius: 12;">
+            <children>
+                <Label prefHeight="27.0" prefWidth="231.0" style="-fx-font-size: 18px; -fx-text-fill: #d4af37;" text="SISTEMA DE INVENTARIO" textAlignment="CENTER" textFill="#cd1111">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+
+                <TextField fx:id="cjUsername" prefHeight="37.0" prefWidth="203.0" promptText="Usuario" style="-fx-background-color: #333; -fx-text-fill: white;" />
+                <PasswordField fx:id="cjPassword" prefHeight="39.0" prefWidth="245.0" promptText="Contraseña" style="-fx-background-color: #333; -fx-text-fill: white;" />
+
+                <HBox spacing="10" />
+
+                <Button fx:id="btnIniciar" onAction="#login" prefHeight="40.0" prefWidth="230.0" style="-fx-background-color: #d4af37; -fx-text-fill: black; -fx-font-weight: bold; -fx-background-radius: 6;" text="Iniciar" />
+            </children>
+        </VBox>
+      <Pane layoutX="91.0" layoutY="113.0" prefHeight="274.0" prefWidth="280.0">
          <children>
-            <FontIcon fill="#2c58d9" iconLiteral="fa-users" iconSize="150">
-               <VBox.margin>
-                  <Insets top="50.0" />
-               </VBox.margin>
-            </FontIcon>
-            <FontIcon iconColor="#2c58d9" iconLiteral="fa-cart-arrow-down" iconSize="150" wrappingWidth="160.08570861816406" />
-         </children></VBox>
-      <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="300.0">
-         <effect>
-            <DropShadow />
-         </effect>
-      </Separator>
-      <VBox prefHeight="400.0" prefWidth="331.0" HBox.hgrow="ALWAYS">
-         <children>
-            <GridPane prefHeight="400.0" prefWidth="415.0" VBox.vgrow="ALWAYS">
-              <columnConstraints>
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="143.20000457763672" minWidth="10.0" prefWidth="72.39998321533204" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.20001678466798" minWidth="10.0" prefWidth="202.39998779296872" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.19992065429688" minWidth="10.0" prefWidth="123.40001220703124" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="114.00000610351563" minHeight="10.0" prefHeight="108.4" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="59.600012207031256" minHeight="10.0" prefHeight="20.400000000000006" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Text fill="#2c58d9" strokeType="OUTSIDE" strokeWidth="0.0" text="SISTEMA DE INVENTARIO" wrappingWidth="317.59021776914597" GridPane.columnIndex="1" GridPane.columnSpan="2">
-                     <font>
-                        <Font name="System Bold" size="26.0" />
-                     </font>
-                  </Text>
-                  <TextField fx:id="cjUsername" prefHeight="26.0" prefWidth="325.0" promptText="Usuario" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
-                     <opaqueInsets>
-                        <Insets bottom="30.0" />
-                     </opaqueInsets>
-                  </TextField>
-                  <PasswordField fx:id="cjPassword" promptText="Contraseña" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-                  <CheckBox mnemonicParsing="false" prefHeight="18.0" prefWidth="146.0" text="Recordar contraseña" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                  <Button fx:id="btnIniciar" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="109.0" style="-fx-background-color: #2c58d9;" text="Iniciar" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                     <graphic>
-                     </graphic>
-                     <graphic>
-                        <FontIcon iconColor="WHITE" iconLiteral="fa-sign-in" iconSize="30" />
-                     </graphic>
-                  </Button>
-                  <FontIcon iconColor="#2c58d9" iconLiteral="fa-user" iconSize="50" wrappingWidth="41.31426239013672" GridPane.rowIndex="2" />
-                  <FontIcon iconColor="#2c58d9" iconLiteral="fa-unlock-alt" iconSize="50" wrappingWidth="38.54288101196289" GridPane.rowIndex="3" />
-               </children>
-            </GridPane>
+            <ImageView fitHeight="280.0" fitWidth="263.0" layoutX="1.0" layoutY="-8.0">
+               <image>
+                  <Image url="@../../../img/LogoEclipse.png" />
+               </image>
+            </ImageView>
          </children>
-      </VBox>
-   </children>
-</HBox>
+      </Pane>
+
+    </children>
+</AnchorPane>

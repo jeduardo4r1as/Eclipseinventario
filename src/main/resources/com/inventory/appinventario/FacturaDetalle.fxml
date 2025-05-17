@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="887.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.FacturaDetalleController">
+   <children>
+      <TableView fx:id="tablaDetalle" layoutX="75.0" layoutY="138.0" prefHeight="398.0" prefWidth="753.0">
+        <columns>
+          <TableColumn fx:id="colProducto" prefWidth="93.0" text="Producto" />
+            <TableColumn fx:id="colDescripcion" prefWidth="91.0" text="Descripcion" />
+            <TableColumn fx:id="colTalla" prefWidth="92.0" text="Talla" />
+          <TableColumn fx:id="colCantidad" prefWidth="94.0" text="Cantidad" />
+            <TableColumn fx:id="colPrecio" prefWidth="115.0" text="Precio Unitario" />
+            <TableColumn fx:id="colTipoPrecio" prefWidth="136.0" text="Tipo de precio" />
+            <TableColumn fx:id="colSubtotal" prefWidth="129.0" text="Subtotal" />
+        </columns>
+      </TableView>
+      <Label fx:id="idCliente" layoutX="190.0" layoutY="30.0" text="Cliente:" />
+      <Label fx:id="idFecha" layoutX="177.0" layoutY="60.0" text="Fecha:" />
+      <Label fx:id="idTotal" layoutX="170.0" layoutY="90.0" text="Total:" />
+      <Button fx:id="btnDescargarFactura" layoutX="660.0" layoutY="557.0" mnemonicParsing="false" onAction="#descargarPdf" text="Descargar" />
+      <Button fx:id="btnCancelar" layoutX="745.0" layoutY="557.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+      <Text layoutX="98.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Cliente" wrappingWidth="87.0" />
+      <Text layoutX="99.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha factura" />
+      <Text layoutX="98.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor Total" />
+   </children>
+</AnchorPane>

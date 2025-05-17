@@ -4,10 +4,7 @@ import animatefx.animation.Tada;
 import com.inventory.appinventario.dao.ClienteDAO;
 import com.inventory.appinventario.dao.ProductoDAO;
 import com.inventory.appinventario.model.*;
-import com.inventory.appinventario.util.ConexionBD;
-import com.inventory.appinventario.util.CurrencyCell;
-import com.inventory.appinventario.util.DoubleCell;
-import com.inventory.appinventario.util.SearchComboBox;
+import com.inventory.appinventario.util.*;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -159,6 +156,14 @@ public class RegistrarVentaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        String rol = Sesion.getRol();
+
+        if ("VENDEDOR".equalsIgnoreCase(rol)) {
+            // opciones que se le ocultan al vendedor
+            btnAgregarCliente.setVisible(false);
+
+        }
 
         btnPagar.disableProperty().bind(Bindings.isEmpty(listaPedido));
 

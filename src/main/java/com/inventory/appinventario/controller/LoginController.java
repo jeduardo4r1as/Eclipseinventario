@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -35,7 +36,7 @@ public class LoginController implements Initializable {
     private TextField cjUsername;
 
     @FXML
-    private HBox root;
+    private AnchorPane root;
 
     private ConexionBD conexionBD;
     private UsuarioDAO usuarioDAO;
