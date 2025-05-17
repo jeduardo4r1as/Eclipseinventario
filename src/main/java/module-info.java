@@ -19,5 +19,6 @@ module com.inventory.appinventario {
     exports com.inventory.appinventario;
     exports com.inventory.appinventario.model;
     exports com.inventory.appinventario.controller;
+    exports com.inventory.appinventario.util;
     opens com.inventory.appinventario.controller to javafx.fxml;
 }

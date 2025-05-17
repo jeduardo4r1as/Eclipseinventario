@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JRDesignField;
 import net.sf.jasperreports.view.JasperViewer;
 import org.postgresql.util.PSQLException;
 
@@ -75,7 +76,7 @@ public class PagarController implements Initializable {
 
         if (event.getCode() == KeyCode.ENTER) {
 
-            if (getValor() < totalaPagar) {
+            if (getValor() < totalaPagariva) {
                 org.controlsfx.control.Notifications.create().title("Aviso").text("Ingrese un valor mayor o igual al total a pagar").position(Pos.CENTER).showWarning();
                 return;
             }
@@ -104,16 +105,26 @@ public class PagarController implements Initializable {
                                     d.getTotal()
                             ));
                         }
-
-                        System.out.println("Contenido de datosTabla:"); // <-- Agrega esto
-                        for (ItemFacturaDTO item : datosTabla) { // <-- Agrega esto
-                            System.out.println(item.getCantidad() + ", " + item.getDescripcion() + ", " + item.getTalla() + ", " + item.getPrecioUnitario() + ", " + item.getTotal()); // <-- Agrega esto
+                        System.out.println("Contenido de datosTabla:");
+                        for (ItemFacturaDTO item : datosTabla) {
+                            System.out.println(item.getCantidad() + ", " + item.getDescripcion() + ", " + item.getTalla() + ", " + item.getPrecioUnitario() + ", " + item.getTotal());
                         }
+
+                        // ⚠️ Solo ahora conviértelo en array
+                        ItemFacturaDTO[] arrayDatos = datosTabla.toArray(new ItemFacturaDTO[0]);
+
+                        System.out.println("📦 El DataSource final contiene " + arrayDatos.length + " elementos.");
+
+                        // ⚠️ Y solo ahora crea el datasource
+                        JRBeanArrayDataSource ds = new JRBeanArrayDataSource(arrayDatos);
+
+
 
                         InputStream logoStream = getClass().getResourceAsStream("/img/logo.jpeg"); // si está dentro de src/main/resources/images
                         BufferedImage logo = ImageIO.read(logoStream);
 
-                        JRBeanArrayDataSource ds = new JRBeanArrayDataSource(datosTabla.toArray());
+
+
 
                         System.out.println("cargando......");
                         // Parámetros
@@ -130,14 +141,12 @@ public class PagarController implements Initializable {
                         parametros.put("total", venta.getTotal());
                         parametros.put("monto_en_letras", Metodos.NumeroEnLetras.convertir(venta.getTotal()));
                         parametros.put("logo", logo);
-                        System.out.println("carga datos");
                         parametros.put("ds", ds);
-
+                        System.out.println("carga datos");
 
 
                         // Llenar el reporte
-                        JasperPrint jp = JasperFillManager.fillReport(jr, parametros,ds);
-                        System.out.println("Reporte llenado."); // <-- Agrega esto
+                        JasperPrint jp = JasperFillManager.fillReport(jr, parametros, new JREmptyDataSource());                        System.out.println("Reporte llenado."); // <-- Agrega esto
                         // Mostrarlo
                         JasperViewer viewer = new JasperViewer(jp, false);
                         viewer.setTitle("Factura Eclipse");
@@ -161,7 +170,7 @@ public class PagarController implements Initializable {
     @FXML
     private void cjValorIngresokeyReleased(KeyEvent event) {
         double pagar = getValor();
-        txtCambio.setText(format.format((pagar - this.totalaPagar)));
+        txtCambio.setText(format.format((pagar - this.totalaPagariva)));
     }
 
     public double getValor() {
