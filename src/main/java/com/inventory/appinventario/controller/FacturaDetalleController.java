@@ -1,6 +1,7 @@
 package com.inventory.appinventario.controller;
 
 import com.inventory.appinventario.model.DetalleFactura;
+import com.inventory.appinventario.util.ItemFacturaDTO;
 import com.inventory.appinventario.util.ConexionBD;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,9 +13,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -29,6 +33,8 @@ public class FacturaDetalleController {
     @FXML private Label idCliente;
     @FXML private Label idFecha;
     @FXML private Label idTotal;
+    @FXML private Label idCelular;
+    @FXML private Label idDireccion;
 
     @FXML private TableView<DetalleFactura> tablaDetalle;
     @FXML private TableColumn<DetalleFactura, String> colProducto;
@@ -38,6 +44,7 @@ public class FacturaDetalleController {
     @FXML private TableColumn<DetalleFactura, String> colDescripcion;
     @FXML private TableColumn<DetalleFactura, String> colTalla;
     @FXML private TableColumn<DetalleFactura, String> colTipoPrecio;
+
 
     @FXML private Button btnDescargarFactura;
 
@@ -50,7 +57,7 @@ public class FacturaDetalleController {
         ObservableList<DetalleFactura> detalles = FXCollections.observableArrayList();
 
         String sql = """
-            SELECT c.nombrecliente, v.fechadeventa, v.total,
+            SELECT c.nombrecliente, c.telefonocliente, c.direccioncliente, v.fechadeventa, v.total,
                    p.nombreproducto, p.descripcion, p.talla,
                    dv.cantidad, dv.preciodeventa, dv.tipoprecio
             FROM venta v
@@ -70,6 +77,8 @@ public class FacturaDetalleController {
                 if (firstRow) {
                     idCliente.setText(rs.getString("nombrecliente"));
                     idFecha.setText(rs.getString("fechadeventa"));
+                    idDireccion.setText(rs.getString("direccioncliente"));
+                    idCelular.setText(rs.getString("telefonocliente"));
                     idTotal.setText(String.valueOf(rs.getDouble("total")));
                     firstRow = false;
                 }
@@ -81,7 +90,11 @@ public class FacturaDetalleController {
                         rs.getDouble("cantidad") * rs.getDouble("preciodeventa"),
                         rs.getString("tipoprecio"),
                         rs.getString("descripcion"),
-                        rs.getString("talla")
+                        rs.getString("talla"),
+                        rs.getDouble("total"),
+                        rs.getString("telefonocliente"),
+                        rs.getString("direccioncliente")
+
                 );
 
                 detalles.add(detalle);
@@ -106,39 +119,55 @@ public class FacturaDetalleController {
     }
 
     @FXML
-    public void descargarPdf(javafx.event.ActionEvent actionEvent) {
+    public void descargarPdf(ActionEvent actionEvent) {
         try {
             InputStream input = getClass().getResourceAsStream("/reports/FacturaEclipse.jrxml");
             if (input == null) throw new FileNotFoundException("No se encontró el archivo FacturaEclipse.jrxml");
 
             JasperReport reporte = JasperCompileManager.compileReport(input);
 
-            // Parámetros del encabezado
+            // 📌 Convertir DetalleFactura a ItemFacturaDTO
+            List<ItemFacturaDTO> productos = new ArrayList<>();
+            for (DetalleFactura d : tablaDetalle.getItems()) {
+                productos.add(new ItemFacturaDTO(
+                         d.getCantidad(),
+                        d.getDescripcion(),
+                        d.getTalla(),
+                        d.getPreciodeventa(),
+                        d.getTotal()
+                ));
+            }
+
+            JRBeanArrayDataSource ds = new JRBeanArrayDataSource(productos.toArray());
+
+            // Parámetros
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("cliente_nombre", idCliente.getText());
-            parametros.put("cliente_direccion", "Pitalito Huila");
-            parametros.put("cliente_telefono", "3222844551");
+            parametros.put("cliente_direccion", idDireccion.getText());
+            parametros.put("cliente_telefono", idCelular.getText());
 
             java.sql.Date fechaSql = java.sql.Date.valueOf(idFecha.getText().substring(0, 10));
             parametros.put("fecha_emision", fechaSql);
             parametros.put("fecha_creacion", fechaSql);
             parametros.put("forma_pago", "Contado");
-            parametros.put("numero_factura", String.valueOf(numeroFacturaGlobal));
+            parametros.put("numero_factura", "FV-" + numeroFacturaGlobal);
+            InputStream logoStream = getClass().getResourceAsStream("/img/logo.jpeg"); // si está dentro de src/main/resources/images
+            BufferedImage logo = ImageIO.read(logoStream);
+            parametros.put("logo", logo);
 
-            // Cálculo monetario
-            List<DetalleFactura> productos = tablaDetalle.getItems();
-            double subtotal = productos.stream().mapToDouble(DetalleFactura::getSubtotal).sum();
+            double subtotal = productos.stream().mapToDouble(ItemFacturaDTO::getTotal).sum() / 1.19;
             double iva = subtotal * 0.19;
             double total = subtotal + iva;
 
             parametros.put("subtotal", subtotal);
             parametros.put("iva", iva);
             parametros.put("total", total);
-            parametros.put("monto_en_letras", "Son: " + total + " pesos"); // Reemplazar por utilidad si deseas convertir a texto
+            parametros.put("monto_en_letras", "Son: " + total + " pesos");
 
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(productos);
+            parametros.put("ds", ds); // 📌 muy importante para la tabla
 
-            JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, dataSource);
+            // Generar PDF
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, new JREmptyDataSource());
             String archivo = "Factura_" + numeroFacturaGlobal + ".pdf";
             JasperExportManager.exportReportToPdfFile(jasperPrint, archivo);
 
@@ -151,10 +180,8 @@ public class FacturaDetalleController {
             e.printStackTrace();
             System.out.println("Error al generar el PDF.");
         }
-
-      
-
     }
+
 
     public void cancelar(ActionEvent actionEvent) {
 
