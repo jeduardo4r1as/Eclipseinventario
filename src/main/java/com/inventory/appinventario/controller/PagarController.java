@@ -90,9 +90,8 @@ public class PagarController implements Initializable {
                     if ( (idventa=ventaDAO.guardar(this.venta)) > 0 ) {
                         com.inventory.appinventario.util.Metodos.closeEffect(root);
 
-                        System.out.println("Intentando generar el reporte...");
                         // Cargar el archivo .jrxml o .jasper
-                        JasperReport jr = JasperCompileManager.compileReport(getClass().getResourceAsStream("/reports/FacturaEclipse.jrxml"));
+                        JasperReport jr = JasperCompileManager.compileReport(getClass().getResourceAsStream("/reports/FacturaEclipse_80mm.jrxml"));
 
                         List<ItemFacturaDTO> datosTabla = new ArrayList<>();
 
@@ -105,17 +104,14 @@ public class PagarController implements Initializable {
                                     d.getTotal()
                             ));
                         }
-                        System.out.println("Contenido de datosTabla:");
-                        for (ItemFacturaDTO item : datosTabla) {
-                            System.out.println(item.getCantidad() + ", " + item.getDescripcion() + ", " + item.getTalla() + ", " + item.getPrecioUnitario() + ", " + item.getTotal());
-                        }
 
-                        // ⚠️ Solo ahora conviértelo en array
+
+                        // Solo ahora conviértelo en array
                         ItemFacturaDTO[] arrayDatos = datosTabla.toArray(new ItemFacturaDTO[0]);
 
-                        System.out.println("📦 El DataSource final contiene " + arrayDatos.length + " elementos.");
 
-                        // ⚠️ Y solo ahora crea el datasource
+
+                        // Y solo ahora crea el datasource
                         JRBeanArrayDataSource ds = new JRBeanArrayDataSource(arrayDatos);
 
 
@@ -124,9 +120,6 @@ public class PagarController implements Initializable {
                         BufferedImage logo = ImageIO.read(logoStream);
 
 
-
-
-                        System.out.println("cargando......");
                         // Parámetros
                         Map<String, Object> parametros = new HashMap<>();
                         parametros.put("cliente_nombre", venta.getCliente().getNombrecliente());
