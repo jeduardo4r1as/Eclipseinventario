@@ -27,15 +27,13 @@ public class FacturaDAO {
         if (conn == null) {
             throw new SQLException("❌ No se pudo establecer conexión a la base de datos.");
         }
-//        SELECT c.nombrecliente, v.numerofactura, v.fechadeventa, v.total
-//        FROM cliente c
-//        INNER JOIN venta v ON c.idcliente = v.idcliente
+
         String sql = """
-                SELECT  v.numerofactura, c.nombrecliente, v.fechadeventa, u.nombre, v.totaliva as iva, v.subtotal, v.total\s
-                                    FROM cliente c
-                                    INNER JOIN venta v ON c.idcliente = v.idcliente
-                                    INNER JOIN usuario u on u.idusuario = v.idusuario\s
-                                    ORDER BY v.fechadeventa DESC
+                SELECT  v.numerofactura, c.nombrecliente, c.correo,  v.fechadeventa, u.nombre, v.totaliva as iva, v.subtotal, v.total
+                                                            FROM cliente c
+                                                            INNER JOIN venta v ON c.idcliente = v.idcliente
+                                                            INNER JOIN usuario u on u.idusuario = v.idusuario
+                                                            ORDER BY v.fechadeventa DESC
             
         """;
 
@@ -44,13 +42,14 @@ public class FacturaDAO {
 
             while (rs.next()) {
                 Factura factura = new Factura(
-                        rs.getString("nombrecliente"),
-                        rs.getString("numerofactura"),
-                        rs.getString("fechadeventa"),
-                        rs.getDouble("total"),
-                        rs.getString("nombre"),
-                        rs.getDouble("iva"),
-                        rs.getDouble("subtotal")
+                        rs.getString("nombrecliente"),     // nombreCliente
+                        rs.getString("correo"),            // correo
+                        rs.getString("numerofactura"),     // numeroFactura
+                        rs.getString("fechadeventa"),      // fechaDeVenta
+                        rs.getDouble("total"),             // total
+                        rs.getString("nombre"),            // vendedor
+                        rs.getDouble("iva"),                // iva
+                        rs.getDouble("subTotal")                // iva
                 );
                 facturas.add(factura);
             }

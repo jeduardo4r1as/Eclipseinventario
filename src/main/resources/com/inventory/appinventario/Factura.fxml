@@ -29,6 +29,11 @@
                                         <FontIcon iconColor="#d4af37" iconLiteral="fa-edit" iconSize="22" />
                                     </graphic>
                                 </Button>
+                        <Button fx:id="btnEnviar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#enviarFactura" text="Enviar">
+                           <graphic>
+                              <FontIcon iconColor="#d4af37" iconLiteral="fa-edit" iconSize="22" />
+                           </graphic>
+                        </Button>
                             </items>
                         </ToolBar>
                         <VBox prefHeight="400.0" prefWidth="578.0" HBox.hgrow="ALWAYS">
@@ -46,11 +51,12 @@
                                     <columns>
                                         <TableColumn fx:id="colCodigo" prefWidth="66.0" text="FACTURA" />
                                         <TableColumn fx:id="colNombre" prefWidth="173.0" text="CLIENTE" />
-                                        <TableColumn fx:id="colFechaVenta" prefWidth="87.0" text="FECHA" />
-                              <TableColumn fx:id="colVendedor" prefWidth="164.0" text="VENDEDOR" />
-                              <TableColumn fx:id="colIva" minWidth="0.0" prefWidth="77.0" text="IVA" />
-                              <TableColumn fx:id="colSubTotal" minWidth="7.20001220703125" prefWidth="89.0" text="SUBTOTAL" />
-                              <TableColumn fx:id="colTotal" minWidth="7.20001220703125" prefWidth="143.0" text="TOTAL" />
+                              <TableColumn fx:id="colCorreo" prefWidth="67.0" text="CORREO" />
+                                        <TableColumn fx:id="colFechaVenta" prefWidth="79.0" text="FECHA" />
+                              <TableColumn fx:id="colVendedor" prefWidth="118.0" text="VENDEDOR" />
+                              <TableColumn fx:id="colIva" minWidth="0.0" prefWidth="54.0" text="IVA" />
+                              <TableColumn fx:id="colSubTotal" minWidth="7.20001220703125" prefWidth="100.0" text="SUBTOTAL" />
+                              <TableColumn fx:id="colTotal" minWidth="7.20001220703125" prefWidth="129.0" text="TOTAL" />
                                     </columns>
                                 </TableView>
                             </children>

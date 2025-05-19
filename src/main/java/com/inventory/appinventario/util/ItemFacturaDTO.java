@@ -54,5 +54,6 @@ public class ItemFacturaDTO {
     public void setTotal(Double total) {
         this.total = total;
     }
+
 }
 
