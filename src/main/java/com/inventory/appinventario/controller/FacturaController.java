@@ -410,9 +410,5 @@ public class FacturaController  implements Initializable {
 
     }
 
-    @FXML
-    void GenerarPdf(ActionEvent event) {
-
-    }
 }
 

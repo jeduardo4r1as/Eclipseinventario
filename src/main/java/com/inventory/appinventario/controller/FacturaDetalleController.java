@@ -157,12 +157,10 @@ public class FacturaDetalleController {
             BufferedImage logo = ImageIO.read(logoStream);
             parametros.put("logo", logo);
 
-            double subtotal = productos.stream().mapToDouble(ItemFacturaDTO::getTotal).sum();
-            System.out.println(subtotal);
+            double subtotal = productos.stream().mapToDouble(ItemFacturaDTO::getTotal).sum() * productos.stream().mapToDouble(ItemFacturaDTO::getCantidad).sum() ;
             double iva = subtotal * 0.19;
-            System.out.println(iva);
-            double total = productos.stream().mapToDouble(ItemFacturaDTO::getTotal).sum() + iva;
-            System.out.println(total);
+            double total = subtotal + iva;
+
 
             parametros.put("subtotal", subtotal);
             parametros.put("iva", iva);
