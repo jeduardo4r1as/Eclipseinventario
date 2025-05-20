@@ -165,7 +165,9 @@
 			</staticText>
 			<staticText>
 				<reportElement x="350" y="110" width="194" height="20" uuid="c4411c29-cbab-4d8f-b877-d966a1d6e4d5"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[FACTURA]]></text>
 			</staticText>
 			<staticText>

@@ -2,6 +2,7 @@ package com.inventory.appinventario.dao;
 
 import com.inventory.appinventario.model.Producto;
 import com.inventory.appinventario.util.ConexionBD;
+import javafx.geometry.Pos;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -51,39 +52,95 @@ public class ProductoDAO {
 
   }
 
-  public int guardar(Producto pro) throws SQLException {
-      String sql = "";
-      if (pro.getIdproducto() == 0) {
-          sql = "INSERT INTO producto ( ";
-          sql += " codigodebarras, referencia, nombreproducto, stock, stockminimo, descripcion, talla, genero, estado, fechaderegistro, precio_unitario, precio_mayorista, precio_distribuidor, imagen ";
-          sql += ") VALUES (";
-          sql += " '"+pro.getCodigodebarras()+"' , '"+pro.getReferencia()+"' , '"+pro.getNombreproducto()+"' , '"+pro.getStock()+"' , ";
-          sql += " '"+pro.getStockminimo()+"' , '"+pro.getDescripcion()+"' , '"+pro.getTalla()+"' , '"+pro.getGenero()+"' , 'ACTIVO' , '"+pro.getFechaderegistro()+"',"+pro.getPreciounitario()+" , "+pro.getPreciomayorista()+","+pro.getPreciodistribuidor();
-          sql += ", ? ";
-          sql += ")";
-      } else {
-          sql = "UPDATE producto SET \n"
-                  + "	codigodebarras='"+pro.getCodigodebarras()+"', referencia='"+pro.getReferencia()+"', nombreproducto='"+pro.getNombreproducto()+"', \n"
-                  + " stock=" + pro.getStock() + ", "+"stockminimo="+pro.getStockminimo()+", descripcion='"+pro.getDescripcion()+"', talla='"+pro.getTalla()+"', genero='"+pro.getGenero()+"', precio_unitario="+pro.getPreciounitario()+", \n"
-                  + "precio_mayorista="+pro.getPreciomayorista()+", precio_distribuidor="+pro.getPreciodistribuidor()+" \n"
-                  +" , imagen=? WHERE idproducto="+pro.getIdproducto()+";";
-      }
+    public int guardar(Producto pro) throws SQLException {
+        // Validar si ya existe un producto con mismo nombre y talla (excepto si es el mismo id)
+        if (existeProductoConNombreYTalla(pro.getNombreproducto(), pro.getTalla(), pro.getIdproducto(), pro.getGenero())) {
+            org.controlsfx.control.Notifications.create()
+                    .title("Aviso")
+                    .text("No se pudo guardar el producto.\nYa existe un ítem con el mismo nombre, talla y género.\nSi deseas guardarlo, usa una talla diferente.")
+                    .position(Pos.CENTER)
+                    .showError();
+            return -1;
+        }
 
-      PreparedStatement pst = conexionbd.getConexion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-      pst.setBytes(1, pro.getImagen());
+        String sql;
+        boolean esNuevo = (pro.getIdproducto() == 0);
 
-      int insert = pst.executeUpdate();
-      if (pro.getIdproducto() == 0) {
-          ResultSet rs = pst.getGeneratedKeys();
-          rs.next();
-          insert = rs.getInt(1);
-          rs.close();
-      }
-      pst.close();
-      return insert;
+        if (esNuevo) {
+            sql = "INSERT INTO producto (codigodebarras, referencia, nombreproducto, stock, stockminimo, descripcion, talla, genero, estado, fechaderegistro, precio_unitario, precio_mayorista, precio_distribuidor, imagen) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ACTIVO', ?, ?, ?, ?, ?)";
+        } else {
+            sql = "UPDATE producto SET codigodebarras=?, referencia=?, nombreproducto=?, stock=?, stockminimo=?, descripcion=?, talla=?, genero=?, "
+                    + "precio_unitario=?, precio_mayorista=?, precio_distribuidor=?, imagen=? WHERE idproducto=?";
+        }
 
-  }
+        PreparedStatement pst = conexionbd.getConexion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+        if (esNuevo) {
+            pst.setString(1, pro.getCodigodebarras());
+            pst.setString(2, pro.getReferencia());
+            pst.setString(3, pro.getNombreproducto());
+            pst.setDouble(4, pro.getStock());
+            pst.setDouble(5, pro.getStockminimo());
+            pst.setString(6, pro.getDescripcion());
+            pst.setString(7, pro.getTalla());
+            pst.setString(8, pro.getGenero());
+            pst.setDate(9, java.sql.Date.valueOf(pro.getFechaderegistro().toLocalDate())); // Asegúrate que sea LocalDate
+            pst.setDouble(10, pro.getPreciounitario());
+            pst.setDouble(11, pro.getPreciomayorista());
+            pst.setDouble(12, pro.getPreciodistribuidor());
+            pst.setBytes(13, pro.getImagen());
+        } else {
+            pst.setString(1, pro.getCodigodebarras());
+            pst.setString(2, pro.getReferencia());
+            pst.setString(3, pro.getNombreproducto());
+            pst.setDouble(4, pro.getStock());
+            pst.setDouble(5, pro.getStockminimo());
+            pst.setString(6, pro.getDescripcion());
+            pst.setString(7, pro.getTalla());
+            pst.setString(8, pro.getGenero());
+            pst.setDouble(9, pro.getPreciounitario());
+            pst.setDouble(10, pro.getPreciomayorista());
+            pst.setDouble(11, pro.getPreciodistribuidor());
+            pst.setBytes(12, pro.getImagen());
+            pst.setInt(13, pro.getIdproducto());
+        }
+
+        int resultado = pst.executeUpdate();
+
+        if (esNuevo) {
+            ResultSet rs = pst.getGeneratedKeys();
+            if (rs.next()) {
+                resultado = rs.getInt(1);
+            }
+            rs.close();
+        }
+
+        pst.close();
+        return resultado;
+    }
+
+
+    private boolean existeProductoConNombreYTalla(String nombre, String talla, int idProducto, String genero) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM producto WHERE nombreproducto = ? AND talla = ? AND genero = ? AND idproducto != ?";
+
+        PreparedStatement pst = conexionbd.getConexion().prepareStatement(sql);
+        pst.setString(1, nombre);
+        pst.setString(2, talla);
+        pst.setString(3, genero);
+        pst.setInt(4, idProducto); // Para que al editar no se compare consigo mismo
+
+
+        ResultSet rs = pst.executeQuery();
+        rs.next();
+        int count = rs.getInt(1);
+
+        rs.close();
+        pst.close();
+
+        return count > 0;
+    }
 
     public Producto getById(int idproducto) throws SQLException {
         Producto p = null;
