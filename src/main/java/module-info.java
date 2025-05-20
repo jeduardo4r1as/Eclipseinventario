@@ -12,6 +12,7 @@ module com.inventory.appinventario {
     requires webcam.capture;
     requires org.apache.poi.ooxml;
     requires jasperreports;
+    requires java.mail;
 
 
     opens com.inventory.appinventario to javafx.fxml;

@@ -32,6 +32,14 @@
             <version>${log4j.version}</version>
         </dependency>
 
+        <!-- correo -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+
         <!-- JasperReports -->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>

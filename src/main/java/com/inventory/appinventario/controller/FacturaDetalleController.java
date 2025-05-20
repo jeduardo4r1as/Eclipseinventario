@@ -3,6 +3,7 @@ package com.inventory.appinventario.controller;
 import com.inventory.appinventario.model.DetalleFactura;
 import com.inventory.appinventario.util.ItemFacturaDTO;
 import com.inventory.appinventario.util.ConexionBD;
+import com.inventory.appinventario.util.Metodos;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -134,7 +135,8 @@ public class FacturaDetalleController {
                         d.getDescripcion(),
                         d.getTalla(),
                         d.getPreciodeventa(),
-                        d.getTotal()
+                        d.getPreciodeventa()
+                        //d.getSubtotal()
                 ));
             }
 
@@ -155,14 +157,15 @@ public class FacturaDetalleController {
             BufferedImage logo = ImageIO.read(logoStream);
             parametros.put("logo", logo);
 
-            double subtotal = productos.stream().mapToDouble(ItemFacturaDTO::getTotal).sum() / 1.19;
+            double subtotal = productos.stream().mapToDouble(ItemFacturaDTO::getTotal).sum() * productos.stream().mapToDouble(ItemFacturaDTO::getCantidad).sum() ;
             double iva = subtotal * 0.19;
             double total = subtotal + iva;
+
 
             parametros.put("subtotal", subtotal);
             parametros.put("iva", iva);
             parametros.put("total", total);
-            parametros.put("monto_en_letras", "Son: " + total + " pesos");
+            parametros.put("monto_en_letras", Metodos.NumeroEnLetras.convertir(total));
 
             parametros.put("ds", ds); // 📌 muy importante para la tabla
 
