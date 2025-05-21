@@ -38,7 +38,6 @@ public class DashboardController implements Initializable {
         if ("VENDEDOR".equalsIgnoreCase(rol)) {
             // opciones que se le ocultan al vendedor
             menuClientes.setVisible(false);       // No puede ver clientes
-            menuArchivo.setVisible(false);        // Oculta config/salir si no quieres que lo vean
             menuconfig.setVisible(false);         // Específicamente Configuración
             menuVerUsuarios.setVisible(false);
             menuUsuarios.setVisible(false);
