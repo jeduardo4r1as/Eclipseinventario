@@ -31,7 +31,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         AnchorPane anchorPane = fxmlLoader.load(getClass().getResource("Login.fxml"));
-        primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/productos.png")));
+        primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/logo.jpeg")));
         primaryStage.setScene(new Scene(anchorPane));
 
         primaryStage.setTitle("Login - Sistema Inventario ECLIPSE");

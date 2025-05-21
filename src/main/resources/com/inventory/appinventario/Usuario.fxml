@@ -11,37 +11,37 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.UsuarioController">
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #707280;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.UsuarioController">
     <children>
         <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <HBox VBox.vgrow="ALWAYS">
                     <children>
-                        <ToolBar orientation="VERTICAL" prefHeight="40.0" style="-fx-background-color: linear-gradient(to bottom, #0f0f0f, #1c1c1c);">
+                        <ToolBar orientation="VERTICAL" prefHeight="40.0" style="-fx-background-color: #707280;">
                             <items>
-                                <Button fx:id="btnListar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#listarUsuarios" text="Listar">
+                                <Button fx:id="btnListar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#listarUsuarios" style="-fx-background-color: #25d366;" text="Listar" textFill="WHITE">
                                     <graphic>
-                                        <FontIcon iconColor="#d4af37" iconLiteral="fa-refresh" iconSize="22" />
+                                        <FontIcon iconColor="WHITE" iconLiteral="fa-refresh" iconSize="22" />
                                     </graphic>
                                 </Button>
-                                <Button fx:id="btnNuevo" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" onAction="#nuevoUsuario" text="Nuevo">
+                                <Button fx:id="btnNuevo" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" onAction="#nuevoUsuario" style="-fx-background-color: #25d366;" text="Nuevo" textFill="WHITE">
                                     <graphic>
-                                        <FontIcon iconColor="#d4af37" iconLiteral="fa-tag" iconSize="22" />
+                                        <FontIcon iconColor="WHITE" iconLiteral="fa-tag" iconSize="22" />
                                     </graphic>
                                 </Button>
-                                <Button fx:id="btnEditar" contentDisplay="TOP" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#editarUsuario" text="Editar">
+                                <Button fx:id="btnEditar" contentDisplay="TOP" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#editarUsuario" style="-fx-background-color: #25d366;" text="Editar" textFill="WHITE">
                                     <graphic>
-                                        <FontIcon iconColor="#d4af37" iconLiteral="fa-edit" iconSize="22" />
+                                        <FontIcon iconColor="WHITE" iconLiteral="fa-edit" iconSize="22" />
                                     </graphic>
                                 </Button>
-                                <Button fx:id="btnBorrar" contentDisplay="TOP" layoutX="10.0" layoutY="120.0" maxWidth="1.7976931348623157E308" onAction="#borrarUsuario" text="Desactivar">
+                                <Button fx:id="btnBorrar" contentDisplay="TOP" layoutX="10.0" layoutY="120.0" maxWidth="1.7976931348623157E308" onAction="#borrarUsuario" style="-fx-background-color: #dc3545;" text="Desactivar" textFill="WHITE">
                                     <graphic>
-                                        <FontIcon iconColor="#d4af37" iconLiteral="fa-trash-o" iconSize="22" />
+                                        <FontIcon iconColor="WHITE" iconLiteral="fa-trash-o" iconSize="22" />
                                     </graphic>
                                 </Button>
-                        <Button fx:id="btnActivar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#ActivarUsuario" text="Activar">
+                        <Button fx:id="btnActivar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#ActivarUsuario" style="-fx-background-color: #3b83bd;" text="Activar" textFill="WHITE">
                            <graphic>
-                              <FontIcon iconColor="#d4af37" iconLiteral="fa-edit" iconSize="22" />
+                              <FontIcon iconColor="WHITE" iconLiteral="fa-edit" iconSize="22" />
                            </graphic>
                         </Button>
                             </items>
@@ -53,8 +53,11 @@
                                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                     </VBox.margin>
                                 </TextField>
-                                <HBox alignment="TOP_RIGHT" spacing="5">
+                                <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="519.0" spacing="5">
                                     <Button fx:id="btnExcel" onAction="#GenerarExcel" prefWidth="80" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="Excel" />
+                           <VBox.margin>
+                              <Insets right="5.0" />
+                           </VBox.margin>
                                 </HBox>
                                 <TableView fx:id="tablaUsuarios" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                     <columns>

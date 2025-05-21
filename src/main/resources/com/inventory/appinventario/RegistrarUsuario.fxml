@@ -18,7 +18,7 @@
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="568.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.RegistrarUsuarioController">
    <children>
-      <HBox fx:id="header" prefWidth="200.0" style="-fx-background-color: #536dfe;">
+      <HBox fx:id="header" prefWidth="200.0" style="-fx-background-color: #3b83bd;">
          <children>
             <Text fx:id="txtUsuario" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrar Usuario" wrappingWidth="556.8866882324219">
                <font>

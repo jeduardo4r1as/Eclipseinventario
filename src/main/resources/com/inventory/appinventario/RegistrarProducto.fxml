@@ -17,7 +17,7 @@
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="871.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.RegistrarProductoController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#536dfe" height="58.0" stroke="WHITE" strokeType="INSIDE" width="871.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3b83bd" height="58.0" stroke="WHITE" strokeType="INSIDE" width="871.0" />
         <FontIcon fill="WHITE" iconLiteral="fa-tags" iconSize="30" layoutX="14.0" layoutY="44.0" />
         <Text fill="WHITE" layoutX="55.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrar Producto">
             <font>
@@ -77,7 +77,7 @@
             <TextField fx:id="cjpreciomayorista" GridPane.rowIndex="19" />
             <Label text="Precio distribuidor:" GridPane.rowIndex="20" />
             <TextField fx:id="cjpreciodistribuidor" GridPane.rowIndex="21" />
-                <Button fx:id="btnGuardar" onAction="#guardar" style="-fx-background-color: #536dfe;" text="Guardar" textFill="WHITE" GridPane.halignment="LEFT" GridPane.rowIndex="22">
+                <Button fx:id="btnGuardar" onAction="#guardar" style="-fx-background-color: #25d366;" text="Guardar" textFill="WHITE" GridPane.halignment="LEFT" GridPane.rowIndex="22">
                     <graphic>
                         <FontIcon fill="WHITE" iconColor="WHITE" iconLiteral="fa-save" iconSize="25" />
                     </graphic>
@@ -90,7 +90,7 @@
                         <Image url="@../../../img/productos.png" />
                     </image>
                 </ImageView>
-                <Button fx:id="btnTomarFoto" layoutX="192.0" layoutY="474.0" onAction="#abrirCamara" style="-fx-background-color: #536dfe;" text="Tomar foto" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="22">
+                <Button fx:id="btnTomarFoto" layoutX="192.0" layoutY="474.0" onAction="#abrirCamara" style="-fx-background-color: #25d366;" text="Tomar foto" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="22">
                     <graphic>
                         <FontIcon fill="WHITE" iconColor="WHITE" iconLiteral="fa-camera" iconSize="25" />
                     </graphic>
@@ -98,7 +98,7 @@
                         <Font name="System Bold" size="18.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnBuscarImagen" onAction="#buscarImagen" style="-fx-background-color: #536dfe;" text="Buscar imagen" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="22">
+                <Button fx:id="btnBuscarImagen" onAction="#buscarImagen" style="-fx-background-color: #25d366;" text="Buscar imagen" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="22">
                     <graphic>
                         <FontIcon fill="WHITE" iconColor="WHITE" iconLiteral="fa-file-photo-o" iconSize="25" onDragDetected="#buscarImagen" />
                     </graphic>

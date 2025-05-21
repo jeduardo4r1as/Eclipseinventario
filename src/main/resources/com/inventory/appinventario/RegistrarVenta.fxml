@@ -70,9 +70,9 @@
                 </VBox>
             </center>
             <top>
-                <HBox alignment="CENTER_LEFT" prefHeight="69.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to bottom, #0f0f0f, #1c1c1c);" BorderPane.alignment="CENTER">
+                <HBox alignment="CENTER_LEFT" prefHeight="69.0" prefWidth="600.0" style="-fx-background-color: #3b83bd;" BorderPane.alignment="CENTER">
                     <children>
-                        <Text fx:id="txtTituloEmpresa" fill="#d4af37" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrar Venta">
+                        <Text fx:id="txtTituloEmpresa" fill="#979797" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrar Venta">
                             <font>
                                 <Font name="System Bold Italic" size="45.0" />
                             </font>

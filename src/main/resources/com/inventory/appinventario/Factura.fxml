@@ -11,27 +11,27 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane fx:id="root" prefHeight="473.0" prefWidth="876.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.FacturaController">
+<AnchorPane fx:id="root" prefHeight="473.0" prefWidth="876.0" style="-fx-background-color: #707280;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.FacturaController">
     <children>
         <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <HBox VBox.vgrow="ALWAYS">
                     <children>
-                        <ToolBar orientation="VERTICAL" prefHeight="40.0">
+                        <ToolBar orientation="VERTICAL" prefHeight="40.0" style="-fx-background-color: #707280;">
                             <items>
-                                <Button fx:id="btnListar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#listarFacturas" text="Listar">
+                                <Button fx:id="btnListar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#listarFacturas" style="-fx-background-color: #25d366;" text="Listar" textFill="WHITE">
                                     <graphic>
-                                        <FontIcon iconColor="#d4af37" iconLiteral="fa-refresh" iconSize="22" />
+                                        <FontIcon iconColor="WHITE" iconLiteral="fa-refresh" iconSize="22" />
                                     </graphic>
                                 </Button>
-                                <Button fx:id="btnVerFacturas" contentDisplay="TOP" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#verFacturas" text="Visualizar">
+                                <Button fx:id="btnVerFacturas" contentDisplay="TOP" layoutX="10.0" layoutY="65.0" maxWidth="1.7976931348623157E308" onAction="#verFacturas" style="-fx-background-color: #25d366;" text="Visualizar" textFill="WHITE">
                                     <graphic>
-                                        <FontIcon iconColor="#d4af37" iconLiteral="fa-edit" iconSize="22" />
+                                        <FontIcon iconColor="WHITE" iconLiteral="fa-edit" iconSize="22" />
                                     </graphic>
                                 </Button>
-                        <Button fx:id="btnEnviar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#enviarFactura" text="Enviar">
+                        <Button fx:id="btnEnviar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#enviarFactura" style="-fx-background-color: #3b83bd;" text="Enviar Correo" textFill="WHITE">
                            <graphic>
-                              <FontIcon iconColor="#d4af37" iconLiteral="fa-edit" iconSize="22" />
+                              <FontIcon iconColor="WHITE" iconLiteral="fa-location-arrow" iconSize="22" />
                            </graphic>
                         </Button>
                             </items>
@@ -43,8 +43,11 @@
                                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                     </VBox.margin>
                                 </TextField>
-                                <HBox alignment="TOP_RIGHT" spacing="5">
+                                <HBox alignment="TOP_RIGHT" prefHeight="31.0" prefWidth="800.0" spacing="5">
                                     <Button fx:id="btnExcel" onAction="#GenerarExcel" prefWidth="80" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="Excel" />
+                           <VBox.margin>
+                              <Insets right="5.0" />
+                           </VBox.margin>
                                 </HBox>
                                 <TableView fx:id="tablaProductos" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                     <columns>

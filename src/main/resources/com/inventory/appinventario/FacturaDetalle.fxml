@@ -8,8 +8,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600" prefWidth="900" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.FacturaDetalleController">
+<BorderPane prefHeight="600" prefWidth="900" style="-fx-background-color: #707280;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.FacturaDetalleController">
 
     <!-- Cabecera -->
     <top>
@@ -24,16 +25,16 @@
         <VBox spacing="10" style="-fx-padding: 20;">
          <Pane prefHeight="154.0" prefWidth="860.0">
             <children>
-               <Label layoutX="19.0" layoutY="14.0" style="-fx-font-weight: bold;" text="Nombre Cliente:" />
-               <Label layoutX="20.0" layoutY="37.0" prefHeight="36.0" prefWidth="79.0" style="-fx-font-weight: bold;" text="Fecha factura:" />
-               <Label layoutX="22.0" layoutY="76.0" style="-fx-font-weight: bold;" text="Valor Total:" />
-               <Label layoutX="266.0" layoutY="12.0" style="-fx-font-weight: bold;" text="Celular:" />
-               <Label layoutX="264.0" layoutY="44.0" style="-fx-font-weight: bold;" text="Dirección:" />
-               <Label fx:id="idCliente" layoutX="117.0" layoutY="14.0" prefHeight="18.0" prefWidth="145.0" />
-               <Label fx:id="idFecha" layoutX="111.0" layoutY="48.0" prefHeight="17.0" prefWidth="150.0" />
-               <Label fx:id="idTotal" layoutX="100.0" layoutY="76.0" prefHeight="17.0" prefWidth="115.0" />
-               <Label fx:id="idCelular" layoutX="320.0" layoutY="13.0" prefHeight="17.0" prefWidth="144.0" />
-               <Label fx:id="idDireccion" layoutX="327.0" layoutY="44.0" prefHeight="17.0" prefWidth="145.0" />
+               <Label layoutX="19.0" layoutY="14.0" style="-fx-font-weight: bold;" text="Nombre Cliente:" textFill="WHITE" />
+               <Label layoutX="20.0" layoutY="37.0" prefHeight="36.0" prefWidth="79.0" style="-fx-font-weight: bold;" text="Fecha factura:" textFill="WHITE" />
+               <Label layoutX="22.0" layoutY="76.0" style="-fx-font-weight: bold;" text="Valor Total:" textFill="WHITE" />
+               <Label layoutX="266.0" layoutY="12.0" style="-fx-font-weight: bold;" text="Celular:" textFill="WHITE" />
+               <Label layoutX="264.0" layoutY="44.0" style="-fx-font-weight: bold;" text="Dirección:" textFill="WHITE" />
+               <Label fx:id="idCliente" layoutX="117.0" layoutY="14.0" prefHeight="18.0" prefWidth="145.0" textFill="WHITE" />
+               <Label fx:id="idFecha" layoutX="111.0" layoutY="48.0" prefHeight="17.0" prefWidth="150.0" textFill="WHITE" />
+               <Label fx:id="idTotal" layoutX="100.0" layoutY="76.0" prefHeight="17.0" prefWidth="115.0" textFill="WHITE" />
+               <Label fx:id="idCelular" layoutX="320.0" layoutY="13.0" prefHeight="17.0" prefWidth="144.0" textFill="WHITE" />
+               <Label fx:id="idDireccion" layoutX="327.0" layoutY="44.0" prefHeight="17.0" prefWidth="145.0" textFill="WHITE" />
             </children>
          </Pane>
 
@@ -55,8 +56,14 @@
     <!-- Botones -->
     <bottom>
         <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 15;">
-            <Button fx:id="btnDescargarFactura" onAction="#descargarPdf" text="Descargar" />
-            <Button fx:id="btnCancelar" onAction="#cancelar" text="Cancelar" />
+            <Button fx:id="btnDescargarFactura" onAction="#descargarPdf" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #25d366;" text="Descargar" textFill="WHITE">
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font></Button>
+            <Button fx:id="btnCancelar" onAction="#cancelar" prefHeight="30.0" prefWidth="111.0" style="-fx-background-color: #dc3545;" text="Cancelar" textFill="WHITE">
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font></Button>
         </HBox>
     </bottom>
 </BorderPane>
