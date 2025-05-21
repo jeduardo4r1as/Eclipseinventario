@@ -17,7 +17,7 @@
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="732.0" prefWidth="871.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.RegistrarProductoController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3b83bd" height="58.0" stroke="WHITE" strokeType="INSIDE" width="871.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a0a2ab" height="58.0" stroke="WHITE" strokeType="INSIDE" width="871.0" />
         <FontIcon fill="WHITE" iconLiteral="fa-tags" iconSize="30" layoutX="14.0" layoutY="44.0" />
         <Text fill="WHITE" layoutX="55.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrar Producto">
             <font>

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600" prefWidth="900" style="-fx-background-color: #707280;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.FacturaDetalleController">
+<BorderPane prefHeight="600" prefWidth="900" style="-fx-background-color: #a0a2ab;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.FacturaDetalleController">
 
     <!-- Cabecera -->
     <top>

@@ -41,7 +41,7 @@ public class DashboardController implements Initializable {
             menuconfig.setVisible(false);         // Específicamente Configuración
             menuVerUsuarios.setVisible(false);
             menuUsuarios.setVisible(false);
-
+            menuEstadisticas.setVisible(false);
         }
 
     }

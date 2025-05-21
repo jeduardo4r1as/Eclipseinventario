@@ -79,7 +79,7 @@ public class RegistrarUsuarioController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cjRol.getItems().addAll("ADMINISTRADOR", "VENDEDOR", "CAJERO");
+        cjRol.getItems().addAll("ADMINISTRADOR", "VENDEDOR");
     }
 
 

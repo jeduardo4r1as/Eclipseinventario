@@ -16,7 +16,7 @@
 
 <AnchorPane fx:id="root" prefHeight="501.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.RegistrarClienteController">
    <children>
-      <HBox fx:id="header" prefWidth="200.0" style="-fx-background-color: #3b83bd;">
+      <HBox fx:id="header" prefWidth="200.0" style="-fx-background-color: #a0a2ab;">
          <children>
             <Text fx:id="txtCliente" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrar Cliente" wrappingWidth="742.96875">
                <font>
