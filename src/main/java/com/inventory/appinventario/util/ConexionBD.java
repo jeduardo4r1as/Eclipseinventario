@@ -12,7 +12,7 @@ public class ConexionBD {
 
     private static String IP = "localhost", PUERTO = "5432", BD = "pos", USER = "postgres", PASS = "12345";
     public ConexionBD() {}
-    public void conectar() {
+    public Connection conectar() {
         try {
             Class.forName("org.postgresql.Driver");
             conexion = DriverManager.getConnection("jdbc:postgresql://" + IP + ":" + PUERTO + "/" + BD, USER, PASS);
@@ -20,6 +20,7 @@ public class ConexionBD {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return conexion;
     }
 
     public ResultSet CONSULTAR(String sql) throws SQLException {

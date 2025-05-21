@@ -1,60 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import java.lang.*?>
 
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.PieChart?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.inventory.appinventario.controller.EstadisticasController"
-            prefHeight="400.0" prefWidth="600.0" >
+            prefHeight="600.0" prefWidth="1000.0">
 
+    <VBox spacing="10" layoutX="20" layoutY="20" prefWidth="980">
 
-    <HBox spacing="10" layoutX="20" layoutY="20">
-        <Label text="Desde:"/>
-        <DatePicker fx:id="fechaInicio"/>
-        <Label text="Hasta:"/>
-        <DatePicker fx:id="fechaFin"/>
-        <Button text="Filtrar" onAction="#filtrarEstadisticas"/>
-    </HBox>
+        <!-- Filtro por fechas -->
+        <HBox spacing="10">
+            <Label text="Desde:"/>
+            <DatePicker fx:id="fechaInicio"/>
+            <Label text="Hasta:"/>
+            <DatePicker fx:id="fechaFin"/>
+            <Button text="Filtrar" onAction="#filtrarEstadisticas"/>
+        </HBox>
 
-    <!-- Indicadores clave -->
-    <HBox spacing="50" layoutX="20" layoutY="70">
-        <VBox>
-            <Label text="👕 Prendas vendidas:" style="-fx-font-weight: bold;"/>
-            <Label fx:id="lblPrendasVendidas" text="0"/>
-        </VBox>
-        <VBox>
-            <Label text="💰 Ingresos ($):" style="-fx-font-weight: bold;"/>
-            <Label fx:id="lblIngresos" text="0"/>
-        </VBox>
-        <VBox>
-            <Label text="🔥 Más vendida:" style="-fx-font-weight: bold;"/>
-            <Label fx:id="lblCategoriaPopular" text="N/A"/>
-        </VBox>
-    </HBox>
+        <!-- TabPane con pestañas para cada bloque -->
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
 
-    <!-- Gráfico de barras por categoría -->
-    <BarChart fx:id="barChart"
-              layoutX="20" layoutY="140"
-              prefWidth="500" prefHeight="280">
-        <xAxis>
-            <CategoryAxis fx:id="xAxis" label="Tipo de prenda"/>
-        </xAxis>
-        <yAxis>
-            <NumberAxis fx:id="yAxis" label="Cantidad vendida"/>
-        </yAxis>
-    </BarChart>
+            <Tab text="Resumen">
+                <VBox spacing="10" alignment="CENTER">
+                    <HBox spacing="50" alignment="CENTER">
+                        <VBox>
+                            <Label text="👕 Prendas vendidas:" style="-fx-font-weight: bold;"/>
+                            <Label fx:id="lblPrendasVendidas" text="0"/>
+                        </VBox>
+                        <VBox>
+                            <Label text="💰 Ingresos ($):" style="-fx-font-weight: bold;"/>
+                            <Label fx:id="lblIngresos" text="0"/>
+                        </VBox>
+                        <VBox>
+                            <Label text="🔥 Más vendida:" style="-fx-font-weight: bold;"/>
+                            <Label fx:id="lblCategoriaPopular" text="N/A"/>
+                        </VBox>
+                        <VBox>
+                            <Label text="🎫 Ticket promedio:" style="-fx-font-weight: bold;"/>
+                            <Label fx:id="lblTicketPromedio" text="0"/>
+                        </VBox>
+                        <VBox>
+                            <Label text="💳 Forma de pago principal:" style="-fx-font-weight: bold;"/>
+                            <Label fx:id="lblFormaPagoPrincipal" text="N/A"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </Tab>
 
-    <!-- Gráfico circular: porcentaje -->
-    <PieChart fx:id="pieChart"
-              layoutX="540" layoutY="140"
-              prefWidth="240" prefHeight="280"/>
+            <Tab text="Ventas por Día">
+                <LineChart fx:id="chartVentasPorDia" title="Ventas por Día" prefHeight="400">
+                    <xAxis>
+                        <CategoryAxis label="Fecha"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="Total ($)"/>
+                    </yAxis>
+                </LineChart>
+            </Tab>
 
+            <Tab text="Ventas por Usuario">
+                <BarChart fx:id="chartVentasPorUsuario" title="Ventas por Usuario">
+                    <xAxis>
+                        <CategoryAxis label="Usuario"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="Total ($)"/>
+                    </yAxis>
+                </BarChart>
+            </Tab>
+
+            <Tab text="Top Productos">
+                <PieChart fx:id="chartTopProductos" prefHeight="400"/>
+            </Tab>
+
+            <Tab text="Formas de Pago">
+                <PieChart fx:id="chartFormasPago" prefHeight="400"/>
+            </Tab>
+
+            <Tab text="Por Categoría">
+                <HBox spacing="20">
+                    <BarChart fx:id="barChart" title="Ventas por categoría" prefWidth="600">
+                        <xAxis>
+                            <CategoryAxis fx:id="xAxis" label="Tipo de prenda"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis fx:id="yAxis" label="Cantidad vendida"/>
+                        </yAxis>
+                    </BarChart>
+
+                    <PieChart fx:id="pieChart" prefWidth="350"/>
+                </HBox>
+            </Tab>
+
+        </TabPane>
+    </VBox>
 </AnchorPane>
