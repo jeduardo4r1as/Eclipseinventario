@@ -108,33 +108,7 @@ public class FacturaController  implements Initializable {
     private AnchorPane root;
 
 
-    @FXML
-    void buscarProductoKeyReleased(KeyEvent event) {
-        String filtro = cjBuscar.getText().toLowerCase().trim();
 
-        // Obtener todas las facturas
-        FacturaDAO facturaDAO = new FacturaDAO(new ConexionBD());
-
-        try {
-            List<Factura> listaOriginal = facturaDAO.listarFacturas(); // Método que devuelve todas las facturas
-
-            // Filtrar por nombre de cliente o número de factura
-            List<Factura> filtradas = listaOriginal.stream()
-                    .filter(f -> f.getNombreCliente().toLowerCase().contains(filtro) ||
-                            f.getNumeroFactura().toLowerCase().contains(filtro))
-                    .toList();
-
-            tablaProductos.setItems(FXCollections.observableArrayList(filtradas));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    void listarFacturas(ActionEvent event) {
-
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -184,7 +158,44 @@ public class FacturaController  implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    void buscarProductoKeyReleased(KeyEvent event) {
+        String filtro = cjBuscar.getText().toLowerCase().trim();
 
+        // Obtener todas las facturas
+        FacturaDAO facturaDAO = new FacturaDAO(new ConexionBD());
+
+        try {
+            List<Factura> listaOriginal = facturaDAO.listarFacturas(); // Método que devuelve todas las facturas
+
+            // Filtrar por nombre de cliente o número de factura
+            List<Factura> filtradas = listaOriginal.stream()
+                    .filter(f -> f.getNombreCliente().toLowerCase().contains(filtro) ||
+                            f.getNumeroFactura().toLowerCase().contains(filtro))
+                    .toList();
+
+            tablaProductos.setItems(FXCollections.observableArrayList(filtradas));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void listarFacturas(ActionEvent event) {
+        FacturaDAO facturaDAO = new FacturaDAO(new ConexionBD());
+
+        try {
+            // El DAO ya hace el INNER JOIN internamente
+            ObservableList<Factura> listaFacturas =
+                    FXCollections.observableArrayList(facturaDAO.listarFacturas());
+
+            tablaProductos.setItems(listaFacturas);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void verFacturas(ActionEvent event) {
@@ -385,6 +396,11 @@ public class FacturaController  implements Initializable {
         final String remitente = "cris19970204@gmail.com";
         final String clave = "yrosdaopoqgvoxrh"; // Usa contraseña de aplicación si es Gmail
 
+        // Validación básica del correo
+        if (destinatario == null || destinatario.isBlank() || !esCorreoValido(destinatario)) {
+            throw new IllegalArgumentException("Correo inválido: " + destinatario);
+        }
+
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -397,29 +413,36 @@ public class FacturaController  implements Initializable {
             }
         });
 
-        Message mensaje = new MimeMessage(session);
-        mensaje.setFrom(new InternetAddress(remitente));
-        mensaje.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
-        mensaje.setSubject(asunto);
+        try {
+            Message mensaje = new MimeMessage(session);
+            mensaje.setFrom(new InternetAddress(remitente));
+            mensaje.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
+            mensaje.setSubject(asunto);
 
-        // Parte del cuerpo
-        MimeBodyPart cuerpoParte = new MimeBodyPart();
-        cuerpoParte.setText(cuerpo);
+            // Parte del cuerpo
+            MimeBodyPart cuerpoParte = new MimeBodyPart();
+            cuerpoParte.setText(cuerpo);
 
-        // Parte del adjunto
-        MimeBodyPart adjuntoParte = new MimeBodyPart();
-        adjuntoParte.attachFile(adjunto);
+            // Parte del adjunto
+            MimeBodyPart adjuntoParte = new MimeBodyPart();
+            adjuntoParte.attachFile(adjunto);
 
-        // Contenedor
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(cuerpoParte);
-        multipart.addBodyPart(adjuntoParte);
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(cuerpoParte);
+            multipart.addBodyPart(adjuntoParte);
 
-        mensaje.setContent(multipart);
+            mensaje.setContent(multipart);
 
-        Transport.send(mensaje);
+            Transport.send(mensaje);
+
+        } catch (Exception e) {
+            throw new RuntimeException("No se pudo enviar el correo: " + e.getMessage(), e);
+        }
     }
-
+    private boolean esCorreoValido(String correo) {
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return correo.matches(regex);
+    }
 
 
     @FXML
@@ -434,7 +457,7 @@ public class FacturaController  implements Initializable {
                     .showWarning();
             return;
         }
-        
+
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Facturas");
 
