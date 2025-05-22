@@ -94,14 +94,14 @@
                 </graphic></Menu>
             <Menu fx:id="menuEstadisticas" mnemonicParsing="false" text="Estadisticas">
                 <items>
-                    <MenuItem fx:id="menuVerEstadisticas" mnemonicParsing="false"  onAction="#mostrarEstadisticas" text="Ver Facturas">
+                    <MenuItem fx:id="menuVerEstadisticas" mnemonicParsing="false"  onAction="#mostrarEstadisticas" text="Ver Estadisticas">
                         <graphic>
                             <FontIcon iconColor="#2196f3" iconLiteral="fa-search" iconSize="20" />
                         </graphic>
                     </MenuItem>
                 </items>
                 <graphic>
-                    <FontIcon iconLiteral="fa-file-o" iconSize="20" />
+                    <FontIcon iconLiteral="fa-bar-chart" iconSize="20" />
                 </graphic></Menu>
         </MenuBar>
     </top>

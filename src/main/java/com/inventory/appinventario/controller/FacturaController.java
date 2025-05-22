@@ -4,6 +4,7 @@ import com.inventory.appinventario.dao.FacturaDAO;
 import com.inventory.appinventario.dao.UsuarioDAO;
 import com.inventory.appinventario.model.DetalleFactura;
 import com.inventory.appinventario.model.Factura;
+import com.inventory.appinventario.model.Usuario;
 import com.inventory.appinventario.util.ConexionBD;
 import com.inventory.appinventario.util.ItemFacturaDTO;
 import com.inventory.appinventario.util.Metodos;
@@ -27,14 +28,10 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.stage.*;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 //import java.net.Authenticator;
 //import java.net.PasswordAuthentication;
 import java.net.URL;
@@ -45,11 +42,13 @@ import java.util.*;
 import java.text.NumberFormat;
 
 import javafx.scene.control.TableCell;
-import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 import javax.mail.Authenticator;
@@ -111,7 +110,25 @@ public class FacturaController  implements Initializable {
 
     @FXML
     void buscarProductoKeyReleased(KeyEvent event) {
+        String filtro = cjBuscar.getText().toLowerCase().trim();
 
+        // Obtener todas las facturas
+        FacturaDAO facturaDAO = new FacturaDAO(new ConexionBD());
+
+        try {
+            List<Factura> listaOriginal = facturaDAO.listarFacturas(); // Método que devuelve todas las facturas
+
+            // Filtrar por nombre de cliente o número de factura
+            List<Factura> filtradas = listaOriginal.stream()
+                    .filter(f -> f.getNombreCliente().toLowerCase().contains(filtro) ||
+                            f.getNumeroFactura().toLowerCase().contains(filtro))
+                    .toList();
+
+            tablaProductos.setItems(FXCollections.observableArrayList(filtradas));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -407,7 +424,74 @@ public class FacturaController  implements Initializable {
 
     @FXML
     void GenerarExcel(ActionEvent event) {
+        ObservableList<Factura> facturas = tablaProductos.getItems();
 
+        if (facturas.isEmpty()) {
+            org.controlsfx.control.Notifications.create()
+                    .title("Aviso")
+                    .text("No hay facturas para exportar.")
+                    .position(Pos.CENTER)
+                    .showWarning();
+            return;
+        }
+        
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Facturas");
+
+        String[] headers = {
+                "Número", "Cliente", "Correo", "Fecha Venta", "Subtotal", "IVA", "Total", "Vendedor"
+        };
+
+        Row headerRow = sheet.createRow(0);
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+
+        int rowNum = 1;
+        for (Factura f : facturas) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(f.getNumeroFactura());
+            row.createCell(1).setCellValue(f.getNombreCliente());
+            row.createCell(2).setCellValue(f.getCorreo());
+            row.createCell(3).setCellValue(f.getFechaDeVenta());
+            row.createCell(4).setCellValue(f.getSubTotal());
+            row.createCell(5).setCellValue(f.getIva());
+            row.createCell(6).setCellValue(f.getTotal());
+            row.createCell(7).setCellValue(f.getVendedor());
+        }
+
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar archivo Excel");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+            File file = fileChooser.showSaveDialog(root.getScene().getWindow());
+
+            if (file != null) {
+                FileOutputStream fileOut = new FileOutputStream(file);
+                workbook.write(fileOut);
+                fileOut.close();
+                workbook.close();
+
+                org.controlsfx.control.Notifications.create()
+                        .title("Éxito")
+                        .text("Archivo Excel generado correctamente.")
+                        .position(Pos.CENTER)
+                        .showInformation();
+            }
+
+        } catch (IOException e) {
+            org.controlsfx.control.Notifications.create()
+                    .title("Error")
+                    .text("Error al generar el archivo Excel: " + e.getMessage())
+                    .position(Pos.CENTER)
+                    .showError();
+            e.printStackTrace();
+        }
     }
 
 }

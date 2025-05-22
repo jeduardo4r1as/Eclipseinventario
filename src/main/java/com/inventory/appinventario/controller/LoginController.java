@@ -78,7 +78,7 @@ public class LoginController implements Initializable {
         BorderPane borderPane = loader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(borderPane));
-        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/productos.png")));
+        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/logo.jpeg")));
         stage.setTitle("Sistema Inventario ECLIPSE " + Sesion.getSesion(null).getNombre());
         stage.setMaximized(true);
         com.inventory.appinventario.util.Metodos.closeEffect(root);
