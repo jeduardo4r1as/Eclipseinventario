@@ -393,8 +393,8 @@ public class FacturaController  implements Initializable {
 
     public void enviarCorreoConAdjunto(String destinatario, String asunto, String cuerpo, File adjunto) throws Exception {
 
-        final String remitente = "cris19970204@gmail.com";
-        final String clave = "yrosdaopoqgvoxrh"; // Usa contraseña de aplicación si es Gmail
+        final String remitente = "eclipsepitalitoalmacen@gmail.com";
+        final String clave = "qagxhpujlokpgmcq"; // Usa contraseña de aplicación si es Gmail
 
         // Validación básica del correo
         if (destinatario == null || destinatario.isBlank() || !esCorreoValido(destinatario)) {
