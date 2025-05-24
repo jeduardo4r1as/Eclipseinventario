@@ -127,7 +127,7 @@ public class FacturaDetalleController {
 
             JasperReport reporte = JasperCompileManager.compileReport(input);
 
-            // 📌 Convertir DetalleFactura a ItemFacturaDTO
+            //  Convertir DetalleFactura a ItemFacturaDTO
             List<ItemFacturaDTO> productos = new ArrayList<>();
             for (DetalleFactura d : tablaDetalle.getItems()) {
                 productos.add(new ItemFacturaDTO(
@@ -167,7 +167,7 @@ public class FacturaDetalleController {
             parametros.put("total", total);
             parametros.put("monto_en_letras", Metodos.NumeroEnLetras.convertir(total));
 
-            parametros.put("ds", ds); // 📌 muy importante para la tabla
+            parametros.put("ds", ds); //  muy importante para la tabla
 
             // Generar PDF
             JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, new JREmptyDataSource());

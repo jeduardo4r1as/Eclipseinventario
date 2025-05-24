@@ -52,7 +52,6 @@ public class PagarController implements Initializable {
     private Metodos metodo=new Metodos();
     private VentaDAO ventaDAO;
 
-    private Integer iva= Comercio.getInstance(null).getIva();
 
     @FXML
     private TextField cjValorIngreso;
@@ -116,7 +115,7 @@ public class PagarController implements Initializable {
 
 
 
-                        InputStream logoStream = getClass().getResourceAsStream("/img/logo.jpeg"); // si está dentro de src/main/resources/images
+                        InputStream logoStream = getClass().getResourceAsStream("/img/logoV2.jpeg"); // si está dentro de src/main/resources/images
                         BufferedImage logo = ImageIO.read(logoStream);
 
 
@@ -130,7 +129,6 @@ public class PagarController implements Initializable {
                         parametros.put("forma_pago", venta.getFormadepago());
                         parametros.put("numero_factura", "FV-" + idventa);
                         parametros.put("subtotal", venta.getSubtotal());
-                        parametros.put("iva", venta.getIva());
                         parametros.put("total", venta.getTotal());
                         parametros.put("monto_en_letras", Metodos.NumeroEnLetras.convertir(venta.getTotal()));
                         parametros.put("logo", logo);
@@ -189,7 +187,7 @@ public class PagarController implements Initializable {
         this.venta = venta;
         totalaPagar = this.venta.getDetalleventa().stream().mapToDouble(ped -> ped.getCantidad() * ped.getPrecioventa()).sum();
 
-        totalaPagariva=totalaPagar+((totalaPagar*this.iva)/100);
+        totalaPagariva=totalaPagar;
 
         txtTotalAPagar.setText(NumberFormat.getCurrencyInstance().format(totalaPagariva));
     }

@@ -46,6 +46,9 @@ public class RegistrarProductoController implements Initializable {
     private Button btnGuardar;
 
     @FXML
+    private Button btnCancelar;
+
+    @FXML
     private Button btnTomarFoto;
 
     @FXML
@@ -104,7 +107,7 @@ public class RegistrarProductoController implements Initializable {
 
         cjgenero.getItems().addAll("HOMBRE", "MUJER","UNISEX", "NIÑO", "NIÑA");
 
-        cjpreciounitario.setTextFormatter(new TextFormatter<>(new StringConverter<Double>(){
+        cjpreciounitario.setTextFormatter(new TextFormatter<>(new StringConverter<Double>() {
             @Override
             public String toString(Double object) {
                 if (object != null) {
@@ -116,18 +119,17 @@ public class RegistrarProductoController implements Initializable {
             @Override
             public Double fromString(String valor) {
                 try {
+                    if (valor == null || valor.trim().isEmpty() || valor.equals("$")) {
+                        return 0.0;
+                    }
                     return NumberFormat.getCurrencyInstance().parse(valor).doubleValue();
                 } catch (ParseException e) {
-                    try {
-                        return NumberFormat.getCurrencyInstance().parse("$".concat(valor)).doubleValue();
-                    } catch (ParseException ex) { ex.printStackTrace(); }
+                    return 0.0;
                 }
-                return 0.0;
             }
         }));
 
-        cjpreciomayorista.setTextFormatter(new TextFormatter<>(new StringConverter<Double>(){
-
+        cjpreciomayorista.setTextFormatter(new TextFormatter<>(new StringConverter<Double>() {
             @Override
             public String toString(Double object) {
                 if (object != null) {
@@ -139,19 +141,18 @@ public class RegistrarProductoController implements Initializable {
             @Override
             public Double fromString(String valor) {
                 try {
+                    if (valor == null || valor.trim().isEmpty() || valor.equals("$")) {
+                        return 0.0;
+                    }
                     return NumberFormat.getCurrencyInstance().parse(valor).doubleValue();
                 } catch (ParseException e) {
-                    try {
-                        return NumberFormat.getCurrencyInstance().parse("$".concat(valor)).doubleValue();
-                    } catch (ParseException ex) { ex.printStackTrace(); }
+                    return 0.0;
                 }
-                return 0.0;
             }
         }));
 
 
-        cjpreciodistribuidor.setTextFormatter(new TextFormatter<>(new StringConverter<Double>(){
-
+        cjpreciodistribuidor.setTextFormatter(new TextFormatter<>(new StringConverter<Double>() {
             @Override
             public String toString(Double object) {
                 if (object != null) {
@@ -163,15 +164,16 @@ public class RegistrarProductoController implements Initializable {
             @Override
             public Double fromString(String valor) {
                 try {
+                    if (valor == null || valor.trim().isEmpty() || valor.equals("$")) {
+                        return 0.0;
+                    }
                     return NumberFormat.getCurrencyInstance().parse(valor).doubleValue();
                 } catch (ParseException e) {
-                    try {
-                        return NumberFormat.getCurrencyInstance().parse("$".concat(valor)).doubleValue();
-                    } catch (ParseException ex) { ex.printStackTrace(); }
+                    return 0.0;
                 }
-                return 0.0;
             }
         }));
+
     }
 
     @FXML
@@ -265,26 +267,19 @@ public class RegistrarProductoController implements Initializable {
             org.controlsfx.control.Notifications.create().title("Aviso").text("Ingrese el nombre del producto").position(Pos.CENTER).showWarning();
             return;
         }
-        if (cjcodigo.getText().isEmpty()) {
-            new Tada(cjcodigo).play();
-            org.controlsfx.control.Notifications.create().title("Aviso").text("Ingrese el codigo del producto").position(Pos.CENTER).showWarning();
+
+        String generoSeleccionado = cjgenero.getSelectionModel().getSelectedItem();
+
+        if (generoSeleccionado == null || generoSeleccionado.trim().isEmpty()) {
+            new Tada(cjgenero).play();
+            org.controlsfx.control.Notifications.create()
+                    .title("Aviso")
+                    .text("Ingrese el tipo de sexo de la prenda")
+                    .position(Pos.CENTER)
+                    .showWarning();
             return;
         }
-        if (cjreferencia.getText().isEmpty()) {
-            new Tada(cjreferencia).play();
-            org.controlsfx.control.Notifications.create().title("Aviso").text("Ingrese la referencia del producto").position(Pos.CENTER).showWarning();
-            return;
-        }
-        if (cjdescripcion.getText().isEmpty()) {
-            new Tada(cjdescripcion).play();
-            org.controlsfx.control.Notifications.create().title("Aviso").text("Ingrese la escripcion del producto").position(Pos.CENTER).showWarning();
-            return;
-        }
-        if (cjtalla.getText().isEmpty()) {
-            new Tada(cjtalla).play();
-            org.controlsfx.control.Notifications.create().title("Aviso").text("Ingrese la talla del producto").position(Pos.CENTER).showWarning();
-            return;
-        }
+
 
         double preciounitario = 0;
         double preciomayorista = 0;
@@ -339,8 +334,7 @@ public class RegistrarProductoController implements Initializable {
             if ( guardar > 0 ){
 
                 setSTATUS(true);
-                com.inventory.appinventario.util.Metodos.closeEffect(root);
-
+                this.limpiarFormularioProducto();
             }
 
         } catch (SQLException ex) {
@@ -386,6 +380,21 @@ public class RegistrarProductoController implements Initializable {
             Logger.getLogger(RegistrarProductoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    @FXML
+    private void limpiarFormularioProducto() {
+        cjnombre.clear();
+        cjcodigo.clear();
+        cjreferencia.clear();
+        cjstock.clear();
+        cjstockminimo.clear();
+        cjdescripcion.clear();
+        cjtalla.clear();
+        cjgenero.getSelectionModel().clearSelection();
+        cjpreciounitario.clear();
+        cjpreciodistribuidor.clear();
+        cjpreciomayorista.clear();
+        Image imagen = new Image(getClass().getResourceAsStream("/img/productos.png"));
+        imageView.setImage(imagen);
+    }
 
 }

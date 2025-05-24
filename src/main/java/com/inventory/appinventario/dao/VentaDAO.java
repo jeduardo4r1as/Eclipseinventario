@@ -22,8 +22,8 @@ public class VentaDAO {
     public int guardar(Venta v) throws SQLException {
 
         String sql = "INSERT INTO public.venta(\n"
-                + "	idcliente, idusuario, formadepago, totaliva, subtotal, total)\n"
-                + "	VALUES ("+v.getCliente().getIdcliente()+" , "+ Sesion.getSesion(null).getIdusuario()+" , '"+v.getFormadepago()+"',"+v.getIva()+","+v.getSubtotal()+","+v.getTotal()+");";
+                + "	idcliente, idusuario, formadepago, subtotal, total)\n"
+                + "	VALUES ("+v.getCliente().getIdcliente()+" , "+ Sesion.getSesion(null).getIdusuario()+" , '"+v.getFormadepago()+"',"+v.getSubtotal()+","+v.getTotal()+");";
 
         this.conexionBD.getConexion().setAutoCommit(false);
 

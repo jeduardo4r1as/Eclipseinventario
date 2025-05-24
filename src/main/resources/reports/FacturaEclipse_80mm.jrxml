@@ -83,7 +83,6 @@
 	<parameter name="forma_pago" class="java.lang.String"/>
 	<parameter name="numero_factura" class="java.lang.String"/>
 	<parameter name="subtotal" class="java.lang.Double"/>
-	<parameter name="iva" class="java.lang.Double"/>
 	<parameter name="monto_en_letras" class="java.lang.String"/>
 	<parameter name="fecha_creacion" class="java.sql.Date"/>
 	<parameter name="total" class="java.lang.Double"/>
@@ -270,7 +269,7 @@
 	<detail>
 		<band height="500" splitType="Stretch">
 			<staticText>
-				<reportElement x="1" y="465" width="59" height="20" uuid="afc62535-1353-4831-9f26-6e304f52532c"/>
+				<reportElement x="6" y="455" width="59" height="20" uuid="afc62535-1353-4831-9f26-6e304f52532c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
@@ -284,18 +283,11 @@
 				<text><![CDATA[SubTotal Neto:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="60" y="440" width="49" height="10" uuid="b72dac2e-f4b5-415c-b91b-5fceff2920f4"/>
-				<textElement verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
-				</textElement>
-				<text><![CDATA[LIQ IVA (19%)]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="64" y="450" width="44" height="10" uuid="99d2450e-0af6-4e9a-9055-fb64465ef4d7"/>
+				<reportElement x="60" y="440" width="44" height="10" uuid="99d2450e-0af6-4e9a-9055-fb64465ef4d7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isBold="true"/>
 				</textElement>
-				<text><![CDATA[TOTAL IVA:]]></text>
+				<text><![CDATA[TOTAL:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="109" y="430" width="97" height="10" uuid="a5bca3ec-36d3-4599-a523-b0ff5086718f"/>
@@ -305,28 +297,21 @@
 				<textFieldExpression><![CDATA[$P{subtotal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="67" y="460" width="152" height="30" uuid="45637b4b-c7bd-4f14-87ad-9c161f58dce6"/>
+				<reportElement x="70" y="450" width="152" height="30" uuid="45637b4b-c7bd-4f14-87ad-9c161f58dce6"/>
 				<textElement verticalAlignment="Top">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{monto_en_letras}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="109" y="440" width="105" height="10" uuid="69f6002b-a195-469e-9b10-1e0877c5ca86"/>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{iva}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="108" y="450" width="107" height="10" uuid="18f69529-65ff-4af2-9fa6-a6601012d1d4"/>
+				<reportElement x="103" y="440" width="107" height="10" uuid="18f69529-65ff-4af2-9fa6-a6601012d1d4"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement x="8" y="-49" width="210" height="469" uuid="a5cf396a-3db2-40a7-9cc4-4f42304105a5">
+				<reportElement x="8" y="-49" width="210" height="69" uuid="a5cf396a-3db2-40a7-9cc4-4f42304105a5">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>

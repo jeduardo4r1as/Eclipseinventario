@@ -91,9 +91,6 @@ public class RegistrarVentaController implements Initializable {
     private GridPane gridPane;
 
     @FXML
-    private Label lblIva;
-
-    @FXML
     private VBox root;
 
     @FXML
@@ -117,8 +114,6 @@ public class RegistrarVentaController implements Initializable {
     @FXML
     private TableColumn<Producto, Double> colProductoPrecio;
 
-    @FXML
-    private Text txtIva;
 
     @FXML
     private Text txtSubtotal;
@@ -150,7 +145,7 @@ public class RegistrarVentaController implements Initializable {
 
     ObservableList<DetalleVenta> listaPedido = FXCollections.observableArrayList();
 
-    private Integer iva= Comercio.getInstance(null).getIva();
+
 
 
 
@@ -160,8 +155,7 @@ public class RegistrarVentaController implements Initializable {
         String rol = Sesion.getRol();
 
         if ("VENDEDOR".equalsIgnoreCase(rol)) {
-            // opciones que se le ocultan al vendedor
-            btnAgregarCliente.setVisible(false);
+
 
         }
 
@@ -257,7 +251,7 @@ public class RegistrarVentaController implements Initializable {
         }
 
         txtTituloEmpresa.setText(Comercio.getInstance(null).getNombre());
-        lblIva.setText("IVA: ("+this.iva+"%)");
+
 
         // Enlazar el filtro una sola vez aquí
         filtro = new FilteredList<>(listaProductos, p -> true);
@@ -384,7 +378,6 @@ public class RegistrarVentaController implements Initializable {
             listaPedido.clear();
             cjCodigoBarras.requestFocus();
             txtSubtotal.setText("$0");
-            txtIva.setText("$0");
             txtTotal.setText("$0");
 
     }
@@ -404,11 +397,10 @@ public class RegistrarVentaController implements Initializable {
         v.setFormadepago(comboFormaDePago.getSelectionModel().getSelectedItem());
         v.setDetalleventa(listaPedido);
         double suma = listaPedido.stream().mapToDouble(ped -> ped.getCantidad() * ped.getPrecioventa()).sum();
-        double iva = (suma*this.iva)/100.0;
-        double total=Math.round((suma+iva) * 100.0) / 100.0;
+        double total=Math.round(suma);
         v.setSubtotal(suma);
         v.setTotal(total);
-        v.setIva(iva);
+
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/inventory/appinventario/Pagar.fxml"));
         VBox vbox = loader.load();
@@ -432,7 +424,6 @@ public class RegistrarVentaController implements Initializable {
             listaPedido.clear();
             cjCodigoBarras.requestFocus();
             txtSubtotal.setText("$0");
-            txtIva.setText("$0");
             txtTotal.setText("$0");
         }
     }
@@ -523,10 +514,8 @@ public class RegistrarVentaController implements Initializable {
 
     private void calcular() {
         double suma = listaPedido.stream().mapToDouble(ped -> ped.getCantidad() * ped.getPrecioventa()).sum();
-        double iva = (suma*this.iva)/100.0;
-        txtIva.setText(NumberFormat.getCurrencyInstance().format(iva));
         txtSubtotal.setText(NumberFormat.getCurrencyInstance().format((suma)));
-        txtTotal.setText(NumberFormat.getCurrencyInstance().format((suma+iva)));
+        txtTotal.setText(NumberFormat.getCurrencyInstance().format((suma)));
     }
 
 

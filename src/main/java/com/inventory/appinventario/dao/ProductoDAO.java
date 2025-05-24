@@ -115,6 +115,18 @@ public class ProductoDAO {
                 resultado = rs.getInt(1);
             }
             rs.close();
+
+            org.controlsfx.control.Notifications.create()
+                    .title("Producto guardado")
+                    .text("El producto ha sido registrado exitosamente.")
+                    .position(Pos.CENTER)
+                    .showInformation();
+        } else {
+            org.controlsfx.control.Notifications.create()
+                    .title("Producto actualizado")
+                    .text("Los datos del producto han sido actualizados correctamente.")
+                    .position(Pos.CENTER)
+                    .showInformation();
         }
 
         pst.close();
