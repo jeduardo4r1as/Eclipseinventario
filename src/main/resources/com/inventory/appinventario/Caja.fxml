@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="root" prefHeight="652.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.CajaController">
+
+    <VBox layoutX="7.0" layoutY="5.0" prefHeight="594.0" prefWidth="987.0" spacing="10" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <!-- Filtro por fechas -->
+        <HBox prefHeight="39.0" prefWidth="1000.0" spacing="10">
+            <Label text="CAJA DEL DIA">
+            <HBox.margin>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+            </HBox.margin>
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font></Label>
+            <DatePicker fx:id="fechaInicio" prefHeight="22.0" prefWidth="174.0">
+            <HBox.margin>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+            </HBox.margin></DatePicker>
+            <Button onAction="#filtrarEstadisticas" text="Filtrar">
+            <HBox.margin>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+            </HBox.margin></Button>
+        </HBox>
+      <Button fx:id="btnExcel" onAction="#GenerarExcel" prefWidth="80" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="Excel">
+         <VBox.margin>
+            <Insets left="5.0" />
+         </VBox.margin>
+      </Button>
+      <TableView fx:id="tablaFacturas" prefHeight="426.0" prefWidth="1000.0">
+         <columns>
+            <TableColumn fx:id="colCodigo" prefWidth="66.0" text="FACTURA" />
+            <TableColumn fx:id="colNombre" prefWidth="173.0" text="CLIENTE" />
+            <TableColumn fx:id="colCorreo" prefWidth="67.0" text="CORREO" />
+            <TableColumn fx:id="colFechaVenta" prefWidth="79.0" text="FECHA" />
+            <TableColumn fx:id="colVendedor" prefWidth="118.0" text="VENDEDOR" />
+            <TableColumn fx:id="colSubTotal" minWidth="7.20001220703125" prefWidth="100.0" text="SUBTOTAL" />
+            <TableColumn fx:id="colTotal" minWidth="7.20001220703125" prefWidth="129.0" text="TOTAL" />
+         </columns>
+      </TableView>
+      <HBox prefHeight="93.0" prefWidth="1000.0">
+         <children>
+            <GridPane prefHeight="93.0" prefWidth="518.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.39996337890625" minWidth="10.0" prefWidth="160.8" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="440.00001220703126" minWidth="10.0" prefWidth="356.8" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Numero de Facturas:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label text="Total:" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="txtNumeroFacturas" fill="#7ab8e4" strokeType="OUTSIDE" strokeWidth="0.0" text="-" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtTotal" fill="#7ab8e4" strokeType="OUTSIDE" strokeWidth="0.0" text="\$" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Text>
+                  <Label text="Sub Total:" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="txtSubtotal" fill="#7ab8e4" strokeType="OUTSIDE" strokeWidth="0.0" text="\$" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Text>
+               </children>
+            </GridPane>
+         </children>
+      </HBox>
+    </VBox>
+</AnchorPane>

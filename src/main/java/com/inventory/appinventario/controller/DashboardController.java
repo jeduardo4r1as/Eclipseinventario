@@ -54,6 +54,12 @@ public class DashboardController implements Initializable {
     private Menu menuFacturas;
 
     @FXML
+    private Menu menuCaja;
+
+    @FXML
+    private MenuItem menuVerCaja;
+
+    @FXML
     private Menu menuUsuarios;
 
     @FXML
@@ -108,11 +114,26 @@ public class DashboardController implements Initializable {
 
     private Tab tabFacturas;
 
+    private Tab tabCaja;
+
     private Tab tabEstadistica;
 
     private Tab tabClientes;
 
 
+    @FXML
+    void mostrarCaja(ActionEvent event) throws IOException {
+        if (tabCaja == null) {
+            AnchorPane ap = FXMLLoader.load(getClass().getResource("/com/inventory/appinventario/Caja.fxml"));
+            tabCaja = new Tab("CAJA", ap);
+            tabCaja.setClosable(true);
+            tabCaja.setOnClosed(event1 -> {
+                tabCaja = null;
+            });
+            tabPane.getTabs().add(tabCaja);
+        }
+        tabPane.getSelectionModel().select(tabCaja);
+    }
     @FXML
     void abrirConfiguracion(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/inventory/appinventario/Configuracion.fxml")); // Ajusta la ruta

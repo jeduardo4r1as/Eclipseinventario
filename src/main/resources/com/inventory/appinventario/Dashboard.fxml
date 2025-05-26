@@ -103,6 +103,17 @@
                 <graphic>
                     <FontIcon iconLiteral="fa-bar-chart" iconSize="20" />
                 </graphic></Menu>
+            <Menu fx:id="menuCaja" mnemonicParsing="false" text="Cuadre de Caja">
+                <items>
+                    <MenuItem fx:id="menuVerCaja" mnemonicParsing="false"  onAction="#mostrarCaja" text="Ver Caja del Dia">
+                        <graphic>
+                            <FontIcon iconColor="#2196f3" iconLiteral="fa-search" iconSize="20" />
+                        </graphic>
+                    </MenuItem>
+                </items>
+                <graphic>
+                    <FontIcon iconLiteral="fa-cart-arrow-down" iconSize="20" />
+                </graphic></Menu>
         </MenuBar>
     </top>
     <center>
