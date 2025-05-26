@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.FileChooser;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -185,11 +186,28 @@ public class FacturaDetalleController {
 
             // Generar PDF
             JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, new JREmptyDataSource());
-            String archivo = "Factura_" + numeroFacturaGlobal + ".pdf";
-            JasperExportManager.exportReportToPdfFile(jasperPrint, archivo);
+//            String archivo = "Factura_" + numeroFacturaGlobal + ".pdf";
+//            JasperExportManager.exportReportToPdfFile(jasperPrint, archivo);
+//
+//            File pdf = new File(archivo);
+//            if (pdf.exists()) Desktop.getDesktop().open(pdf);
 
-            File pdf = new File(archivo);
-            if (pdf.exists()) Desktop.getDesktop().open(pdf);
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar factura PDF");
+            fileChooser.setInitialFileName("Factura_" + numeroFacturaGlobal + ".pdf");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf"));
+
+            // Mostrar el diálogo para guardar
+            File archivo = fileChooser.showSaveDialog(null);
+
+            if (archivo != null) {
+                JasperExportManager.exportReportToPdfFile(jasperPrint, archivo.getAbsolutePath());
+                Desktop.getDesktop().open(archivo);
+                System.out.println("Factura generada y abierta exitosamente.");
+            } else {
+                System.out.println("Guardado cancelado por el usuario.");
+            }
+
 
             System.out.println("Factura generada y abierta exitosamente.");
 
