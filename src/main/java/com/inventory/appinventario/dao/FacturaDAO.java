@@ -29,7 +29,7 @@ public class FacturaDAO {
         }
 
         String sql = """
-                SELECT  v.numerofactura, c.nombrecliente, c.correo,  v.fechadeventa, u.nombre, v.totaliva as iva, v.subtotal, v.total
+                SELECT  v.numerofactura, c.nombrecliente, c.correo,  v.fechadeventa, u.nombre, v.subtotal, v.total
                                                             FROM cliente c
                                                             INNER JOIN venta v ON c.idcliente = v.idcliente
                                                             INNER JOIN usuario u on u.idusuario = v.idusuario
@@ -48,7 +48,6 @@ public class FacturaDAO {
                         rs.getString("fechadeventa"),      // fechaDeVenta
                         rs.getDouble("total"),             // total
                         rs.getString("nombre"),            // vendedor
-                        rs.getDouble("iva"),                // iva
                         rs.getDouble("subTotal")                // iva
                 );
                 facturas.add(factura);

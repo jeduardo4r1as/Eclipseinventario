@@ -26,6 +26,11 @@ import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.*;
 import java.util.List;
 
@@ -75,9 +80,20 @@ public class FacturaDetalleController {
             boolean firstRow = true;
 
             while (rs.next()) {
+                DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                        .appendPattern("yyyy-MM-dd HH:mm:ss")
+                        .optionalStart()
+                        .appendFraction(ChronoField.NANO_OF_SECOND, 0, 6, true)
+                        .optionalEnd()
+                        .toFormatter();
+
+                // Parsear fecha seleccionada
+                LocalDate fechaSeleccionada = LocalDateTime.parse(rs.getString("fechadeventa"), formatter).toLocalDate();
+
+
                 if (firstRow) {
                     idCliente.setText(rs.getString("nombrecliente"));
-                    idFecha.setText(rs.getString("fechadeventa"));
+                    idFecha.setText(String.valueOf(fechaSeleccionada));
                     idDireccion.setText(rs.getString("direccioncliente"));
                     idCelular.setText(rs.getString("telefonocliente"));
                     idTotal.setText(String.valueOf(rs.getDouble("total")));
@@ -153,17 +169,15 @@ public class FacturaDetalleController {
             parametros.put("fecha_creacion", fechaSql);
             parametros.put("forma_pago", "Contado");
             parametros.put("numero_factura", "FV-" + numeroFacturaGlobal);
-            InputStream logoStream = getClass().getResourceAsStream("/img/logo.jpeg"); // si está dentro de src/main/resources/images
+            InputStream logoStream = getClass().getResourceAsStream("/img/logoV2.jpeg"); // si está dentro de src/main/resources/images
             BufferedImage logo = ImageIO.read(logoStream);
             parametros.put("logo", logo);
 
             double subtotal = productos.stream().mapToDouble(ItemFacturaDTO::getTotal).sum() * productos.stream().mapToDouble(ItemFacturaDTO::getCantidad).sum() ;
-            double iva = subtotal * 0.19;
-            double total = subtotal + iva;
+            double total = subtotal;
 
 
             parametros.put("subtotal", subtotal);
-            parametros.put("iva", iva);
             parametros.put("total", total);
             parametros.put("monto_en_letras", Metodos.NumeroEnLetras.convertir(total));
 

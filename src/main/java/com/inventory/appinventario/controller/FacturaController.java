@@ -36,6 +36,11 @@ import java.io.*;
 //import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.*;
 
 //para que los valores se vean en peso colombiano
@@ -49,6 +54,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.controlsfx.control.Notifications;
 
 
 import javax.mail.Authenticator;
@@ -80,6 +86,9 @@ public class FacturaController  implements Initializable {
     private Button btnPdf;
 
     @FXML
+    private Button btnCuadre;
+
+    @FXML
     private TextField cjBuscar;
 
     @FXML
@@ -95,8 +104,7 @@ public class FacturaController  implements Initializable {
     private TableColumn<Factura, Number> colTotal;
     @FXML
     private TableColumn<Factura, String> colFechaVenta;
-    @FXML
-    private TableColumn<Factura, Number> colIva;
+
     @FXML
     private TableColumn<Factura, Number> colSubTotal;
     @FXML
@@ -137,9 +145,7 @@ public class FacturaController  implements Initializable {
         colVendedor.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getVendedor())
         );
-        colIva.setCellValueFactory(data ->
-                new SimpleDoubleProperty(data.getValue().getIva())
-        );
+
         colSubTotal.setCellValueFactory(data ->
                new SimpleDoubleProperty(data.getValue().getSubTotal())
        );
@@ -352,7 +358,7 @@ public class FacturaController  implements Initializable {
 
         JRBeanArrayDataSource ds = new JRBeanArrayDataSource(productos.toArray());
 
-        InputStream logoStream = getClass().getResourceAsStream("/img/logo.jpeg");
+        InputStream logoStream = getClass().getResourceAsStream("/img/logoV2.jpeg");
         BufferedImage logo = ImageIO.read(logoStream);
 
         Map<String, Object> parametros = new HashMap<>();
@@ -368,16 +374,14 @@ public class FacturaController  implements Initializable {
         parametros.put("logo", logo);
 
         double total = totalVenta;
-        double subtotal = total / 1.19;
-        double iva = total - subtotal;
+        double subtotal = total;
+
 
         // Redondear a 2 decimales
         subtotal = Math.round(subtotal * 100.0) / 100.0;
-        iva = Math.round(iva * 100.0) / 100.0;
         total = Math.round(total * 100.0) / 100.0;
 
         parametros.put("subtotal", subtotal);
-        parametros.put("iva", iva);
         parametros.put("total", total);
         parametros.put("monto_en_letras", Metodos.NumeroEnLetras.convertir(total));
         parametros.put("ds", ds);
@@ -462,7 +466,7 @@ public class FacturaController  implements Initializable {
         XSSFSheet sheet = workbook.createSheet("Facturas");
 
         String[] headers = {
-                "Número", "Cliente", "Correo", "Fecha Venta", "Subtotal", "IVA", "Total", "Vendedor"
+                "Número", "Cliente", "Correo", "Fecha Venta", "Subtotal", "Total", "Vendedor"
         };
 
         Row headerRow = sheet.createRow(0);
@@ -479,7 +483,6 @@ public class FacturaController  implements Initializable {
             row.createCell(2).setCellValue(f.getCorreo());
             row.createCell(3).setCellValue(f.getFechaDeVenta());
             row.createCell(4).setCellValue(f.getSubTotal());
-            row.createCell(5).setCellValue(f.getIva());
             row.createCell(6).setCellValue(f.getTotal());
             row.createCell(7).setCellValue(f.getVendedor());
         }
@@ -515,6 +518,44 @@ public class FacturaController  implements Initializable {
                     .showError();
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    void cuadreCaja(ActionEvent event) {
+        Factura facturaSeleccionada = tablaProductos.getSelectionModel().getSelectedItem();
+
+        if (facturaSeleccionada == null) {
+            Notifications.create()
+                    .title("Información")
+                    .text("Por favor selecciona una factura para tomar la fecha.")
+                    .position(Pos.CENTER)
+                    .showInformation();
+            return;
+        }
+
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .appendPattern("yyyy-MM-dd HH:mm:ss")
+                .optionalStart()
+                .appendFraction(ChronoField.NANO_OF_SECOND, 0, 6, true)
+                .optionalEnd()
+                .toFormatter();
+
+        // Parsear fecha seleccionada
+        LocalDate fechaSeleccionada = LocalDateTime.parse(facturaSeleccionada.getFechaDeVenta(), formatter).toLocalDate();
+
+        double totalDia = 0.0;
+        for (Factura f : tablaProductos.getItems()) {
+            LocalDate fechaFactura = LocalDateTime.parse(f.getFechaDeVenta(), formatter).toLocalDate();
+            if (fechaFactura.equals(fechaSeleccionada)) {
+                totalDia += f.getTotal();
+            }
+        }
+
+        Notifications.create()
+                .title("Cuadre de Caja")
+                .text("Total del día " + fechaSeleccionada + ": $" + String.format("%,.2f", totalDia))
+                .position(Pos.CENTER)
+                .showInformation();
     }
 
 }
