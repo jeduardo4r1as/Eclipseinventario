@@ -487,28 +487,40 @@ public class RegistrarVentaController implements Initializable {
             precioSeleccionado = pr.getPreciounitario(); // Por defecto, Unitario
         }
 
-        listaPedido.stream()
+        if(precioSeleccionado<=0){
+            org.controlsfx.control.Notifications.create()
+                    .title("Error al cargar Producto en la venta")
+                    .text("El producto no ha sido ingresado ya que el precio es 0 y no se puede realizar una venta con este precio.")
+                    .position(Pos.CENTER)
+                    .showError();
+        }else{
 
-                .filter(p -> p.getProducto().getIdproducto() == pr.getIdproducto()
-                        && p.getTipoPrecio().equals(tipoPrecio))
-                .findFirst().map((t) -> {
-                    t.setCantidad(t.getCantidad() + 1);
-                    com.inventory.appinventario.util.Metodos.changeSizeOnColumn(coltotal, tablaPedidos, -1);
-                    cjCodigoBarras.setText(null);
-                    return t;
-                }).orElseGet(() -> {
-                    DetalleVenta dv = new DetalleVenta();
-                    dv.setProducto(pr);
-                    dv.setTipoPrecio(comboTiposDePrecio.getValue());
-                    dv.setCantidad(1);
-                    dv.setPrecioventa(precioSeleccionado); // Aquí se usa el precio correcto
-                    listaPedido.add(dv);
-                    com.inventory.appinventario.util.Metodos.changeSizeOnColumn(colProductos, tablaPedidos, -1);
-                    cjCodigoBarras.setText(null);
-                    return dv;
-                });
+            listaPedido.stream()
 
-        calcular();
+                    .filter(p -> p.getProducto().getIdproducto() == pr.getIdproducto()
+                            && p.getTipoPrecio().equals(tipoPrecio))
+                    .findFirst().map((t) -> {
+                        t.setCantidad(t.getCantidad() + 1);
+                        com.inventory.appinventario.util.Metodos.changeSizeOnColumn(coltotal, tablaPedidos, -1);
+                        cjCodigoBarras.setText(null);
+                        return t;
+                    }).orElseGet(() -> {
+                        DetalleVenta dv = new DetalleVenta();
+                        dv.setProducto(pr);
+                        dv.setTipoPrecio(comboTiposDePrecio.getValue());
+                        dv.setCantidad(1);
+                        dv.setPrecioventa(precioSeleccionado); // Aquí se usa el precio correcto
+                        listaPedido.add(dv);
+                        com.inventory.appinventario.util.Metodos.changeSizeOnColumn(colProductos, tablaPedidos, -1);
+                        cjCodigoBarras.setText(null);
+                        return dv;
+                    });
+
+            calcular();
+
+        }
+
+
     }
 
 

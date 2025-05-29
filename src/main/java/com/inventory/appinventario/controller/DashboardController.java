@@ -42,6 +42,7 @@ public class DashboardController implements Initializable {
             menuVerUsuarios.setVisible(false);
             menuUsuarios.setVisible(false);
             menuEstadisticas.setVisible(false);
+            menuCaja.setVisible(false);
         }
 
     }
