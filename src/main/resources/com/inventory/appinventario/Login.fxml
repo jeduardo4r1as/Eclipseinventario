@@ -36,7 +36,7 @@
          <children>
             <ImageView fitHeight="280.0" fitWidth="263.0" layoutX="1.0" layoutY="-8.0">
                <image>
-                  <Image url="@../../../img/LogoEclipse.png" />
+                  <Image url="@../../../img/logoV2.jpeg" />
                </image>
             </ImageView>
          </children>

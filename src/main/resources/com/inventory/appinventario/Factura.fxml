@@ -36,7 +36,7 @@
                         </Button>
                         <Button fx:id="btnCuadre" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#cuadreCaja" style="-fx-background-color: #3b83bd;" text="cuadre caja" textFill="WHITE">
                            <graphic>
-                              <FontIcon iconColor="WHITE" iconLiteral="fa-location-arrow" iconSize="22" />
+                              <FontIcon iconColor="WHITE" iconLiteral="fa-credit-card-alt" iconSize="22" />
                            </graphic>
                         </Button>
                             </items>

@@ -17,11 +17,11 @@
 
 <AnchorPane fx:id="root" prefHeight="652.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventory.appinventario.controller.CajaController">
 
-    <VBox layoutX="7.0" layoutY="5.0" prefHeight="594.0" prefWidth="987.0" spacing="10" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <VBox layoutX="7.0" layoutY="5.0" prefHeight="594.0" prefWidth="987.0" spacing="10" style="-fx-background-color: #a0a2ab;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
         <!-- Filtro por fechas -->
         <HBox prefHeight="39.0" prefWidth="1000.0" spacing="10">
-            <Label text="CAJA DEL DIA">
+            <Label text="CAJA DEL DIA" textFill="WHITE">
             <HBox.margin>
                <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
             </HBox.margin>
@@ -32,10 +32,13 @@
             <HBox.margin>
                <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
             </HBox.margin></DatePicker>
-            <Button onAction="#filtrarEstadisticas" text="Filtrar">
+            <Button onAction="#filtrarEstadisticas" style="-fx-background-color: #25d366;" text="Filtrar" textFill="WHITE">
             <HBox.margin>
                <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
-            </HBox.margin></Button>
+            </HBox.margin>
+            <font>
+               <Font name="System Bold" size="13.0" />
+            </font></Button>
         </HBox>
       <Button fx:id="btnExcel" onAction="#GenerarExcel" prefWidth="80" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="Excel">
          <VBox.margin>
@@ -66,34 +69,34 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Numero de Facturas:">
+                  <Label text="Numero de Facturas:" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label text="Total:" GridPane.rowIndex="2">
+                  <Label text="Total:" textFill="WHITE" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Text fx:id="txtNumeroFacturas" fill="#7ab8e4" strokeType="OUTSIDE" strokeWidth="0.0" text="-" GridPane.columnIndex="1">
+                  <Text fx:id="txtNumeroFacturas" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="-" GridPane.columnIndex="1">
                      <font>
-                        <Font size="30.0" />
+                        <Font name="System Bold" size="30.0" />
                      </font>
                   </Text>
-                  <Text fx:id="txtTotal" fill="#7ab8e4" strokeType="OUTSIDE" strokeWidth="0.0" text="\$" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Text fx:id="txtTotal" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="\$" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
-                        <Font size="30.0" />
+                        <Font name="System Bold" size="30.0" />
                      </font>
                   </Text>
-                  <Label text="Sub Total:" GridPane.rowIndex="1">
+                  <Label text="Sub Total:" textFill="WHITE" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Text fx:id="txtSubtotal" fill="#7ab8e4" strokeType="OUTSIDE" strokeWidth="0.0" text="\$" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Text fx:id="txtSubtotal" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="\$" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
-                        <Font size="30.0" />
+                        <Font name="System Bold" size="30.0" />
                      </font>
                   </Text>
                </children>
