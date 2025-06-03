@@ -44,6 +44,11 @@
                               <FontIcon iconColor="#f4f4f4" iconLiteral="fa-edit" iconSize="22" />
                            </graphic>
                         </Button>
+                        <Button fx:id="btnContar" contentDisplay="TOP" maxWidth="1.7976931348623157E308" onAction="#ConteoProductos" style="-fx-background-color: #3b83bd;" text="Conteo de Stock" textFill="#fffafa">
+                           <graphic>
+                              <FontIcon iconColor="#f4f4f4" iconLiteral="fa-edit" iconSize="22" />
+                           </graphic>
+                        </Button>
                             </items>
                         </ToolBar>
                         <VBox prefHeight="474.0" prefWidth="829.0" HBox.hgrow="ALWAYS">

@@ -97,25 +97,19 @@
 	<title>
 		<band height="259" splitType="Stretch">
 			<staticText>
-				<reportElement x="6" y="40" width="193" height="10" uuid="ea333e8e-fa9e-4e6c-8228-034fbe65f3de"/>
+				<reportElement x="10" y="40" width="193" height="10" uuid="ea333e8e-fa9e-4e6c-8228-034fbe65f3de"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<text><![CDATA[ Tienda de Ropa Eclipse Pitalito ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="50" width="195" height="10" uuid="a21bf857-3a8c-437f-871f-e752bd579da6"/>
-				<textElement textAlignment="Center">
-					<font size="7"/>
-				</textElement>
-				<text><![CDATA[Venta de Ropay otros Productos]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="1" y="60" width="210" height="10" uuid="58333872-20f7-47de-ba8c-e51dd16a0580"/>
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
-				<text><![CDATA[Telefono:3222844551-Direccion:Pitalito Huila ]]></text>
+				<text><![CDATA[Dirección: CRA 6 # 10 BRR CENTRO, PITALITO - HUILA
+]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="110" width="210" height="20" uuid="e8553518-2a22-42e3-a312-a7153c6c389b"/>
@@ -126,7 +120,7 @@
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
-				<text><![CDATA[Correo:Almacen Eclipse Pitalito]]></text>
+				<text><![CDATA[Correo:eclipsepitalitoalmacen@gmail.com]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="330" y="30" width="229" height="20" uuid="efe3cba3-f72a-4606-b34b-348ee45800ba"/>
@@ -140,11 +134,11 @@
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="76" y="119" width="61" height="10" uuid="ba4dae1c-59eb-44c1-842a-d57355365020"/>
+				<reportElement x="76" y="119" width="74" height="10" uuid="ba4dae1c-59eb-44c1-842a-d57355365020"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<text><![CDATA[NIT: 900.123.456-7]]></text>
+				<text><![CDATA[NIT: 1.038.849.169-6]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="28" y="80" width="156" height="18" uuid="c4411c29-cbab-4d8f-b877-d966a1d6e4d5">
@@ -152,14 +146,6 @@
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[RECIBO]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="11" y="130" width="198" height="10" uuid="c671d32f-9797-4c93-be11-baca8496f627"/>
-				<textElement textAlignment="Center">
-					<font size="7"/>
-				</textElement>
-				<text><![CDATA[Resolución DIAN No. 123456 del 2023
-]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="79" y="110" width="128" height="10" uuid="f317e6e8-1806-4f94-9cbd-93a0856acc49"/>
@@ -169,7 +155,7 @@
 				<textFieldExpression><![CDATA[$P{fecha_emision}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="87" y="0" width="45" height="40" uuid="16264f3a-d9a0-4343-8a03-36f7b5232880"/>
+				<reportElement x="83" y="0" width="47" height="40" uuid="16264f3a-d9a0-4343-8a03-36f7b5232880"/>
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
 			<staticText>
@@ -187,21 +173,21 @@
 				<textFieldExpression><![CDATA[$P{numero_factura}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="114" y="140" width="97" height="12" uuid="f5982ff3-c1d2-4e64-aa6e-41f1a154bc98"/>
+				<reportElement x="114" y="130" width="97" height="12" uuid="f5982ff3-c1d2-4e64-aa6e-41f1a154bc98"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha_creacion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="24" y="140" width="90" height="12" uuid="72987502-b03b-4ca9-a93e-edaea0cc28fb"/>
+				<reportElement x="24" y="130" width="90" height="12" uuid="72987502-b03b-4ca9-a93e-edaea0cc28fb"/>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
 				<text><![CDATA[FECHA DE EMISION:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="22" y="152" width="189" height="10" uuid="65684e65-94c0-43cc-a8f9-7a70a12be780"/>
+				<reportElement x="24" y="142" width="189" height="10" uuid="65684e65-94c0-43cc-a8f9-7a70a12be780"/>
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
@@ -213,7 +199,7 @@
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
-				<text><![CDATA[Nombre o razon social:]]></text>
+				<text><![CDATA[Cliente o razon social:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="123" y="162" width="86" height="9" uuid="18ca1ed0-fed0-4add-a99c-8b3fcf3bf6f3"/>
@@ -241,7 +227,7 @@
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
-				<text><![CDATA[Telefono:]]></text>
+				<text><![CDATA[Telefono Cliente:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="104" y="181" width="105" height="9" uuid="61e0c4f6-bac2-4776-9d0c-cabf824fdb7f"/>
@@ -255,7 +241,7 @@
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
-				<text><![CDATA[Direccion:]]></text>
+				<text><![CDATA[Direccion Cliente:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="104" y="190" width="105" height="10" uuid="c11b700c-5f87-4c24-ad90-91d3e4711f40"/>
@@ -382,6 +368,13 @@
 					</jr:column>
 				</jr:table>
 			</componentElement>
+			<staticText>
+				<reportElement x="12" y="50" width="192" height="10" uuid="a5743605-47c5-417c-88de-accb1d6f822a"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Tel: 3222090585 / 3165224366]]></text>
+			</staticText>
 		</band>
 	</title>
 	<detail>
@@ -431,6 +424,14 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="6" y="60" width="210" height="64" uuid="aa38299c-059b-4501-8fb4-3ba56d2b2368"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[¡Gracias por su compra!
+Valoramos su preferencia.
+Esperamos atenderle nuevamente en ECLIPSE STYLE.
+— Atención con estilo y confianza —]]></text>
+			</staticText>
 		</band>
 	</columnFooter>
 	<pageFooter>

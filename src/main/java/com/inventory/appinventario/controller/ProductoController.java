@@ -2,6 +2,7 @@ package com.inventory.appinventario.controller;
 
 import com.inventory.appinventario.dao.ProductoDAO;
 import com.inventory.appinventario.dao.UsuarioDAO;
+import com.inventory.appinventario.model.Caja;
 import com.inventory.appinventario.model.Producto;
 import com.inventory.appinventario.util.ConexionBD;
 import com.inventory.appinventario.util.Sesion;
@@ -67,6 +68,9 @@ public class ProductoController implements Initializable {
 
     @FXML
     private Button btnListar;
+
+    @FXML
+    private Button btnContar;
 
     @FXML
     private Button btnNuevo;
@@ -197,6 +201,24 @@ public class ProductoController implements Initializable {
 
         }
 
+
+
+    @FXML
+    void  ConteoProductos(ActionEvent event) {
+
+        if (productosFiltrados.isEmpty()) {
+            org.controlsfx.control.Notifications.create()
+                    .title("Resultado")
+                    .text("No se encontraron productos para la fecha seleccionada.")
+                    .position(Pos.CENTER)
+                    .showInformation();
+        }else{
+            double total = productosFiltrados.stream().mapToDouble(Producto::getStock).sum();
+            org.controlsfx.control.Notifications.create().title("Resultado").text("El STOCK total de productos en el Sistema de inventario es:"+total).position(Pos.CENTER).showInformation();
+
+        }
+
+    }
 
     @FXML
     void GenerarExcel(ActionEvent event) {
