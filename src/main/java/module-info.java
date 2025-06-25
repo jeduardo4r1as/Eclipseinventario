@@ -14,6 +14,9 @@ module com.inventory.appinventario {
     requires jasperreports;
     requires java.mail;
 
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.fontawesome5;
+
 
     opens com.inventory.appinventario to javafx.fxml;
     opens com.inventory.appinventario.model to javafx.base;
