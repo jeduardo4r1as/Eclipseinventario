@@ -522,17 +522,7 @@ public class FacturaController  implements Initializable {
 
     @FXML
     void cuadreCaja(ActionEvent event) {
-        Factura facturaSeleccionada = tablaProductos.getSelectionModel().getSelectedItem();
-
-        if (facturaSeleccionada == null) {
-            Notifications.create()
-                    .title("Información")
-                    .text("Por favor selecciona una factura para tomar la fecha.")
-                    .position(Pos.CENTER)
-                    .showInformation();
-            return;
-        }
-
+        LocalDate fechaHoy = LocalDate.now(); // Fecha actual del sistema
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .appendPattern("yyyy-MM-dd HH:mm:ss")
                 .optionalStart()
@@ -540,23 +530,25 @@ public class FacturaController  implements Initializable {
                 .optionalEnd()
                 .toFormatter();
 
-        // Parsear fecha seleccionada
-        LocalDate fechaSeleccionada = LocalDateTime.parse(facturaSeleccionada.getFechaDeVenta(), formatter).toLocalDate();
-
         double totalDia = 0.0;
         for (Factura f : tablaProductos.getItems()) {
-            LocalDate fechaFactura = LocalDateTime.parse(f.getFechaDeVenta(), formatter).toLocalDate();
-            if (fechaFactura.equals(fechaSeleccionada)) {
-                totalDia += f.getTotal();
+            try {
+                LocalDate fechaFactura = LocalDateTime.parse(f.getFechaDeVenta(), formatter).toLocalDate();
+                if (fechaFactura.equals(fechaHoy)) {
+                    totalDia += f.getTotal();
+                }
+            } catch (Exception e) {
+                System.err.println("Error al parsear la fecha de la factura: " + f.getFechaDeVenta());
             }
         }
 
         Notifications.create()
                 .title("Cuadre de Caja")
-                .text("Total del día " + fechaSeleccionada + ": $" + String.format("%,.2f", totalDia))
+                .text("Total del día " + fechaHoy + ": $" + String.format("%,.2f", totalDia))
                 .position(Pos.CENTER)
                 .showInformation();
     }
+
 
 }
 
